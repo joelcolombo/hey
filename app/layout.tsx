@@ -13,13 +13,13 @@ export const metadata: Metadata = {
     description: 'Joel Colombo ✦ Creative Director & Entrepreneur',
     images: [
       {
-        url: 'https://joelcolombo.co/images/og-joelcolombo-landing.png',
+        url: '/images/og-joelcolombo-landing.png',
         width: 1200,
         height: 630,
       },
     ],
-    type: 'website', // Changed from 'portfolio' to 'website'
-    locale: 'en_US', // Changed from 'en_EN' to 'en_US'
+    type: 'website',
+    locale: 'en_US',
   },
 }
 
