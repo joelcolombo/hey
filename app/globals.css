@@ -2,6 +2,27 @@
 @tailwind components;
 @tailwind utilities;
 
+@font-face {
+  font-family: 'PP Neue Montreal TT';
+  src: url('fonts/pp-neue-montreal/PPNeueMontreal-Light.otf') format('opentype'), url('fonts/pp-neue-montreal/PPNeueMontreal-Light.ttf') format('truetype'), url('fonts/pp-neue-montreal/PPNeueMontreal-Light.woff') format('woff'), url('fonts/pp-neue-montreal/PPNeueMontreal-Light.woff2') format('woff2');
+  font-weight: 300;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'PP Neue Montreal TT';
+  src: url('fonts/pp-neue-montreal/PPNeueMontreal-Book.otf') format('opentype'), url('fonts/pp-neue-montreal/PPNeueMontreal-Book.ttf') format('truetype'), url('fonts/pp-neue-montreal/PPNeueMontreal-Book.woff') format('woff'), url('fonts/pp-neue-montreal/PPNeueMontreal-Book.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'PP Neue Montreal TT';
+  src: url('fonts/pp-neue-montreal/PPNeueMontreal-Medium.otf') format('opentype'), url('fonts/pp-neue-montreal/PPNeueMontreal-Medium.ttf') format('truetype'), url('fonts/pp-neue-montreal/PPNeueMontreal-Medium.woff') format('woff'), url('fonts/pp-neue-montreal/PPNeueMontreal-Medium.woff2') format('woff2');
+  font-weight: 500;
+  font-style: normal;
+}
+
 :root {
   --background: #ffffff;
   --foreground: #171717;
@@ -9,19 +30,280 @@
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+    --background: #fff;
+    --foreground: #000;
   }
 }
 
 body {
   color: var(--foreground);
   background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: 'PP Neue Montreal TT',Arial, Helvetica, sans-serif;
 }
 
 @layer utilities {
   .text-balance {
     text-wrap: balance;
   }
+}
+
+html,
+button,
+input,
+select,
+textarea {
+    color: #000;
+}
+
+html {
+    font-size: 1em;
+    line-height: 1em;
+    font-family: 'PP Neue Montreal TT', sans-serif;
+}
+
+.hero
+{
+    padding: 1%;
+    margin: 0 auto;
+}
+
+a.projectlink
+{
+    font-weight: normal;
+    font-size: 1em;
+}
+
+a.projectlink:hover
+{
+    text-decoration: none;
+}
+
+::-moz-selection {
+    background: #fff;
+    text-shadow: none;
+}
+
+::selection {
+    background: #fff;
+    text-shadow: none;
+}
+
+.top
+{
+    height: 30px;
+    margin-top: 10px;
+    -webkit-animation-delay: 1.7s; /* Safari and Chrome */
+    animation-delay: 1.7s;
+}
+
+.logo
+{
+  height: 100px;
+  margin: 20px 0 0 10px;
+}
+
+.title
+{
+    float: left;
+    max-width: 1200px;    
+}
+
+.location
+{
+    float: right;
+    margin-right: 1%
+}
+
+.footer
+{
+    width: 100%;
+    bottom: 10px;
+    position: fixed;
+    -webkit-animation-delay: 1.7s; /* Safari and Chrome */
+    animation-delay: 1.7s;
+}
+
+.social
+{
+    float: left;
+    margin-left: 1%;
+}
+
+.year
+{
+    float: right;
+    margin-right: 1%;
+}
+
+.hr {
+    border-top: 1px solid #fff;
+    margin-top: 80px;
+}
+
+/*< {
+  box-sizing: border-box;
+}*/
+
+h1
+{
+    font-weight: 300;
+    font-size: 5em;
+    text-align: left;
+    margin-top: 0px;
+    letter-spacing: -0.3px;
+    line-height: 1.1em;
+}
+
+h2
+{
+    font-weight: 500;
+    font-size: 1.8em;
+    line-height: 1em;
+    letter-spacing: 0px;
+    margin-bottom: 0px;
+}
+
+h6
+{
+    margin: 0px 0px 0px 0px;
+    font-weight: 500;
+    font-size: 1em;
+    line-height: 1em;
+    letter-spacing: 0px;
+}
+
+p
+{
+    font-weight: normal;
+    font-size: 1em;
+    line-height: 1.1em;
+    letter-spacing: -0.4px;
+    margin-top: 0px;
+}
+
+a
+{
+    color: #000;
+    text-decoration: none;
+}
+
+a:hover
+{
+    text-decoration: underline;
+    color: 000;
+}
+
+hr {
+    display: block;
+    height: 1px;
+    border: 0;
+    border-top: 1px solid #fff;
+    margin: 1em 0;
+    padding: 0;
+}
+
+.fallback {
+    margin: 0.2em 0;
+    background: #fff;
+    color: #000;
+    padding: 0.2em 0;
+}
+
+.container-figma {
+    min-height: 900px;
+}
+
+/* ==========================================================================
+   Media Queries
+   ========================================================================== */
+
+
+@media only screen and (max-device-width: 480px) {
+   h1 {
+    font-weight: 300;
+    font-size: 3em;
+    letter-spacing: -0.6px;
+    text-align: left;
+    margin: 0 0 0 10px;
+    }
+
+    h6 {
+        margin: 0 10px 0 10px;
+        }
+}
+
+@media print,
+       (-o-min-device-pixel-ratio: 5/4),
+       (-webkit-min-device-pixel-ratio: 1.25),
+       (min-resolution: 120dpi) {
+
+}
+
+
+
+/* ==========================================================================
+   Print styles
+   ========================================================================== */
+
+@media print {
+    * {
+        background: transparent !important;
+        color: #000 !important;
+        box-shadow: none !important;
+        text-shadow: none !important;
+    }
+
+    a,
+    a:visited {
+        text-decoration: underline;
+    }
+
+    a[href]:after {
+        content: " (" attr(href) ")";
+    }
+
+    abbr[title]:after {
+        content: " (" attr(title) ")";
+    }
+
+    .ir a:after,
+    a[href^="javascript:"]:after,
+    a[href^="#"]:after {
+        content: "";
+    }
+
+    pre,
+    blockquote {
+        border: 1px solid #999;
+        page-break-inside: avoid;
+    }
+
+    thead {
+        display: table-header-group;
+    }
+
+    tr,
+    img {
+        page-break-inside: avoid;
+    }
+
+    img {
+        max-width: 100% !important;
+    }
+
+    @page {
+        margin: 0.5cm;
+    }
+
+    p,
+    h2,
+    h3 {
+        orphans: 3;
+        widows: 3;
+    }
+
+    h2,
+    h3 {
+        page-break-after: avoid;
+    }
 }
