@@ -72,7 +72,7 @@ return (
       <div className="title">
         <h2>I'm Joel Colombo, a designer turned entrepreneur. 
           My <a href="https://linkedin.com/in/joecolombo" target="_blank">journey</a> started as an independent designer and evolved into co-founding and leading a <a href="https://wearemoka.com/" target="_blank">design agency</a>.
-          Living at the intersection of design, technology, and strategy, I help founders turn their vision into reality.
+          Living at the intersection of design, technology and strategy, I help startup founders turn their vision into reality.
         </h2>
         <h2>                        
           After twenty years of restless work, I'm taking a sabbatical to reflect, recharge, and prepare for my next chapter.
