@@ -69,19 +69,20 @@ return (
       <div className="hr"></div>
 
       <div className="hero">
-      <div className="title">
-        <h2>I'm Joel Colombo, a designer turned entrepreneur. 
-          My <a href="https://linkedin.com/in/joecolombo" target="_blank">journey</a> started as an independent designer and evolved into co-founding and leading a <a href="https://wearemoka.com/" target="_blank">design agency</a>.
-          Living at the intersection of design, technology and strategy, I help startup founders turn their vision into reality.
-        </h2>
-        <h2>                        
-          After twenty years of restless work, I'm taking a sabbatical to reflect, recharge, and prepare for my next chapter.
-          While still on a career break, I’m always open to meeting people and discussing ideas.
-        </h2>
-        <h2>                        
-          <a href="mailto:hey@joelcolombo.co?Subject=Hey%20there!">Let's connect!</a>
-        </h2>
-      </div>
+        <div className="title">
+          <h2>
+            I'm Joel Colombo, a designer turned entrepreneur. 
+            My <a href="https://linkedin.com/in/joecolombo" target="_blank">journey</a> started as an independent designer and evolved into co-founding and leading a <a href="https://wearemoka.com/" target="_blank">design agency</a>. 
+            What really drives me is helping other founders bring their vision to life through design, technology & strategy.
+          </h2>
+          <h2>                        
+            After twenty years of restless work, I'm taking a sabbatical to reflect, recharge, and prepare for my next adventure.
+            While still on a career break, I’m always open to meeting new people and exploring fresh ideas.
+          </h2>
+          <h2>                        
+            <a href="mailto:hey@joelcolombo.co?Subject=Hey%20there!">Let's connect!</a>
+          </h2>
+        </div>
       </div>
 
       <div className="footer">
