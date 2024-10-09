@@ -140,20 +140,15 @@ h1
     font-weight: 500;
     font-size: 1.8em;
     line-height: 1em;
-    letter-spacing: 0px;
-    margin-bottom: 0px;
 }
 
 h2
 {
-    font-weight: 400;
-    font-display: swap;
-    font-size: 5em;
     text-align: left;
-    margin-top: 0px;
-    letter-spacing: -0.3px;
+    font-weight: 400;
+    font-size: 5em;
     line-height: 1.1em;
-    margin-bottom: 50px;
+    margin-bottom: .5em;
 }
 
 h6
@@ -211,13 +206,25 @@ hr {
 
 
 @media only screen and (max-device-width: 480px) {
-   h1 {
-    font-weight: 300;
-    font-size: 3em;
-    letter-spacing: -0.6px;
+    .title
+    {
+    margin-bottom: 2.5em;
+    } 
+
+    h1 {
     text-align: left;
-    margin: 0 0 0 10px;
+    font-weight: 500;
+    font-size: 1.2em;
+    margin-bottom: 50px;
     }
+
+    h2 {
+    text-align: left;
+    font-weight: 400;
+    font-size: 2.5em;
+    line-height: 1.1em;
+    margin-bottom: 70px;
+}
 
     h6 {
         margin: 0 10px 0 10px;
