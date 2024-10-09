@@ -25,7 +25,7 @@
 
 :root {
   --background: #ffffff;
-  --foreground: #171717;
+  --foreground: #000000;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -79,12 +79,12 @@ a.projectlink:hover
 }
 
 ::-moz-selection {
-    background: #fff;
+    background: #FF1C0B;
     text-shadow: none;
 }
 
 ::selection {
-    background: #fff;
+    background: #FF1C0B;
     text-shadow: none;
 }
 
@@ -92,8 +92,6 @@ a.projectlink:hover
 {
     height: 30px;
     margin-top: 10px;
-    -webkit-animation-delay: 1.7s; /* Safari and Chrome */
-    animation-delay: 1.7s;
 }
 
 .logo
@@ -119,8 +117,6 @@ a.projectlink:hover
     width: 100%;
     bottom: 10px;
     position: fixed;
-    -webkit-animation-delay: 1.7s; /* Safari and Chrome */
-    animation-delay: 1.7s;
 }
 
 .social
@@ -140,27 +136,25 @@ a.projectlink:hover
     margin-top: 80px;
 }
 
-/*< {
-  box-sizing: border-box;
-}*/
-
 h1
-{
-    font-weight: 300;
-    font-size: 5em;
-    text-align: left;
-    margin-top: 0px;
-    letter-spacing: -0.3px;
-    line-height: 1.1em;
-}
-
-h2
 {
     font-weight: 500;
     font-size: 1.8em;
     line-height: 1em;
     letter-spacing: 0px;
     margin-bottom: 0px;
+}
+
+h2
+{
+    font-weight: 400;
+    font-display: swap;
+    font-size: 5em;
+    text-align: left;
+    margin-top: 0px;
+    letter-spacing: -0.3px;
+    line-height: 1.1em;
+    margin-bottom: 50px;
 }
 
 h6
@@ -189,8 +183,7 @@ a
 
 a:hover
 {
-    text-decoration: underline;
-    color: 000;
+    color: #FF1C0B;
 }
 
 hr {
