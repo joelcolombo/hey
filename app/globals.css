@@ -56,6 +56,8 @@ textarea {
 }
 
 html {
+    cursor: url('/images/ellipse.svg'), pointer;
+    cursor: -webkit-image-set(url('/images/ellipse.svg') 1x, url('/images/ellipse.svg') 2x), pointer;
     font-size: 1em;
     line-height: 1em;
     font-family: 'PP Neue Montreal TT', sans-serif;
