@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import localFont from "next/font/local";
 import "./globals.css";
+import SmoothScrolling from "@/components/SmoothScrolling";
 
 export const metadata: Metadata = {
   title: 'Joel Colombo ✦ Creative Director & Entrepreneur',
@@ -30,8 +31,9 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      {/* Remove the entire <Head> component if it exists */}
-      <body>{children}</body>
+      <body>
+        <SmoothScrolling>{children}</SmoothScrolling>
+      </body>
     </html>
   )
 }
