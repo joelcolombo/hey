@@ -1,6 +1,10 @@
+
 import Script from 'next/script';
 import Image from 'next/image';
 import { Metadata } from 'next';
+import Images from './pics/page';
+
+
 
 export const generateMetadata = async (): Promise<Metadata> => {
 // You can fetch data here if needed
@@ -73,7 +77,7 @@ return (
           <h2>
             I'm Joel Colombo, a designer turned entrepreneur. 
             My <a href="https://linkedin.com/in/joecolombo" target="_blank">journey</a> started as an independent designer and evolved into co-founding and leading a <a href="https://wearemoka.com/" target="_blank">design agency</a>. 
-            What really drives me is helping other founders bring their vision to life through design, technology & strategy.
+            What drives me is helping other founders bring their vision to life through design, technology & strategy.
           </h2>
           <h2>                        
             After twenty years of restless work, I'm taking a sabbatical to reflect, recharge, and prepare for my next adventure.

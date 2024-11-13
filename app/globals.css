@@ -30,8 +30,8 @@
 
 @media (prefers-color-scheme: dark) {
     :root {
-        --background: #fff;
-        --foreground: #000;
+        --background: #ffffff;
+        --foreground: #000000;
     }
 }
 
@@ -45,6 +45,20 @@ body {
     .text-balance {
         text-wrap: balance;
     }
+}
+
+.main {
+    display: flex;
+    height: 100vh;
+    position: relative;
+    overflow: hidden;
+}
+
+.main img{
+    width: 30vw;
+    position: absolute;
+    display: none;
+    transform: translateX(-50%) translateY(-50%);;
 }
 
 html,
@@ -78,12 +92,12 @@ a.projectlink:hover {
 }
 
 ::-moz-selection {
-    background: #FF1C0B;
+    background: #f1f1f1;
     text-shadow: none;
 }
 
 ::selection {
-    background: #FF1C0B;
+    background: #f1f1f1;
     text-shadow: none;
 }
 
@@ -125,7 +139,6 @@ a.projectlink:hover {
 }
 
 .hr {
-    border-top: 1px solid #fff;
     margin-top: 80px;
 }
 
@@ -165,14 +178,13 @@ a {
 }
 
 a:hover {
-    color: #FF1C0B;
+    color: #a0a0a0;
 }
 
 hr {
     display: block;
     height: 1px;
     border: 0;
-    border-top: 1px solid #fff;
     margin: 1em 0;
     padding: 0;
 }
