@@ -1,10 +1,6 @@
-
 import Script from 'next/script';
 import Image from 'next/image';
 import { Metadata } from 'next';
-import Images from './pics/page';
-
-
 
 export const generateMetadata = async (): Promise<Metadata> => {
 // You can fetch data here if needed
