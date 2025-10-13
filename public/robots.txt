@@ -1,0 +1,13 @@
+# Allow all crawlers
+User-agent: *
+Allow: /
+
+# Disallow specific paths if needed
+# Disallow: /api/
+# Disallow: /_next/
+
+# Sitemap location
+Sitemap: https://joelcolombo.com/sitemap.xml
+
+# Crawl-delay (optional, in seconds)
+Crawl-delay: 1

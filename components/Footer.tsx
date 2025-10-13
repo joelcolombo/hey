@@ -13,8 +13,9 @@ export default function Footer() {
           <ProtectedEmailLink mode="copy" />
         </h6>
       </div>
-      <div className="social"><h6><a href="https://linkedin.com/in/joecolombo">LinkedIn</a></h6></div>
-      <div className="social"><h6><a href="https://cal.com/joelcolombo">Calendar</a></h6></div>
+      <div className="social"><h6><a href="https://x.com/joelcolombo" target="_blank" rel="noopener noreferrer">X</a></h6></div>
+      <div className="social"><h6><a href="https://linkedin.com/in/joecolombo" target="_blank" rel="noopener noreferrer">LinkedIn</a></h6></div>
+      <div className="social"><h6><a href="https://cal.com/joelcolombo" target="_blank" rel="noopener noreferrer">Calendar</a></h6></div>
       <div className="theme-toggle-wrapper"><ThemeToggle /></div>
       <div className="year"><h6>© {currentYear}</h6></div>
     </div>
