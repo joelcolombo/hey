@@ -1,93 +1,52 @@
-import Script from 'next/script';
 import Image from 'next/image';
-import { Metadata } from 'next';
-
-export const generateMetadata = async (): Promise<Metadata> => {
-// You can fetch data here if needed
-return {
-  title: 'Joel Colombo ✦ Creative Director & Entrepreneur',
-  description: 'Joel Colombo ✦ Creative Director & Entrepreneur',
-  icons: {
-    icon: '/images/logo.png',
-  },
-  openGraph: {
-    title: 'Joel Colombo ✦ Creative Director & Entrepreneur',
-    description: 'Joel Colombo ✦ Creative Director & Entrepreneur',
-    images: [
-      {
-        url: '/images/og-joelcolombo-landing.png',
-        width: 1200,
-        height: 630,
-      },
-    ],
-    type: 'website',
-    locale: 'en_US',
-  },
-}
-}
+import Footer from '@/components/Footer';
+import ProtectedEmailLink from '@/components/ProtectedEmailLink';
 
 export default function Home() {
-return (
-  <>
-  {/* Google Analytics Script */}
-  <Script
-      src="https://www.googletagmanager.com/gtag/js?id=G-SCG98HD2W5"
-      strategy="lazyOnload"
-    />
-    <Script id="google-analytics" strategy="lazyOnload">
-      {`
-          window.dataLayer = window.dataLayer || [];
-          function gtag(){dataLayer.push(arguments);}
-          gtag('js', new Date());
-          gtag('config', 'G-SCG98HD2W5');
-      `}
-    </Script>
-
-    {/* Microsoft Clarity Script */}
-    <Script id="clarity" strategy="lazyOnload">
-      {`
-        (function(c,l,a,r,i,t,y){
-              c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
-              t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
-              y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
-          })(window, document, "clarity", "script", "mm8ouutn81");
-      `}
-    </Script>
-
-{/* Page content */}
-  <div className="container">
-      <div className="top">
-        <Image 
-          className="logo" 
-          src="/images/logo-joelcolombo.gif" 
-          alt="Hey!" 
+  return (
+    <div className="w-full">
+      {/* Logo */}
+      <div className="h-[30px] mt-2.5">
+        <Image
+          className="h-[100px] w-auto mt-5 ml-2.5 [html[data-theme='dark']_&]:invert"
+          src="/images/logo-joelcolombo.gif"
+          alt="Hey!"
           width={100}
           height={100}
+          unoptimized
         />
       </div>
 
-      <div className="hr"></div>
+      {/* Spacer */}
+      <div className="mt-20" />
 
-      <div className="hero">
-        <div className="title">
-          <h2>
-            I'm Joel Colombo, a designer turned entrepreneur. 
-            My <a href="https://linkedin.com/in/joecolombo" target="_blank">journey</a> started as an independent designer and evolved into co-founding and leading a <a href="https://wearemoka.com/" target="_blank">design agency</a>. 
-            What drives me is helping other founders bring their vision to life through design, technology & strategy.
+      {/* Hero Section */}
+      <div className="p-[1%] mx-auto">
+        <div className="float-left mb-10">
+          <h2 className="text-left font-normal text-[5em] leading-[1.1em] mb-[0.5em] max-md:text-[2.5em] max-md:ml-2.5">
+            I'm Joel Colombo, a designer turned creative director turned <a href="https://wearemoka.com/" target="_blank" rel="noopener noreferrer" className="hover:text-[var(--hover-color)] transition-colors">agency founder</a> turned <a href="https://linkedin.com/in/joecolombo" target="_blank" rel="noopener noreferrer" className="hover:text-[var(--hover-color)] transition-colors">designer</a> once again.
           </h2>
-          <h2>                        
-            <a href="mailto:hey@joelcolombo.co?Subject=Hey%20there!">Let's connect!</a>
+          <h2 className="text-left font-normal text-[5em] leading-[1.1em] mb-[0.5em] max-md:text-[2.5em] max-md:ml-2.5">
+          Built to build. Two decades of experience synthesized into business insight and creative execution. Pixels to P&L. Creative vision to team leadership.
+          
+          Been there, shipped that.
+          </h2>
+          <h2 className="text-left font-normal text-[5em] leading-[1.1em] mb-[0.5em] max-md:text-[2.5em] max-md:ml-2.5">
+            Currently pushing my new SaaS toward launch in Q4'25, and taking on select projects with founders and teams to help them bring their vision to life through design, technology & strategy.
+          </h2>
+          <h2 className="text-left font-normal text-[5em] leading-[1.1em] mb-[0.5em] max-md:text-[2.5em] max-md:ml-2.5">
+            <ProtectedEmailLink
+              mode="mailto"
+              text="Let's connect!"
+              className="hover:text-[var(--hover-color)] transition-colors"
+              subject="Hey there!"
+            />
           </h2>
         </div>
       </div>
 
-      <div className="footer">
-        <div className="social"><h6><a href="https://linkedin.com/in/joecolombo">LinkedIn</a></h6></div>
-        <div className="social"><h6><a href="mailto:hey@joelcolombo.co?Subject=Hey%20there!">Email</a></h6></div>
-        <div className="social"><h6><a href="https://cal.com/joelcolombo">Calendar</a></h6></div>
-        <div className="year"><h6>© 2025</h6></div>
-      </div>
+      {/* Footer */}
+      <Footer />
     </div>
-  </>
-);
+  );
 }
