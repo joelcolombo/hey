@@ -7,13 +7,11 @@ export default function TrailContainer() {
   const containerRef = useRef<HTMLDivElement>(null);
 
   // Hook into Lenis scroll events
-  useLenis(({ scroll, velocity }) => {
+  useLenis((lenis) => {
     // This will be called on every Lenis scroll frame
     // We'll trigger trail creation from here
     if (typeof window !== 'undefined' && containerRef.current) {
-      const event = new CustomEvent('lenisScroll', {
-        detail: { scroll, velocity }
-      });
+      const event = new CustomEvent('lenisScroll');
       window.dispatchEvent(event);
     }
   });
