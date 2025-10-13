@@ -26,13 +26,15 @@
 :root {
     --background: #ffffff;
     --foreground: #000000;
+    --hover-color: #a0a0a0;
+    --selection-bg: #f1f1f1;
 }
 
-@media (prefers-color-scheme: dark) {
-    :root {
-        --background: #ffffff;
-        --foreground: #000000;
-    }
+[data-theme="dark"] {
+    --background: #0a0a0a;
+    --foreground: #f5f5f5;
+    --hover-color: #666666;
+    --selection-bg: #333333;
 }
 
 body {
@@ -66,7 +68,7 @@ button,
 input,
 select,
 textarea {
-    color: #000;
+    color: var(--foreground);
 }
 
 html {
@@ -77,9 +79,9 @@ html {
     font-family: 'PP Neue Montreal TT', sans-serif;
 }
 
-.hero {
-    padding: 1%;
-    margin: 0 auto;
+html[data-theme="dark"] {
+    cursor: url('/images/ellipse-white.svg'), pointer;
+    cursor: -webkit-image-set(url('/images/ellipse-white.svg') 1x, url('/images/ellipse-white.svg') 2x), pointer;
 }
 
 a.projectlink {
@@ -92,35 +94,16 @@ a.projectlink:hover {
 }
 
 ::-moz-selection {
-    background: #f1f1f1;
+    background: var(--selection-bg);
     text-shadow: none;
 }
 
 ::selection {
-    background: #f1f1f1;
+    background: var(--selection-bg);
     text-shadow: none;
 }
 
-.top {
-    height: 30px;
-    margin-top: 10px;
-}
-
-.logo {
-    height: 100px;
-    margin: 20px 0 0 10px;
-}
-
-.title {
-    float: left;
-    margin-bottom: 2.5em;
-}
-
-.location {
-    float: right;
-    margin-right: 1%
-}
-
+/* Footer styles */
 .footer {
     width: 100%;
     bottom: 10px;
@@ -138,24 +121,32 @@ a.projectlink:hover {
     margin-right: 1%;
 }
 
-.hr {
-    margin-top: 80px;
+.theme-toggle-wrapper {
+    float: left;
+    margin-left: 1%;
 }
 
-h1 {
-    font-weight: 500;
-    font-size: 1.8em;
+.theme-toggle {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    margin: 0;
+    font-family: inherit;
+    transition: opacity 0.2s ease;
+}
+
+.theme-toggle:hover {
+    opacity: 0.6;
+}
+
+.theme-toggle h6 {
+    margin: 0;
+    font-size: 1em;
     line-height: 1em;
 }
 
-h2 {
-    text-align: left;
-    font-weight: 400;
-    font-size: 5em;
-    line-height: 1.1em;
-    margin-bottom: .5em;
-}
-
+/* Typography overrides for specific elements */
 h6 {
     margin: 0px 0px 0px 0px;
     font-weight: 500;
@@ -164,21 +155,13 @@ h6 {
     letter-spacing: 0px;
 }
 
-p {
-    font-weight: normal;
-    font-size: 1em;
-    line-height: 1.1em;
-    letter-spacing: -0.4px;
-    margin-top: 0px;
-}
-
 a {
-    color: #000;
+    color: var(--foreground);
     text-decoration: none;
 }
 
 a:hover {
-    color: #a0a0a0;
+    color: var(--hover-color);
 }
 
 hr {
@@ -206,26 +189,6 @@ hr {
 
 
 @media only screen and (max-device-width: 480px) {
-    .title {
-        margin-bottom: 2.5em;
-    }
-
-    h1 {
-        text-align: left;
-        font-weight: 500;
-        font-size: 1.2em;
-        margin-bottom: 50px;
-    }
-
-    h2 {
-        text-align: left;
-        font-weight: 400;
-        font-size: 2.5em;
-        line-height: 1.1em;
-        margin-bottom: .5em;
-        margin-left: 10px;
-    }
-
     h6 {
         margin: 0 10px 0 10px;
     }
