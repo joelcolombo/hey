@@ -39,15 +39,15 @@ export default function Home() {
             I'm Joel Colombo, a designer turned creative director turned <a href="https://wearemoka.com/" target="_blank" rel="noopener noreferrer" className="hover:text-[var(--hover-color)] transition-colors">agency founder</a> turned <a href="https://linkedin.com/in/joecolombo" target="_blank" rel="noopener noreferrer" className="hover:text-[var(--hover-color)] transition-colors">designer</a> once again.
           </h1>
           <h2 className="text-left font-normal text-[5em] leading-[1.1em] mb-[0.5em] max-md:text-[2.3em] max-md:leading-[1.15em] max-md:ml-2.5">
-          Built to build. Two decades of experience synthesized into business insight and creative execution. Pixels to P&L. Been there, shipped that.
+          Built to build. Two decades of experience synthesized into creative execution and business insight. Pixels to P&L. Been there, shipped that.
           </h2>
           <h2 className="text-left font-normal text-[5em] leading-[1.1em] mb-[0.5em] max-md:text-[2.3em] max-md:leading-[1.15em] max-md:ml-2.5">
-            Currently pushing my new SaaS toward launch in Q4'25, and taking on select projects with founders and teams to help them bring their vision to life through design, technology & strategy.
+            Currently pushing a new SaaS company toward launch in Q4'25, and taking on select projects with founders and teams to help them bring their vision to life through design, technology & strategy.
           </h2>
           <h2 className="text-left font-normal text-[5em] leading-[1.1em] mb-[0.5em] max-md:text-[2.3em] max-md:leading-[1.15em] max-md:ml-2.5">
             <ProtectedEmailLink
               mode="mailto"
-              text="Let's connect!"
+              text="Let's connect."
               className="hover:text-[var(--hover-color)] transition-colors"
               subject="Hey there!"
             />
