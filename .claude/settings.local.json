@@ -18,7 +18,8 @@
       "Bash(node test-mobile.js)",
       "Bash(tee:*)",
       "Bash(node:*)",
-      "Bash(npx tsc:*)"
+      "Bash(npx tsc:*)",
+      "Bash(git restore:*)"
     ],
     "deny": [],
     "ask": []

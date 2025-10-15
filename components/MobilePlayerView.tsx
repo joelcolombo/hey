@@ -43,16 +43,18 @@ export default function MobilePlayerView({
   // Detect dark mode
   useEffect(() => {
     const checkDarkMode = () => {
-      setIsDarkMode(document.documentElement.classList.contains('dark'));
+      const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+      console.log('Mobile: Dark mode detected:', isDark);
+      setIsDarkMode(isDark);
     };
 
     checkDarkMode();
 
-    // Watch for changes
+    // Watch for changes to data-theme attribute
     const observer = new MutationObserver(checkDarkMode);
     observer.observe(document.documentElement, {
       attributes: true,
-      attributeFilter: ['class']
+      attributeFilter: ['data-theme']
     });
 
     return () => observer.disconnect();
@@ -185,7 +187,30 @@ export default function MobilePlayerView({
 
       <div className="fixed bottom-[100px] left-0 right-0 z-20 px-[20px]">
         {/* Album Cover + Vinyl Container - Aligned to right margin */}
-        <div className="relative w-[145px] h-[116px] mb-[20px] ml-auto">
+        <motion.div
+          className="relative w-[145px] h-[116px] mb-[20px] ml-auto"
+          drag="x"
+          dragConstraints={{ left: 0, right: 0 }}
+          dragElastic={0.7}
+          onDragEnd={(_event, info) => {
+            const swipeThreshold = 50; // Minimum distance in pixels to trigger track change
+            const velocity = info.velocity.x;
+            const offset = info.offset.x;
+
+            // Swipe left (next track) - need significant distance or velocity
+            if (offset < -swipeThreshold || velocity < -500) {
+              const currentIndex = allTracks.findIndex(t => t.id === currentTrack.id);
+              const nextIndex = (currentIndex + 1) % allTracks.length;
+              onTrackSelect(nextIndex);
+            }
+            // Swipe right (previous track) - need significant distance or velocity
+            else if (offset > swipeThreshold || velocity > 500) {
+              const currentIndex = allTracks.findIndex(t => t.id === currentTrack.id);
+              const prevIndex = currentIndex === 0 ? allTracks.length - 1 : currentIndex - 1;
+              onTrackSelect(prevIndex);
+            }
+          }}
+        >
           {/* Vinyl clip container - Clips at album cover edge */}
           <div className="absolute left-0 top-0 bottom-0 overflow-hidden" style={{ width: '39.5px' }}>
             {/* Vinyl Record - Behind - Slides in/out with album changes */}
@@ -271,7 +296,7 @@ export default function MobilePlayerView({
               />
             </motion.div>
           </AnimatePresence>
-        </div>
+        </motion.div>
 
         {/* Track Info + Controls - Track name | EQ (aligned with album left edge) | Controllers */}
         <div className="flex items-center gap-[10px]">

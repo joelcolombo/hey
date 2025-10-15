@@ -28,7 +28,6 @@ export default function PlaylistView({ tracks, allLyrics, showLogoAndFooter = tr
   const [isReady, setIsReady] = useState(false);
   const [hasUserInteracted, setHasUserInteracted] = useState(false);
 
-  console.log('PlaylistView rendered, tracks count:', tracks.length);
 
   // Load saved state from localStorage
   useEffect(() => {
@@ -54,7 +53,6 @@ export default function PlaylistView({ tracks, allLyrics, showLogoAndFooter = tr
 
   // Preload all album images for instant display
   useEffect(() => {
-    console.log('Preloading album images...');
     tracks.forEach((track) => {
       // Preload the highest quality image using browser's native image element
       const imageUrl = track.album.images[0]?.url;
@@ -63,7 +61,6 @@ export default function PlaylistView({ tracks, allLyrics, showLogoAndFooter = tr
         img.src = imageUrl;
       }
     });
-    console.log(`✅ Preloaded ${tracks.length} album images`);
   }, [tracks]);
 
   const currentTrack = tracks[playbackState.currentTrackIndex];
@@ -71,8 +68,6 @@ export default function PlaylistView({ tracks, allLyrics, showLogoAndFooter = tr
     ? `https://www.youtube.com/watch?v=${currentTrack.youtube_id}`
     : '';
 
-  console.log('Current track:', currentTrack?.name);
-  console.log('Current video URL:', currentVideoUrl);
 
   const currentLyrics = allLyrics.get(currentTrack?.id) || null;
 
@@ -87,17 +82,14 @@ export default function PlaylistView({ tracks, allLyrics, showLogoAndFooter = tr
     : upcomingTracksAfterCurrent;
 
   const handleReady = () => {
-    console.log('✅ ReactPlayer ready!');
     setIsReady(true);
   };
 
   const handlePlay = () => {
-    console.log('▶️ ReactPlayer started playing');
     setPlaybackState(prev => ({ ...prev, isPlaying: true }));
   };
 
   const handlePause = () => {
-    console.log('⏸️ ReactPlayer paused');
     setPlaybackState(prev => ({ ...prev, isPlaying: false }));
   };
 
@@ -113,7 +105,6 @@ export default function PlaylistView({ tracks, allLyrics, showLogoAndFooter = tr
   };
 
   const handleEnded = () => {
-    console.log('Track ended, playing next');
     const nextIndex = (playbackState.currentTrackIndex + 1) % tracks.length;
     setPlaybackState({
       currentTrackIndex: nextIndex,
@@ -124,7 +115,6 @@ export default function PlaylistView({ tracks, allLyrics, showLogoAndFooter = tr
   };
 
   const handleTrackSelect = (trackIndex: number) => {
-    console.log('Track selected:', trackIndex);
     setPlaybackState({
       currentTrackIndex: trackIndex,
       position: 0,
@@ -134,7 +124,6 @@ export default function PlaylistView({ tracks, allLyrics, showLogoAndFooter = tr
   };
 
   const handleTogglePlayback = () => {
-    console.log('Toggle playback, current state:', playbackState.isPlaying);
     // Mark user interaction on first play
     if (!hasUserInteracted && !playbackState.isPlaying) {
       setHasUserInteracted(true);
@@ -158,14 +147,12 @@ export default function PlaylistView({ tracks, allLyrics, showLogoAndFooter = tr
           videoId={currentTrack?.youtube_id || ''}
           isPlaying={playbackState.isPlaying}
           onReady={() => {
-            console.log('✅ YouTube Player ready!');
             setIsReady(true);
           }}
           onTimeUpdate={(time) => {
             setPlaybackState(prev => ({ ...prev, position: time }));
           }}
           onEnded={() => {
-            console.log('Track ended, playing next');
             const nextIndex = (playbackState.currentTrackIndex + 1) % tracks.length;
             setPlaybackState({
               currentTrackIndex: nextIndex,

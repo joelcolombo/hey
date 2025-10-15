@@ -12,24 +12,6 @@ interface LyricsDisplayProps {
 export default function LyricsDisplay({ lyrics, currentPosition, offsetMs = 0 }: LyricsDisplayProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const [activeLineIndex, setActiveLineIndex] = useState<number>(-1);
-  const [isDarkMode, setIsDarkMode] = useState(false);
-
-  // Detect dark mode
-  useEffect(() => {
-    const checkDarkMode = () => {
-      setIsDarkMode(document.documentElement.classList.contains('dark'));
-    };
-
-    checkDarkMode();
-
-    const observer = new MutationObserver(checkDarkMode);
-    observer.observe(document.documentElement, {
-      attributes: true,
-      attributeFilter: ['class']
-    });
-
-    return () => observer.disconnect();
-  }, []);
 
   useEffect(() => {
     if (!lyrics || lyrics.lines.length === 0) {
@@ -90,10 +72,7 @@ export default function LyricsDisplay({ lyrics, currentPosition, offsetMs = 0 }:
       className="h-full overflow-y-auto pl-[16px] pr-[20px] max-md:pl-[20px] max-md:pr-[20px] flex flex-col"
       style={{
         scrollbarWidth: 'none',
-        msOverflowStyle: 'none',
-        background: isDarkMode
-          ? 'linear-gradient(to bottom, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 1) 85%, rgba(0, 0, 0, 1) 100%)'
-          : 'linear-gradient(to bottom, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 1) 85%, rgba(255, 255, 255, 1) 100%)'
+        msOverflowStyle: 'none'
       }}
     >
       <style jsx>{`

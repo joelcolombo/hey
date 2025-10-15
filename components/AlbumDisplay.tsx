@@ -44,16 +44,18 @@ export default function AlbumDisplay({
   // Detect dark mode
   useEffect(() => {
     const checkDarkMode = () => {
-      setIsDarkMode(document.documentElement.classList.contains('dark'));
+      const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+      console.log('Desktop: Dark mode detected:', isDark);
+      setIsDarkMode(isDark);
     };
 
     checkDarkMode();
 
-    // Watch for changes
+    // Watch for changes to data-theme attribute
     const observer = new MutationObserver(checkDarkMode);
     observer.observe(document.documentElement, {
       attributes: true,
-      attributeFilter: ['class']
+      attributeFilter: ['data-theme']
     });
 
     return () => observer.disconnect();
