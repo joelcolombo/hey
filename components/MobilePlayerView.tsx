@@ -312,7 +312,7 @@ export default function MobilePlayerView({
               }`}
               style={{ fontWeight: 500 }}
             >
-              {songText}
+              {isOverflowing ? `${songText}     ${songText}` : songText}
             </motion.p>
           </div>
           {/* Right side container: 145px width to match album container */}
