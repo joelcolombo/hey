@@ -30,6 +30,7 @@ export default function MobilePlayerView({
   const [isFirstLoad, setIsFirstLoad] = useState(true);
   const [exitReason, setExitReason] = useState<'track-change' | 'pause'>('track-change');
   const [isTrackChanging, setIsTrackChanging] = useState(false);
+  const [scrollDistance, setScrollDistance] = useState(0);
   const textRef = useRef<HTMLParagraphElement | null>(null);
   const previousTrackIdRef = useRef<string>(currentTrack.id);
 
@@ -149,18 +150,27 @@ export default function MobilePlayerView({
     }
   }, [currentTrack.id]);
 
-  // Check if text overflows
+  // Check if text overflows and calculate scroll distance
   useEffect(() => {
     const checkOverflow = () => {
       if (textRef.current) {
         const isOverflow = textRef.current.scrollWidth > textRef.current.clientWidth;
         setIsOverflowing(isOverflow);
+        if (isOverflow) {
+          // Calculate how much to scroll (difference between scroll width and client width)
+          setScrollDistance(textRef.current.scrollWidth - textRef.current.clientWidth);
+        }
       }
     };
 
-    checkOverflow();
+    // Use setTimeout to ensure the text has been rendered with the new content
+    const timer = setTimeout(checkOverflow, 100);
+
     window.addEventListener('resize', checkOverflow);
-    return () => window.removeEventListener('resize', checkOverflow);
+    return () => {
+      clearTimeout(timer);
+      window.removeEventListener('resize', checkOverflow);
+    };
   }, [currentTrack.name, currentTrack.artists]);
 
   const songText = `${currentTrack.name} – ${currentTrack.artists[0]}`;
@@ -185,7 +195,7 @@ export default function MobilePlayerView({
         <div className="w-full h-[1px] bg-[var(--foreground)] opacity-5" />
       </div>
 
-      <div className="fixed bottom-[100px] left-0 right-0 z-20 px-[20px]">
+      <div className="fixed bottom-[100px] left-0 right-0 z-20 px-[16px]">
         {/* Album Cover + Vinyl Container - Aligned to right margin */}
         <motion.div
           className="relative w-[145px] h-[116px] mb-[20px] ml-auto"
@@ -303,16 +313,33 @@ export default function MobilePlayerView({
           <div className="overflow-hidden flex-1 min-w-0">
             <motion.p
               key={`${currentTrack.id}-info`}
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ duration: 0.3, delay: 0.1 }}
+              initial={{ opacity: 0, x: 0 }}
+              animate={
+                isOverflowing && scrollDistance > 0
+                  ? {
+                      opacity: 1,
+                      x: [0, 0, -scrollDistance, -scrollDistance, 0],
+                    }
+                  : { opacity: 1, x: 0 }
+              }
+              transition={
+                isOverflowing
+                  ? {
+                      opacity: { duration: 0.3, delay: 0.1 },
+                      x: {
+                        duration: 8,
+                        repeat: Infinity,
+                        ease: "easeInOut",
+                        times: [0, 0.15, 0.5, 0.65, 1]
+                      }
+                    }
+                  : { duration: 0.3, delay: 0.1 }
+              }
               ref={textRef}
-              className={`text-[16px] font-medium leading-[1.5] whitespace-nowrap ${
-                isOverflowing ? 'animate-scroll-text' : ''
-              }`}
+              className="text-[16px] font-medium leading-[1.5] whitespace-nowrap"
               style={{ fontWeight: 500 }}
             >
-              {isOverflowing ? `${songText}     ${songText}` : songText}
+              {songText}
             </motion.p>
           </div>
           {/* Right side container: 145px width to match album container */}

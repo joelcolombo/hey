@@ -1,34 +1,5 @@
 [
   {
-    "id": "6mFkJmJqdDVQ1REhVfGgd1",
-    "name": "Wish You Were Here",
-    "artists": [
-      "Pink Floyd"
-    ],
-    "album": {
-      "name": "Wish You Were Here",
-      "images": [
-        {
-          "height": 640,
-          "url": "https://i.scdn.co/image/ab67616d0000b273e895ebededd1f73a2c875ce6",
-          "width": 640
-        },
-        {
-          "height": 300,
-          "url": "https://i.scdn.co/image/ab67616d00001e02e895ebededd1f73a2c875ce6",
-          "width": 300
-        },
-        {
-          "height": 64,
-          "url": "https://i.scdn.co/image/ab67616d00004851e895ebededd1f73a2c875ce6",
-          "width": 64
-        }
-      ]
-    },
-    "duration_ms": 334743,
-    "youtube_id": "IXdNnw99-Ic"
-  },
-  {
     "id": "1waLmkUyMq0M5ACmf5SG7q",
     "name": "Missing - Todd Terry Remix",
     "artists": [

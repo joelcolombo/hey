@@ -188,7 +188,7 @@ export default function PlaylistView({ tracks, allLyrics, showLogoAndFooter = tr
       )}
 
       {/* Lyrics Area - Full height, behind everything */}
-      <div className="absolute top-0 left-0 right-[454px] bottom-0 max-md:right-0 max-md:bottom-[200px]">
+      <div className="absolute top-0 left-0 right-[454px] bottom-0 max-md:right-0 max-md:bottom-[160px]">
         <LyricsDisplay
           lyrics={currentLyrics}
           currentPosition={playbackState.position}
