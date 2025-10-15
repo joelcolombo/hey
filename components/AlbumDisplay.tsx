@@ -31,6 +31,8 @@ export default function AlbumDisplay({
   const [exitReason, setExitReason] = useState<'track-change' | 'pause'>('track-change');
   const [hasEverPlayed, setHasEverPlayed] = useState(false);
   const [isHoveringAlbum, setIsHoveringAlbum] = useState(false);
+  const [isDarkMode, setIsDarkMode] = useState(false);
+  const [isTrackChanging, setIsTrackChanging] = useState(false);
 
   // TIMING CONTROLS - Adjust these values to control when animations happen
   const VINYL_EXIT_DELAY = 0; // Delay before vinyl starts hiding (milliseconds)
@@ -39,6 +41,23 @@ export default function AlbumDisplay({
   const ALBUM_EXIT_DELAY = 200; // Delay before album starts exiting (milliseconds)
   const ALBUM_ENTER_DELAY = 0; // Delay before album starts entering (milliseconds)
 
+  // Detect dark mode
+  useEffect(() => {
+    const checkDarkMode = () => {
+      setIsDarkMode(document.documentElement.classList.contains('dark'));
+    };
+
+    checkDarkMode();
+
+    // Watch for changes
+    const observer = new MutationObserver(checkDarkMode);
+    observer.observe(document.documentElement, {
+      attributes: true,
+      attributeFilter: ['class']
+    });
+
+    return () => observer.disconnect();
+  }, []);
 
   // Preload next and previous track images for instant transitions
   useEffect(() => {
@@ -65,34 +84,50 @@ export default function AlbumDisplay({
 
   // Reset vinyl animation when track changes
   useEffect(() => {
-    // Set exit reason FIRST, then hide vinyl
+    // Mark that we're in a track change
+    setIsTrackChanging(true);
     setExitReason('track-change');
 
-    const hideTimer = setTimeout(() => {
+    let hideTimer: NodeJS.Timeout | undefined;
+    let showTimer: NodeJS.Timeout | undefined;
+    let resetTimer: NodeJS.Timeout | undefined;
+
+    // Hide vinyl immediately on track change
+    hideTimer = setTimeout(() => {
       setShowVinyl(false);
     }, VINYL_EXIT_DELAY);
 
     // Show vinyl after album enters and settles, but only if user has played at least once
     if (hasEverPlayed) {
-      const showDelay = isFirstLoad ? VINYL_ENTER_DELAY_FIRST_LOAD : VINYL_ENTER_DELAY;
-      const showTimer = setTimeout(() => {
+      const baseDelay = isFirstLoad ? VINYL_ENTER_DELAY_FIRST_LOAD : VINYL_ENTER_DELAY;
+      // If paused, add extra delay so disc appears AFTER album cover
+      const showDelay = isPlaying ? baseDelay : baseDelay + 800;
+
+      showTimer = setTimeout(() => {
         setShowVinyl(true);
         setIsFirstLoad(false);
+        // Mark track change as complete after vinyl shows
+        setIsTrackChanging(false);
       }, showDelay);
-
-      return () => {
-        clearTimeout(hideTimer);
-        clearTimeout(showTimer);
-      };
+    } else {
+      // If never played, mark track change as complete immediately
+      resetTimer = setTimeout(() => {
+        setIsTrackChanging(false);
+      }, 100);
     }
 
     return () => {
-      clearTimeout(hideTimer);
+      if (hideTimer) clearTimeout(hideTimer);
+      if (showTimer) clearTimeout(showTimer);
+      if (resetTimer) clearTimeout(resetTimer);
     };
-  }, [currentTrack.id, VINYL_EXIT_DELAY, VINYL_ENTER_DELAY, VINYL_ENTER_DELAY_FIRST_LOAD, isFirstLoad, hasEverPlayed]);
+  }, [currentTrack.id, VINYL_EXIT_DELAY, VINYL_ENTER_DELAY, VINYL_ENTER_DELAY_FIRST_LOAD, isFirstLoad, hasEverPlayed, isPlaying]);
 
   // Hide vinyl when paused, show when playing
   useEffect(() => {
+    // Don't interfere during track changes
+    if (isTrackChanging) return;
+
     if (!isPlaying) {
       // Only use 'pause' exit if we're on the same track (not during track change)
       // Track change effect will handle its own exit reason
@@ -108,7 +143,7 @@ export default function AlbumDisplay({
       }, 300);
       return () => clearTimeout(timer);
     }
-  }, [isPlaying, isFirstLoad, hasEverPlayed]);
+  }, [isPlaying, isFirstLoad, hasEverPlayed, isTrackChanging]);
 
   return (
     <div className="h-full flex flex-col items-end justify-between pt-[11px] pr-[16px] pb-[11px] max-md:pr-[3%]">
@@ -143,8 +178,8 @@ export default function AlbumDisplay({
       {/* Album Cover + Vinyl - Centered in available space */}
       <div className="flex flex-col gap-[7px] items-end w-[434px] max-md:w-full flex-shrink-0">
         <div className="relative w-[434px] h-[348px] max-md:w-full max-md:h-auto max-md:aspect-[434/348]">
-          {/* Vinyl clip container - Only clips the vinyl */}
-          <div className="absolute inset-0 overflow-hidden">
+          {/* Vinyl clip container - Clips at album cover edge */}
+          <div className="absolute left-0 top-0 bottom-0 overflow-hidden" style={{ width: '118px' }}>
             {/* Vinyl Record - Behind - Slides in/out with album changes */}
             <AnimatePresence>
               {showVinyl && (
@@ -152,49 +187,56 @@ export default function AlbumDisplay({
                   initial={{ x: 134 }}
                   animate={{
                     x: 0,
-                    // Built-in easing options:
-                    // "linear", "easeIn", "easeOut", "easeInOut"
-                    // "circIn", "circOut", "circInOut"
-                    // "backIn", "backOut", "backInOut" (has overshoot/bounce)
-                    // "anticipate" (pulls back before moving forward)
-                    // Or spring: { type: "spring", stiffness: 100, damping: 10, bounce: 0.25 }
-                    // Or custom: [0.17, 0.67, 0.83, 0.67] (cubic bezier array)
                     transition: { duration: 0.5, ease: "backInOut" }
                   }}
                   exit={{
                     x: 134,
-                    // Different speeds based on why vinyl is hiding
                     transition: exitReason === 'pause'
-                      ? { duration: 0.6, ease: "easeInOut" } // Slower, smoother when pausing
-                      : { duration: 0.1, ease: "backOut" } // Fast when changing tracks
+                      ? { duration: 0.6, ease: "easeInOut" }
+                      : { duration: 0.1, ease: "backOut" }
                   }}
                   className="absolute left-[24px] top-[24px] w-[300px] h-[300px]"
                 >
-                  <div className="w-full h-full rounded-full bg-gradient-to-br from-gray-900 to-black dark:from-gray-100 dark:to-white relative">
+                  <div
+                    className="w-full h-full rounded-full relative"
+                    style={{
+                      background: isDarkMode
+                        ? 'linear-gradient(to bottom right, #f3f4f6, #ffffff)'
+                        : 'linear-gradient(to bottom right, #111827, #000000)'
+                    }}
+                  >
                     {/* Vinyl grooves effect */}
                     <div className="absolute inset-0 opacity-30">
                       {Array.from({ length: 40 }).map((_, i) => (
                         <div
                           key={i}
-                          className="absolute rounded-full border border-gray-700 dark:border-gray-300"
+                          className="absolute rounded-full border"
                           style={{
                             left: `${i * 2}%`,
                             top: `${i * 2}%`,
                             right: `${i * 2}%`,
                             bottom: `${i * 2}%`,
+                            borderColor: isDarkMode ? '#d1d5db' : '#374151'
                           }}
                         />
                       ))}
                     </div>
                     {/* Center label */}
-                    <div className="absolute inset-[40%] rounded-full bg-gradient-to-br from-amber-900 to-amber-700 dark:from-amber-600 dark:to-amber-800" />
+                    <div
+                      className="absolute inset-[40%] rounded-full"
+                      style={{
+                        background: isDarkMode
+                          ? 'linear-gradient(to bottom right, #d97706, #92400e)'
+                          : 'linear-gradient(to bottom right, #78350f, #451a03)'
+                      }}
+                    />
                   </div>
                 </motion.div>
               )}
             </AnimatePresence>
           </div>
 
-          {/* Album Cover - In front - Slides in from right - No clipping */}
+          {/* Album Cover - In front - No clipping */}
           <AnimatePresence mode="wait">
             <motion.div
               key={currentTrack.id}

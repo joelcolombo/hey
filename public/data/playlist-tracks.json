@@ -26,8 +26,7 @@
       ]
     },
     "duration_ms": 334743,
-    "uri": "spotify:track:6mFkJmJqdDVQ1REhVfGgd1",
-    "preview_url": null
+    "youtube_id": "IXdNnw99-Ic"
   },
   {
     "id": "1waLmkUyMq0M5ACmf5SG7q",
@@ -57,8 +56,7 @@
       ]
     },
     "duration_ms": 236293,
-    "uri": "spotify:track:1waLmkUyMq0M5ACmf5SG7q",
-    "preview_url": null
+    "youtube_id": "IAkY5m00rpY"
   },
   {
     "id": "3GZD6HmiNUhxXYf8Gch723",
@@ -87,8 +85,7 @@
       ]
     },
     "duration_ms": 234093,
-    "uri": "spotify:track:3GZD6HmiNUhxXYf8Gch723",
-    "preview_url": null
+    "youtube_id": "xjoBP7SDgaY"
   },
   {
     "id": "1PtQJZVZIdWIYdARpZRDFO",
@@ -117,8 +114,7 @@
       ]
     },
     "duration_ms": 298933,
-    "uri": "spotify:track:1PtQJZVZIdWIYdARpZRDFO",
-    "preview_url": null
+    "youtube_id": "wp43OdtAAkM"
   },
   {
     "id": "1yUJK3qxPiFiPeAG2gLfuW",
@@ -148,8 +144,7 @@
       ]
     },
     "duration_ms": 246480,
-    "uri": "spotify:track:1yUJK3qxPiFiPeAG2gLfuW",
-    "preview_url": null
+    "youtube_id": "chSZCtLrgz8"
   },
   {
     "id": "6DYkUnYPg4Q1jRzCOzqwmP",
@@ -178,8 +173,7 @@
       ]
     },
     "duration_ms": 277866,
-    "uri": "spotify:track:6DYkUnYPg4Q1jRzCOzqwmP",
-    "preview_url": null
+    "youtube_id": "e3-5YC_oHjE"
   },
   {
     "id": "1qDrWA6lyx8cLECdZE7TV7",
@@ -209,7 +203,6 @@
       ]
     },
     "duration_ms": 244884,
-    "uri": "spotify:track:1qDrWA6lyx8cLECdZE7TV7",
-    "preview_url": null
+    "youtube_id": "8UVNT4wvIGY"
   }
 ]

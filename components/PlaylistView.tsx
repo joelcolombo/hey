@@ -1,10 +1,12 @@
 "use client";
 
-import { useEffect, useState, useRef } from 'react';
+import { useEffect, useState } from 'react';
 import Image from 'next/image';
 import Footer from './Footer';
 import LyricsDisplay from './LyricsDisplay';
 import AlbumDisplay from './AlbumDisplay';
+import MobilePlayerView from './MobilePlayerView';
+import YouTubePlayer from './YouTubePlayer';
 import type { Track, SyncedLyrics, PlaybackState } from '@/types/playlist';
 import { motion } from 'framer-motion';
 
@@ -17,13 +19,16 @@ interface PlaylistViewProps {
 const STORAGE_KEY = 'playlist_playback_state';
 
 export default function PlaylistView({ tracks, allLyrics, showLogoAndFooter = true }: PlaylistViewProps) {
-  const audioRef = useRef<HTMLAudioElement | null>(null);
   const [playbackState, setPlaybackState] = useState<PlaybackState>({
     currentTrackIndex: 0,
     position: 0,
-    isPlaying: true,
+    isPlaying: false,
     startTime: Date.now(),
   });
+  const [isReady, setIsReady] = useState(false);
+  const [hasUserInteracted, setHasUserInteracted] = useState(false);
+
+  console.log('PlaylistView rendered, tracks count:', tracks.length);
 
   // Load saved state from localStorage
   useEffect(() => {
@@ -33,8 +38,8 @@ export default function PlaylistView({ tracks, allLyrics, showLogoAndFooter = tr
         const parsed = JSON.parse(savedState);
         setPlaybackState({
           ...parsed,
-          startTime: Date.now(), // Reset start time
-          isPlaying: true,
+          startTime: Date.now(),
+          isPlaying: false,
         });
       } catch (error) {
         console.error('Failed to load playback state:', error);
@@ -47,77 +52,98 @@ export default function PlaylistView({ tracks, allLyrics, showLogoAndFooter = tr
     localStorage.setItem(STORAGE_KEY, JSON.stringify(playbackState));
   }, [playbackState]);
 
-  // Initialize audio element
+  // Preload all album images for instant display
   useEffect(() => {
-    if (typeof window !== 'undefined') {
-      audioRef.current = new Audio();
-      audioRef.current.volume = 1;
-
-      // Handle track end
-      audioRef.current.addEventListener('ended', () => {
-        const nextIndex = (playbackState.currentTrackIndex + 1) % tracks.length;
-        setPlaybackState({
-          currentTrackIndex: nextIndex,
-          position: 0,
-          isPlaying: true,
-          startTime: Date.now(),
-        });
-      });
-
-      // Update position based on audio time
-      audioRef.current.addEventListener('timeupdate', () => {
-        if (audioRef.current) {
-          setPlaybackState(prev => ({
-            ...prev,
-            position: audioRef.current!.currentTime * 1000,
-          }));
-        }
-      });
-    }
-
-    return () => {
-      if (audioRef.current) {
-        audioRef.current.pause();
-        audioRef.current = null;
+    console.log('Preloading album images...');
+    tracks.forEach((track) => {
+      // Preload the highest quality image using browser's native image element
+      const imageUrl = track.album.images[0]?.url;
+      if (imageUrl) {
+        const img = document.createElement('img');
+        img.src = imageUrl;
       }
-    };
-  }, []);
-
-  // Handle track changes
-  useEffect(() => {
-    const currentTrack = tracks[playbackState.currentTrackIndex];
-    if (!currentTrack || !audioRef.current) return;
-
-    if (currentTrack.preview_url) {
-      audioRef.current.src = currentTrack.preview_url;
-      audioRef.current.currentTime = 0;
-
-      if (playbackState.isPlaying) {
-        audioRef.current.play().catch(err => {
-          console.warn('Audio playback failed:', err);
-        });
-      }
-    }
-  }, [playbackState.currentTrackIndex, tracks]);
-
-  // Handle play/pause
-  useEffect(() => {
-    if (!audioRef.current) return;
-
-    if (playbackState.isPlaying) {
-      audioRef.current.play().catch(err => {
-        console.warn('Audio playback failed:', err);
-      });
-    } else {
-      audioRef.current.pause();
-    }
-  }, [playbackState.isPlaying]);
+    });
+    console.log(`✅ Preloaded ${tracks.length} album images`);
+  }, [tracks]);
 
   const currentTrack = tracks[playbackState.currentTrackIndex];
-  const currentLyrics = allLyrics.get(currentTrack.id) || null;
+  const currentVideoUrl = currentTrack?.youtube_id
+    ? `https://www.youtube.com/watch?v=${currentTrack.youtube_id}`
+    : '';
 
-  const previousTracks = tracks.slice(0, playbackState.currentTrackIndex);
-  const upcomingTracks = tracks.slice(playbackState.currentTrackIndex + 1);
+  console.log('Current track:', currentTrack?.name);
+  console.log('Current video URL:', currentVideoUrl);
+
+  const currentLyrics = allLyrics.get(currentTrack?.id) || null;
+
+  // Calculate previous and upcoming tracks with looping
+  const currentIndex = playbackState.currentTrackIndex;
+  const previousTracks = tracks.slice(0, currentIndex);
+  const upcomingTracksAfterCurrent = tracks.slice(currentIndex + 1);
+
+  // If we're near the end, add tracks from the beginning to show upcoming tracks
+  const upcomingTracks = upcomingTracksAfterCurrent.length < 2
+    ? [...upcomingTracksAfterCurrent, ...tracks.slice(0, 2 - upcomingTracksAfterCurrent.length)]
+    : upcomingTracksAfterCurrent;
+
+  const handleReady = () => {
+    console.log('✅ ReactPlayer ready!');
+    setIsReady(true);
+  };
+
+  const handlePlay = () => {
+    console.log('▶️ ReactPlayer started playing');
+    setPlaybackState(prev => ({ ...prev, isPlaying: true }));
+  };
+
+  const handlePause = () => {
+    console.log('⏸️ ReactPlayer paused');
+    setPlaybackState(prev => ({ ...prev, isPlaying: false }));
+  };
+
+  const handleError = (error: any) => {
+    console.error('❌ ReactPlayer error:', error);
+  };
+
+  const handleProgress = (state: { playedSeconds: number }) => {
+    setPlaybackState(prev => ({
+      ...prev,
+      position: state.playedSeconds * 1000,
+    }));
+  };
+
+  const handleEnded = () => {
+    console.log('Track ended, playing next');
+    const nextIndex = (playbackState.currentTrackIndex + 1) % tracks.length;
+    setPlaybackState({
+      currentTrackIndex: nextIndex,
+      position: 0,
+      isPlaying: true,
+      startTime: Date.now(),
+    });
+  };
+
+  const handleTrackSelect = (trackIndex: number) => {
+    console.log('Track selected:', trackIndex);
+    setPlaybackState({
+      currentTrackIndex: trackIndex,
+      position: 0,
+      isPlaying: true,
+      startTime: Date.now(),
+    });
+  };
+
+  const handleTogglePlayback = () => {
+    console.log('Toggle playback, current state:', playbackState.isPlaying);
+    // Mark user interaction on first play
+    if (!hasUserInteracted && !playbackState.isPlaying) {
+      setHasUserInteracted(true);
+    }
+    setPlaybackState(prev => ({
+      ...prev,
+      isPlaying: !prev.isPlaying,
+    }));
+  };
 
   return (
     <motion.div
@@ -126,7 +152,33 @@ export default function PlaylistView({ tracks, allLyrics, showLogoAndFooter = tr
       transition={{ duration: 0.5 }}
       className="fixed inset-0"
     >
-      {/* Logo - Conditional */}
+      {/* YouTube Player - Hidden off-screen */}
+      <div style={{ position: 'absolute', top: -9999, left: -9999, width: 1, height: 1 }}>
+        <YouTubePlayer
+          videoId={currentTrack?.youtube_id || ''}
+          isPlaying={playbackState.isPlaying}
+          onReady={() => {
+            console.log('✅ YouTube Player ready!');
+            setIsReady(true);
+          }}
+          onTimeUpdate={(time) => {
+            setPlaybackState(prev => ({ ...prev, position: time }));
+          }}
+          onEnded={() => {
+            console.log('Track ended, playing next');
+            const nextIndex = (playbackState.currentTrackIndex + 1) % tracks.length;
+            setPlaybackState({
+              currentTrackIndex: nextIndex,
+              position: 0,
+              isPlaying: true,
+              startTime: Date.now(),
+            });
+          }}
+        />
+      </div>
+
+
+      {/* Logo */}
       {showLogoAndFooter && (
         <div className="fixed top-[20px] left-[20px] z-10 w-[100px] h-[100px]">
           <Image
@@ -148,58 +200,43 @@ export default function PlaylistView({ tracks, allLyrics, showLogoAndFooter = tr
         </div>
       )}
 
-      {/* Main Content - Absolute Positioning to match Figma */}
-      <div className="absolute top-[200px] left-0 right-0 bottom-[60px] max-md:top-[140px]">
-        <div className="relative h-full">
-          {/* Left Column - Lyrics */}
-          <div className="absolute left-0 top-0 bottom-0 right-[454px] overflow-hidden max-md:right-0">
-            <LyricsDisplay
-              lyrics={currentLyrics}
-              currentPosition={playbackState.position}
-            />
-          </div>
+      {/* Lyrics Area - Full height, behind everything */}
+      <div className="absolute top-0 left-0 right-[454px] bottom-0 max-md:right-0 max-md:bottom-[200px]">
+        <LyricsDisplay
+          lyrics={currentLyrics}
+          currentPosition={playbackState.position}
+          offsetMs={currentTrack?.lyrics_offset_ms || 0}
+        />
+      </div>
 
-          {/* Right Column - Album Display */}
-          <div className="absolute right-0 top-0 bottom-0 w-[454px] overflow-visible max-md:hidden">
-            <AlbumDisplay
-              currentTrack={currentTrack}
-              previousTracks={previousTracks}
-              upcomingTracks={upcomingTracks}
-              isPlaying={playbackState.isPlaying}
-              allTracks={tracks}
-              onTrackSelect={(trackIndex) => {
-                setPlaybackState({
-                  currentTrackIndex: trackIndex,
-                  position: 0,
-                  isPlaying: true,
-                  startTime: Date.now(),
-                });
-              }}
-              onTogglePlayback={() => {
-                setPlaybackState(prev => ({
-                  ...prev,
-                  isPlaying: !prev.isPlaying,
-                  startTime: Date.now(),
-                }));
-              }}
-            />
-          </div>
+      {/* Desktop Album/Playlist Area */}
+      <div className="absolute top-[200px] right-0 bottom-[60px] w-[454px] max-md:hidden">
+        <div className="relative h-full">
+          <AlbumDisplay
+            currentTrack={currentTrack}
+            previousTracks={previousTracks}
+            upcomingTracks={upcomingTracks}
+            isPlaying={playbackState.isPlaying}
+            allTracks={tracks}
+            onTrackSelect={handleTrackSelect}
+            onTogglePlayback={handleTogglePlayback}
+          />
         </div>
       </div>
 
-      {/* Footer - Conditional */}
-      {showLogoAndFooter && <Footer />}
+      {/* Mobile Player View - Bottom right corner */}
+      <div className="hidden max-md:block">
+        <MobilePlayerView
+          currentTrack={currentTrack}
+          isPlaying={playbackState.isPlaying}
+          onTogglePlayback={handleTogglePlayback}
+          allTracks={tracks}
+          onTrackSelect={handleTrackSelect}
+        />
+      </div>
 
-      {/* Hidden Spotify Embed for future enhancement */}
-      {/* This can be used if we want actual Spotify playback instead of simulated */}
-      {/* <iframe
-        src={`https://open.spotify.com/embed/track/${currentTrack.id}`}
-        width="0"
-        height="0"
-        frameBorder="0"
-        allow="encrypted-media"
-        className="hidden"
-      /> */}
+      {/* Footer */}
+      {showLogoAndFooter && <Footer />}
     </motion.div>
   );
 }

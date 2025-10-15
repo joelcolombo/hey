@@ -6,11 +6,30 @@ import type { SyncedLyrics } from '@/types/playlist';
 interface LyricsDisplayProps {
   lyrics: SyncedLyrics | null;
   currentPosition: number; // milliseconds
+  offsetMs?: number; // Optional offset to adjust lyrics timing
 }
 
-export default function LyricsDisplay({ lyrics, currentPosition }: LyricsDisplayProps) {
+export default function LyricsDisplay({ lyrics, currentPosition, offsetMs = 0 }: LyricsDisplayProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const [activeLineIndex, setActiveLineIndex] = useState<number>(-1);
+  const [isDarkMode, setIsDarkMode] = useState(false);
+
+  // Detect dark mode
+  useEffect(() => {
+    const checkDarkMode = () => {
+      setIsDarkMode(document.documentElement.classList.contains('dark'));
+    };
+
+    checkDarkMode();
+
+    const observer = new MutationObserver(checkDarkMode);
+    observer.observe(document.documentElement, {
+      attributes: true,
+      attributeFilter: ['class']
+    });
+
+    return () => observer.disconnect();
+  }, []);
 
   useEffect(() => {
     if (!lyrics || lyrics.lines.length === 0) {
@@ -18,10 +37,13 @@ export default function LyricsDisplay({ lyrics, currentPosition }: LyricsDisplay
       return;
     }
 
-    // Find the current active line based on position
+    // Apply offset to current position for comparison
+    const adjustedPosition = currentPosition + offsetMs;
+
+    // Find the current active line based on adjusted position
     let currentIndex = -1;
     for (let i = 0; i < lyrics.lines.length; i++) {
-      if (currentPosition >= lyrics.lines[i].timestamp) {
+      if (adjustedPosition >= lyrics.lines[i].timestamp) {
         currentIndex = i;
       } else {
         break;
@@ -29,16 +51,24 @@ export default function LyricsDisplay({ lyrics, currentPosition }: LyricsDisplay
     }
 
     setActiveLineIndex(currentIndex);
-  }, [lyrics, currentPosition]);
+  }, [lyrics, currentPosition, offsetMs]);
 
   useEffect(() => {
-    // Auto-scroll to active line
+    // Auto-scroll to keep active line centered (or higher for first line)
     if (activeLineIndex >= 0 && containerRef.current) {
-      const activeLine = containerRef.current.querySelector(`[data-line-index="${activeLineIndex}"]`);
+      const activeLine = containerRef.current.querySelector(`[data-line-index="${activeLineIndex}"]`) as HTMLElement;
       if (activeLine) {
-        activeLine.scrollIntoView({
+        const container = containerRef.current;
+        const containerHeight = container.clientHeight;
+        const lineTop = activeLine.offsetTop;
+        const lineHeight = activeLine.offsetHeight;
+
+        // Center the active line vertically
+        const scrollTo = lineTop - (containerHeight / 2) + (lineHeight / 2);
+
+        container.scrollTo({
+          top: scrollTo,
           behavior: 'smooth',
-          block: 'center',
         });
       }
     }
@@ -57,8 +87,14 @@ export default function LyricsDisplay({ lyrics, currentPosition }: LyricsDisplay
   return (
     <div
       ref={containerRef}
-      className="h-full overflow-y-auto pl-[20px] pr-[20px] max-md:px-[3%]"
-      style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
+      className="h-full overflow-y-auto pl-[16px] pr-[20px] max-md:pl-[20px] max-md:pr-[20px] flex flex-col"
+      style={{
+        scrollbarWidth: 'none',
+        msOverflowStyle: 'none',
+        background: isDarkMode
+          ? 'linear-gradient(to bottom, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 1) 85%, rgba(0, 0, 0, 1) 100%)'
+          : 'linear-gradient(to bottom, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 1) 85%, rgba(255, 255, 255, 1) 100%)'
+      }}
     >
       <style jsx>{`
         div::-webkit-scrollbar {
@@ -66,13 +102,16 @@ export default function LyricsDisplay({ lyrics, currentPosition }: LyricsDisplay
         }
       `}</style>
 
+      {/* Top spacer - places first line at vertical center */}
+      <div className="min-h-[calc(50vh-60px)] max-md:min-h-[120px]" />
+
       {lyrics.lines.map((line, index) => (
         <p
           key={index}
           data-line-index={index}
           className={`
             text-left font-normal text-[80px] leading-[1.2em] mb-[40px] transition-colors duration-300
-            max-md:text-[2em] max-md:leading-[1.3em] max-md:mb-[20px]
+            max-md:text-[32px] max-md:leading-[1.3em] max-md:mb-[16px]
             ${
               index === activeLineIndex
                 ? 'text-[var(--foreground)]'
@@ -84,6 +123,9 @@ export default function LyricsDisplay({ lyrics, currentPosition }: LyricsDisplay
           {line.text}
         </p>
       ))}
+
+      {/* Bottom spacer to allow last line to center */}
+      <div className="min-h-[50vh] max-md:min-h-[200px]" />
     </div>
   );
 }

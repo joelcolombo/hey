@@ -2,27 +2,8 @@
   "trackId": "6mFkJmJqdDVQ1REhVfGgd1",
   "trackName": "Wish You Were Here",
   "artistName": "Pink Floyd",
+  "lyrics_offset_ms": 80500,
   "lines": [
-    {
-      "timestamp": 9400,
-      "text": "Yes and um, I'm with you Derek, this star nonsense"
-    },
-    {
-      "timestamp": 10100,
-      "text": "And disciplinary remains mercifully"
-    },
-    {
-      "timestamp": 17100,
-      "text": "Now which is it?"
-    },
-    {
-      "timestamp": 19600,
-      "text": "I am sure of it"
-    },
-    {
-      "timestamp": 20200,
-      "text": "Yes, yes"
-    },
     {
       "timestamp": 98600,
       "text": "So, so you think you can tell"

@@ -57,10 +57,10 @@ export default function NotFound() {
 
   return (
     <div className="fixed inset-0 bg-[var(--background)] text-[var(--foreground)]">
-      {/* Splash Screen Message - Fades out (behind logo/footer) - Always show while loading or during splash */}
+      {/* Splash Screen Message - Fades out after delay */}
       {(isLoading || showSplash) && <SplashScreen onComplete={handleSplashComplete} />}
 
-      {/* Playlist View - Fades in after splash (behind logo/footer) */}
+      {/* Playlist View - Fades in after splash */}
       {!isLoading && !showSplash && <PlaylistView tracks={tracks} allLyrics={allLyrics} showLogoAndFooter={false} />}
 
       {/* Logo - Always visible on top (matches page.tsx positioning) */}

@@ -1,0 +1,88 @@
+
+================================================================================
+DETAILED MOBILE UX TESTING - iPhone 12 Pro
+================================================================================
+
+[1] Loading page and waiting for content...
+✓ Page loaded
+
+[2] Testing Album Display Visibility...
+   Album area elements found: 1
+   Album area visible: false
+   Classes: absolute top-[200px] right-0 bottom-[60px] w-[454px] max-md:hidden
+   ⚠️ CRITICAL: Album player is HIDDEN on mobile (max-md:hidden)
+
+[3] Testing Interactive Elements and Tap Targets...
+   Footer interactive elements: 5
+   - "Email" size: 38x19px ✗ TOO SMALL
+   - "X" size: 10x19px ✗ TOO SMALL
+   - "LinkedIn" size: 59x19px ✗ TOO SMALL
+   - "Calendar" size: 64x19px ✗ TOO SMALL
+   - "◐" size: 16x16px ✗ TOO SMALL
+
+[4] Testing Theme Toggle...
+   Theme toggle size: 16x16px ✗ TOO SMALL
+
+[5] Testing Lyrics Display and Font Size...
+   Lyrics lines found: 23
+   Line 0: 32px / 41.6px - "So, so you think you can ..."
+   Line 1: 32px / 41.6px - "Heaven from hell?..."
+   Line 2: 32px / 41.6px - "Blue skies from pain?..."
+
+[6] Testing Logo Size...
+   Logo size: 100x100px
+   Logo styles: { marginTop: '20px', marginLeft: '10px', height: '100px' }
+
+[7] Testing Footer Position on Mobile...
+   Footer position: 618px from top
+   Viewport height: 664px
+   Footer bottom margin: 30px
+   Footer CSS: { position: 'fixed', bottom: '30px', left: '1px' }
+
+[8] Checking for Album Display Alternatives on Mobile...
+   Album images found: 1
+
+[9] Testing YouTube Player...
+   YouTube iframes found: 1
+   YouTube player size: 400x225px
+   YouTube player position: (-9999, -9999)
+   YouTube divs found: 0
+
+[10] Checking Mobile-Specific CSS Classes...
+   Elements with max-md:hidden: 1
+   1. DIV - visible: false
+
+[11] Testing Scroll Behavior...
+   Vertical scroll: 0px (locked)
+   Horizontal scroll: 0px (locked ✓)
+
+[12] Testing Touch Events...
+   ✓ Lyrics tap successful
+
+❌ ERROR: locator.tap: Timeout 30000ms exceeded.
+Call log:
+  - waiting for locator('.footer .social h6').first()
+    - locator resolved to <h6>…</h6>
+  - attempting tap action
+    2 × waiting for element to be visible, enabled and stable
+      - element is visible, enabled and stable
+      - scrolling into view if needed
+      - done scrolling
+      - <nextjs-portal></nextjs-portal> from <script data-nextjs-dev-overlay="true">…</script> subtree intercepts pointer events
+    - retrying tap action
+    - waiting 20ms
+    2 × waiting for element to be visible, enabled and stable
+      - element is visible, enabled and stable
+      - scrolling into view if needed
+      - done scrolling
+      - <nextjs-portal></nextjs-portal> from <script data-nextjs-dev-overlay="true">…</script> subtree intercepts pointer events
+    - retrying tap action
+      - waiting 100ms
+    56 × waiting for element to be visible, enabled and stable
+       - element is visible, enabled and stable
+       - scrolling into view if needed
+       - done scrolling
+       - <nextjs-portal></nextjs-portal> from <script data-nextjs-dev-overlay="true">…</script> subtree intercepts pointer events
+     - retrying tap action
+       - waiting 500ms
+

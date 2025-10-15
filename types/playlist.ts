@@ -7,7 +7,9 @@ export interface Track {
     images: { url: string; height: number; width: number }[];
   };
   duration_ms: number;
-  uri: string;
+  youtube_id?: string;
+  lyrics_offset_ms?: number; // Offset to adjust lyrics timing (in milliseconds)
+  uri?: string;
   preview_url?: string | null;
 }
 

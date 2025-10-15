@@ -1,0 +1,100 @@
+
+============================================================
+Testing on: iPhone 12 Pro
+============================================================
+
+1. Loading page...
+   Viewport: 390x664
+
+2. Checking element visibility...
+   Lyrics display visible: true
+   Album container visible: false
+   Footer visible: true
+   Logo visible: true
+   Screenshot saved: mobile-test-iPhone-12-Pro.png
+
+3. Testing tap interactions...
+
+4. Checking track list items...
+   Track items found: 2
+
+5. Testing lyrics display...
+   Lyrics container size: 390.0x664.0px
+   Lyrics scrolling: WORKS
+   Lyrics font size: 32px
+   Sample lyrics: "So, so you think you can tell..."
+
+6. Checking for overflow issues...
+   Body width: 390px, Window width: 390px
+   Horizontal overflow: NO (Good)
+
+7. Testing landscape orientation...
+   Landscape screenshot saved
+
+============================================================
+Testing on: iPhone SE
+============================================================
+
+1. Loading page...
+   Viewport: 320x568
+
+2. Checking element visibility...
+   Lyrics display visible: true
+   Album container visible: false
+   Footer visible: true
+   Logo visible: true
+   Screenshot saved: mobile-test-iPhone-SE.png
+
+3. Testing tap interactions...
+
+4. Checking track list items...
+   Track items found: 2
+
+5. Testing lyrics display...
+   Lyrics container size: 320.0x568.0px
+   Lyrics scrolling: WORKS
+   Lyrics font size: 32px
+   Sample lyrics: "So, so you think you can tell..."
+
+6. Checking for overflow issues...
+   Body width: 320px, Window width: 320px
+   Horizontal overflow: NO (Good)
+
+7. Testing landscape orientation...
+   Landscape screenshot saved
+
+============================================================
+Testing on: Pixel 5
+============================================================
+
+1. Loading page...
+   Viewport: 393x727
+
+2. Checking element visibility...
+   Lyrics display visible: true
+   Album container visible: false
+   Footer visible: true
+   Logo visible: true
+   Screenshot saved: mobile-test-Pixel-5.png
+
+3. Testing tap interactions...
+
+4. Checking track list items...
+   Track items found: 2
+
+5. Testing lyrics display...
+   Lyrics container size: 393.0x727.0px
+   Lyrics scrolling: WORKS
+   Lyrics font size: 32px
+   Sample lyrics: "So, so you think you can tell..."
+
+6. Checking for overflow issues...
+   Body width: 393px, Window width: 393px
+   Horizontal overflow: NO (Good)
+
+7. Testing landscape orientation...
+   Landscape screenshot saved
+
+============================================================
+Mobile testing complete!
+============================================================

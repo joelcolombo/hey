@@ -8,7 +8,17 @@
       "Bash(npm run build)",
       "Bash(git checkout:*)",
       "WebFetch(domain:www.figma.com)",
-      "Bash(npx tsx:*)"
+      "Bash(npx tsx:*)",
+      "Bash(awk:*)",
+      "Bash(xargs kill:*)",
+      "Bash(git commit:*)",
+      "Bash(lsof:*)",
+      "Bash(npm uninstall:*)",
+      "Bash(npx playwright:*)",
+      "Bash(node test-mobile.js)",
+      "Bash(tee:*)",
+      "Bash(node:*)",
+      "Bash(npx tsc:*)"
     ],
     "deny": [],
     "ask": []
