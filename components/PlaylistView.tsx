@@ -19,9 +19,11 @@ interface PlaylistViewProps {
 const STORAGE_KEY = 'playlist_playback_state';
 
 export default function PlaylistView({ tracks, allLyrics, showLogoAndFooter = true }: PlaylistViewProps) {
+  // Start with the first track (Look by Sébastien Tellier)
+  const initialTrackIndex = 0;
 
   const [playbackState, setPlaybackState] = useState<PlaybackState>({
-    currentTrackIndex: 0,
+    currentTrackIndex: initialTrackIndex,
     position: 0,
     isPlaying: false,
     startTime: Date.now(),
@@ -64,7 +66,16 @@ export default function PlaylistView({ tracks, allLyrics, showLogoAndFooter = tr
   useEffect(() => {
     if (typeof window === 'undefined') return;
 
+    // Check if we should reset (for testing)
+    const urlParams = new URLSearchParams(window.location.search);
+    if (urlParams.get('reset') === 'true') {
+      localStorage.removeItem(STORAGE_KEY);
+      // Remove the reset parameter from URL
+      window.history.replaceState({}, '', window.location.pathname);
+    }
+
     const savedState = localStorage.getItem(STORAGE_KEY);
+
     if (savedState) {
       try {
         const parsed = JSON.parse(savedState);
@@ -77,7 +88,7 @@ export default function PlaylistView({ tracks, allLyrics, showLogoAndFooter = tr
         console.error('Failed to load playback state:', error);
       }
     } else {
-      // No saved state, start playing first track
+      // No saved state, start with initial track and autoplay
       setPlaybackState(prev => ({
         ...prev,
         isPlaying: true,
@@ -124,11 +135,18 @@ export default function PlaylistView({ tracks, allLyrics, showLogoAndFooter = tr
 
   const currentLyrics = allLyrics.get(currentTrack?.id) || null;
 
-  // Calculate previous and upcoming tracks with looping
+  // Calculate previous and upcoming tracks with infinite looping
   const currentIndex = playbackState.currentTrackIndex;
-  const previousTracks = tracks.slice(0, currentIndex);
-  const upcomingTracksAfterCurrent = tracks.slice(currentIndex + 1);
 
+  // Previous tracks with circular logic
+  const previousTracksBeforeCurrent = tracks.slice(0, currentIndex);
+  // If we're at the beginning, show tracks from the end to create infinite loop effect
+  const previousTracks = previousTracksBeforeCurrent.length < 2
+    ? [...tracks.slice(-(2 - previousTracksBeforeCurrent.length)), ...previousTracksBeforeCurrent]
+    : previousTracksBeforeCurrent;
+
+  // Upcoming tracks with circular logic
+  const upcomingTracksAfterCurrent = tracks.slice(currentIndex + 1);
   // If we're near the end, add tracks from the beginning to show upcoming tracks
   const upcomingTracks = upcomingTracksAfterCurrent.length < 2
     ? [...upcomingTracksAfterCurrent, ...tracks.slice(0, 2 - upcomingTracksAfterCurrent.length)]
