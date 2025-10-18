@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 import type { SyncedLyrics } from '@/types/playlist';
 
 interface LyricsDisplayProps {
@@ -11,8 +12,30 @@ interface LyricsDisplayProps {
 
 export default function LyricsDisplay({ lyrics, currentPosition, offsetMs = 0 }: LyricsDisplayProps) {
   const containerRef = useRef<HTMLDivElement>(null);
-  const [activeLineIndex, setActiveLineIndex] = useState<number>(-1);
-  const prevActiveLineRef = useRef<number>(-1);
+  // Initialize with 0 if lyrics exist, -1 otherwise
+  const [activeLineIndex, setActiveLineIndex] = useState<number>(
+    lyrics && lyrics.lines.length > 0 ? 0 : -1
+  );
+  const prevActiveLineRef = useRef<number>(lyrics && lyrics.lines.length > 0 ? 0 : -1);
+  const prevTrackIdRef = useRef<string>('');
+
+  // Reset scroll position when track changes
+  useEffect(() => {
+    const currentTrackId = lyrics?.trackId || '';
+    if (prevTrackIdRef.current && prevTrackIdRef.current !== currentTrackId) {
+      // Track has changed, reset scroll to top
+      if (containerRef.current) {
+        containerRef.current.scrollTo({
+          top: 0,
+          behavior: 'instant',
+        });
+      }
+      // Set active line to first line (0) instead of -1 when track changes
+      setActiveLineIndex(lyrics && lyrics.lines.length > 0 ? 0 : -1);
+      prevActiveLineRef.current = lyrics && lyrics.lines.length > 0 ? 0 : -1;
+    }
+    prevTrackIdRef.current = currentTrackId;
+  }, [lyrics?.trackId, lyrics?.lines.length]);
 
   useEffect(() => {
     if (!lyrics || lyrics.lines.length === 0) {
@@ -25,11 +48,24 @@ export default function LyricsDisplay({ lyrics, currentPosition, offsetMs = 0 }:
 
     // Find the current active line based on adjusted position
     let currentIndex = -1;
-    for (let i = 0; i < lyrics.lines.length; i++) {
-      if (adjustedPosition >= lyrics.lines[i].timestamp) {
-        currentIndex = i;
+
+    // Check if we haven't reached the first line's timestamp yet
+    // If so, keep the first line highlighted
+    if (lyrics.lines.length > 0) {
+      const firstLineTimestamp = lyrics.lines[0].timestamp;
+
+      if (adjustedPosition < firstLineTimestamp) {
+        // We haven't reached the first line yet, so highlight it
+        currentIndex = 0;
       } else {
-        break;
+        // Normal playback - find the current line based on timestamp
+        for (let i = 0; i < lyrics.lines.length; i++) {
+          if (adjustedPosition >= lyrics.lines[i].timestamp) {
+            currentIndex = i;
+          } else {
+            break;
+          }
+        }
       }
     }
 
@@ -74,25 +110,31 @@ export default function LyricsDisplay({ lyrics, currentPosition, offsetMs = 0 }:
 
   return (
     <div className="h-full relative">
-      <div
-        ref={containerRef}
-        className="h-full overflow-y-auto pl-[16px] pr-[20px] max-md:pl-[16px] max-md:pr-[16px] flex flex-col"
-        style={{
-          scrollbarWidth: 'none',
-          msOverflowStyle: 'none'
-        }}
-      >
-        <style jsx>{`
-          div::-webkit-scrollbar {
-            display: none;
-          }
-        `}</style>
+      <AnimatePresence mode="wait">
+        <motion.div
+          key={lyrics.trackId}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          transition={{ duration: 0.3 }}
+          ref={containerRef}
+          className="h-full overflow-y-auto pl-[16px] pr-[20px] max-md:pl-[16px] max-md:pr-[16px] flex flex-col"
+          style={{
+            scrollbarWidth: 'none',
+            msOverflowStyle: 'none'
+          }}
+        >
+          <style jsx>{`
+            div::-webkit-scrollbar {
+              display: none;
+            }
+          `}</style>
 
-        {/* Top spacer - places first line at vertical center */}
-        <div className="min-h-[calc(50vh-60px)] max-md:min-h-[120px]" />
+          {/* Top spacer - places first line at vertical center */}
+          <div className="min-h-[calc(50vh-60px)] max-md:min-h-[120px]" />
 
-        {lyrics.lines.map((line, index) => (
-          <p
+          {lyrics.lines.map((line, index) => (
+            <p
               key={index}
               data-line-index={index}
               className={`
@@ -108,11 +150,12 @@ export default function LyricsDisplay({ lyrics, currentPosition, offsetMs = 0 }:
             >
               {line.text}
             </p>
-        ))}
+          ))}
 
-        {/* Bottom spacer to allow last line to center */}
-        <div className="min-h-[50vh] max-md:min-h-[200px]" />
-      </div>
+          {/* Bottom spacer to allow last line to center */}
+          <div className="min-h-[50vh] max-md:min-h-[200px]" />
+        </motion.div>
+      </AnimatePresence>
 
       {/* Gradient fade at bottom - mobile only */}
       <div

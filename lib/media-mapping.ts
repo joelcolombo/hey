@@ -27,42 +27,42 @@ export const mediaMapping: Record<string, { song: string; cover: string; lyrics:
   },
   "wsgm-parix": {
     song: "0868086c50febfb1f5c2d06f5511154a.mp3",
-    cover: "5848b25a82cc68e5997d6f109422450f.jpeg",
+    cover: "5848b25a82cc68e5997d6f109422450f.jpg",
     lyrics: "b65238c81428ffd5bb56d7bbd1c76636.json"
   },
   "fo-lost": {
     song: "ff3408404455781982db9f2922c9922d.mp3",
-    cover: "e58bec512db0bdbb309cec6c4ad57897.jpeg",
+    cover: "e58bec512db0bdbb309cec6c4ad57897.jpg",
     lyrics: "9aedfbe1717be6a4a2a823b23252117f.json"
   },
   "dd-ocean-drive": {
     song: "3ebe86457f3d0d539d9b6a4b87b0dc89.mp3",
-    cover: "3ce4de21ecdb9da0471feb668ec170a6.jpeg",
+    cover: "3ce4de21ecdb9da0471feb668ec170a6.jpg",
     lyrics: "80a800530588ebf8c034b6cff7ed81cc.json"
   },
   "cx-gone": {
     song: "161b0ec16c8f1e8851b34ae831b17eeb.mp3",
-    cover: "92ca0d1bb56bab75ece3bbee02490692.jpeg",
+    cover: "92ca0d1bb56bab75ece3bbee02490692.jpg",
     lyrics: "6177ce55bfe882f9eafbda036613e10f.json"
   },
   "tl-disco-tits": {
     song: "f7b88ece933d5df19d8d2a897c679d63.mp3",
-    cover: "3fce5e42a7809979515962e87a8e1098.jpeg",
+    cover: "3fce5e42a7809979515962e87a8e1098.jpg",
     lyrics: "a059d1e7cf6cde2327ecd637d6a7f002.json"
   },
   "bm-desire": {
     song: "edfa192e97f8faee8872b40b6c0d8d75.mp3",
-    cover: "2f0d03d2b95faf8b8c39b4685994fa08.jpeg",
+    cover: "2f0d03d2b95faf8b8c39b4685994fa08.jpg",
     lyrics: "42068c3c28ab7344e437acac59b45ded.json"
   },
   "ebtg-tracey-in-my-room": {
     song: "f2cc946ac4f01c344448d4561388a50d.mp3",
-    cover: "dc71fa2fa1b2f3a7afc9fc78ff45fd6d.jpeg",
+    cover: "dc71fa2fa1b2f3a7afc9fc78ff45fd6d.jpg",
     lyrics: "79b80b2a0059e0293021b60049bb9670.json"
   },
   "id-how-much": {
     song: "eec903577892c192091afc5629e71466.mp3",
-    cover: "61acba1ac57bdd5dca895363950c3819.jpeg",
+    cover: "61acba1ac57bdd5dca895363950c3819.jpg",
     lyrics: "e36461df8534a00c68588846a313e79e.json"
   }
 };
