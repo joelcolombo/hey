@@ -25,7 +25,19 @@
       "Bash(rm:*)",
       "Bash(kill:*)",
       "Read(//Users/joelcolombo/Downloads/**)",
-      "Bash(cat:*)"
+      "Bash(cat:*)",
+      "Bash(gh pr create:*)",
+      "Bash(for url in \"https://raw.githubusercontent.com/joelcolombo/hey/main/public/data/covers/48a8c93c88e1bafd87e39b87a9f10c84.jpg\" \"https://raw.githubusercontent.com/joelcolombo/hey/main/public/data/covers/3e87e955f0f2e3dab1f9c957e46e40f1.jpg\" \"https://raw.githubusercontent.com/joelcolombo/hey/main/public/data/covers/f9c9206b343efa5c7b20b51eaf580f69.jpg\")",
+      "Bash(for file in 34bf8e4dbd87c673b73bbf2c04e7cf5d.jpg 34fcc5d332e6f18ea7a979cfce80bef8.jpg 3e87e955f0f2e3dab1f9c957e46e40f1.jpg 48a8c93c88e1bafd87e39b87a9f10c84.jpg 4e16e6bcd0e9e59f6aab949c6e066de3.jpg 9bb1dc0cbf6a3bde3f866e66e6c81bc4.jpg a88e4d988d088f7b77f963c37e3c0c3f.jpg c8417c6b87f2e896f96f1cc3f890f883.jpg fdc8c77b88f42c674e0db53c96c83d75.jpg)",
+      "Bash(do)",
+      "Bash(if [ ! -f \"/Users/joelcolombo/nextjs-portfolio/public/data/covers/$file\" ])",
+      "Bash(then)",
+      "Bash(echo:*)",
+      "Bash(fi)",
+      "Bash(done)",
+      "Bash(git rm:*)",
+      "Bash(for file in /Users/joelcolombo/nextjs-portfolio/public/data/covers/*.jpeg)",
+      "Bash(do mv \"$file\" \"$file%.jpeg.jpg\")"
     ],
     "deny": [],
     "ask": []
