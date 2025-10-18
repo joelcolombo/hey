@@ -6,7 +6,7 @@ import { ThemeProvider } from "@/components/ThemeProvider";
 import Analytics from "@/components/Analytics";
 
 export const metadata: Metadata = {
-  metadataBase: new URL('https://joelcolombo.com'),
+  metadataBase: new URL('https://joelcolombo.co'),
   title: 'Joel Colombo ✦ Creative Director & Designer',
   description: 'Designer turned creative director turned agency founder turned designer. Two decades of experience in design, technology & strategy. Available for select projects with founders and teams.',
   keywords: ['Creative Director', 'Designer', 'UX Design', 'Product Design', 'Agency Founder', 'Design Strategy', 'Joel Colombo'],
@@ -18,7 +18,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: 'Joel Colombo ✦ Creative Director & Designer',
     description: 'Designer turned creative director turned agency founder turned designer. Two decades of experience in design, technology & strategy.',
-    url: 'https://joelcolombo.com',
+    url: 'https://joelcolombo.co',
     siteName: 'Joel Colombo',
     images: [
       {
@@ -64,7 +64,7 @@ export default function RootLayout({
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)" />
         <meta name="theme-color" content="#0a0a0a" media="(prefers-color-scheme: dark)" />
-        <link rel="canonical" href="https://joelcolombo.com" />
+        <link rel="canonical" href="https://joelcolombo.co" />
         <script
           dangerouslySetInnerHTML={{
             __html: `

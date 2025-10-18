@@ -37,7 +37,8 @@
       "Bash(done)",
       "Bash(git rm:*)",
       "Bash(for file in /Users/joelcolombo/nextjs-portfolio/public/data/covers/*.jpeg)",
-      "Bash(do mv \"$file\" \"$file%.jpeg.jpg\")"
+      "Bash(do mv \"$file\" \"$file%.jpeg.jpg\")",
+      "Bash(gh pr list:*)"
     ],
     "deny": [],
     "ask": []
