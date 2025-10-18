@@ -149,32 +149,37 @@ export default function AlbumDisplay({
 
   return (
     <div className="h-full flex flex-col items-end justify-between pt-[11px] pr-[16px] pb-[11px] max-md:pr-[3%]">
-      {/* Previous Tracks - Fixed height container */}
-      <div className="flex flex-col gap-[8px] text-right min-h-[40px]">
-        <div className="flex flex-col gap-[8px] justify-end">
-          <AnimatePresence mode="popLayout">
-            {previousTracks.slice(-2).reverse().map((track, index) => {
-              const trackIndex = allTracks.findIndex(t => t.id === track.id);
-              return (
-                <motion.div
-                  key={track.id}
-                  initial={{ opacity: 0, y: 10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: -10 }}
-                  transition={{ duration: 0.3 }}
-                  onClick={() => onTrackSelect(trackIndex)}
-                  className="text-[16px] font-normal leading-normal whitespace-nowrap max-md:text-[0.75em] cursor-pointer hover:!text-[var(--foreground)] transition-colors"
-                  style={{
-                    color: index === 0 ? '#d0d0d0' : '#a0a0a0',
-                    fontWeight: 400
-                  }}
-                >
-                  {track.name} – {track.artists[0]}
-                </motion.div>
-              );
-            })}
-          </AnimatePresence>
-        </div>
+      {/* Previous Tracks - Fixed height container with absolute positioning */}
+      <div
+        className="relative text-right"
+        style={{ height: '56px' }}
+      >
+        <AnimatePresence initial={false}>
+          {previousTracks.slice(-2).map((track, index) => {
+            const trackIndex = allTracks.findIndex(t => t.id === track.id);
+            // index 0 = older/further track (lighter), index 1 = most recent (darker)
+            // 28px = 16px font-size * 1.5 line-height (24px) + 4px gap
+            const topPosition = index === 0 ? 0 : 28;
+            return (
+              <motion.div
+                key={track.id}
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1, top: topPosition }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 0.2, top: { duration: 0.3, ease: 'easeInOut' } }}
+                onClick={() => onTrackSelect(trackIndex)}
+                className="absolute right-0 text-[16px] font-normal leading-normal whitespace-nowrap max-md:text-[0.75em] cursor-pointer hover:!text-[var(--foreground)] transition-colors"
+                style={{
+                  color: index === 0 ? '#d0d0d0' : '#a0a0a0',
+                  fontWeight: 400,
+                  lineHeight: '1.5'
+                }}
+              >
+                {track.name} – {track.artists[0]}
+              </motion.div>
+            );
+          })}
+        </AnimatePresence>
       </div>
 
       {/* Album Cover + Vinyl - Centered in available space */}
@@ -239,7 +244,7 @@ export default function AlbumDisplay({
           </div>
 
           {/* Album Cover - In front - No clipping */}
-          <AnimatePresence mode="wait">
+          <AnimatePresence initial={false}>
             <motion.div
               key={currentTrack.id}
               initial={{ x: 500, opacity: 0 }}
@@ -290,40 +295,51 @@ export default function AlbumDisplay({
         </div>
 
         {/* Current Track Info with Equalizer */}
-        <motion.div
-          key={currentTrack.id}
-          initial={{ opacity: 0, x: 20 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ duration: 0.3 }}
-          className="flex items-center gap-[20px] justify-end"
-        >
-          <p className="text-[20px] font-medium leading-normal whitespace-nowrap" style={{ fontWeight: 500 }}>
-            {currentTrack.name} – {currentTrack.artists[0]}
-          </p>
+        <div className="flex items-center gap-[20px] justify-end">
+          <AnimatePresence mode="wait">
+            <motion.p
+              key={currentTrack.id}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.2 }}
+              className="text-[20px] font-medium leading-normal whitespace-nowrap"
+              style={{ fontWeight: 500 }}
+            >
+              {currentTrack.name} – {currentTrack.artists[0]}
+            </motion.p>
+          </AnimatePresence>
           <div onClick={onTogglePlayback} className="cursor-pointer">
             <Equalizer isPlaying={isPlaying} />
           </div>
-        </motion.div>
+        </div>
       </div>
 
-      {/* Upcoming Tracks - Fixed height container */}
-      <div className="flex flex-col gap-[8px] text-right min-h-[72px]">
-        <AnimatePresence mode="popLayout">
+      {/* Upcoming Tracks - Fixed height container with absolute positioning */}
+      <div
+        className="relative text-right"
+        style={{ height: '56px' }}
+      >
+        <AnimatePresence initial={false}>
           {upcomingTracks.slice(0, 2).map((track, index) => {
+            // index 0 = next track (darker), index 1 = further track (lighter)
             const colors = ['#a0a0a0', '#d0d0d0'];
             const trackIndex = allTracks.findIndex(t => t.id === track.id);
+            // 28px = 16px font-size * 1.5 line-height (24px) + 4px gap
+            const topPosition = index === 0 ? 0 : 28;
             return (
               <motion.div
                 key={track.id}
-                initial={{ opacity: 0, y: -10 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: 10 }}
-                transition={{ duration: 0.3 }}
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1, top: topPosition }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 0.2, top: { duration: 0.3, ease: 'easeInOut' } }}
                 onClick={() => onTrackSelect(trackIndex)}
-                className="text-[16px] font-normal leading-normal whitespace-nowrap max-md:text-[0.75em] cursor-pointer hover:!text-[var(--foreground)] transition-colors"
+                className="absolute right-0 text-[16px] font-normal leading-normal whitespace-nowrap max-md:text-[0.75em] cursor-pointer hover:!text-[var(--foreground)] transition-colors"
                 style={{
                   color: colors[index],
-                  fontWeight: 400
+                  fontWeight: 400,
+                  lineHeight: '1.5'
                 }}
               >
                 {track.name} – {track.artists[0]}

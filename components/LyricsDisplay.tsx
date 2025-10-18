@@ -32,11 +32,6 @@ export default function LyricsDisplay({ lyrics, currentPosition, offsetMs = 0 }:
       }
     }
 
-    // Debug log when active line changes
-    if (currentIndex !== activeLineIndex && currentIndex >= 0) {
-      console.log('Lyrics line changed to:', currentIndex, '- Text:', lyrics.lines[currentIndex]?.text);
-    }
-
     setActiveLineIndex(currentIndex);
   }, [lyrics, currentPosition, offsetMs, activeLineIndex]);
 

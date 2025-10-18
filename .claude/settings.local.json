@@ -21,7 +21,9 @@
       "Bash(npx tsc:*)",
       "Bash(git restore:*)",
       "Bash(git push:*)",
-      "Bash(pkill:*)"
+      "Bash(pkill:*)",
+      "Bash(rm:*)",
+      "Bash(kill:*)"
     ],
     "deny": [],
     "ask": []

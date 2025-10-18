@@ -61,6 +61,8 @@ export default function PlaylistView({ tracks, allLyrics, showLogoAndFooter = tr
 
   // Load saved state from localStorage and autoplay
   useEffect(() => {
+    if (typeof window === 'undefined') return;
+
     const savedState = localStorage.getItem(STORAGE_KEY);
     if (savedState) {
       try {
@@ -84,6 +86,8 @@ export default function PlaylistView({ tracks, allLyrics, showLogoAndFooter = tr
 
   // Save state to localStorage
   useEffect(() => {
+    if (typeof window === 'undefined') return;
+
     localStorage.setItem(STORAGE_KEY, JSON.stringify(playbackState));
   }, [playbackState]);
 

@@ -25,12 +25,12 @@ export default function NotFound() {
         const tracksData: Track[] = await tracksResponse.json();
         setTracks(tracksData);
 
-        // Load all lyrics files
+        // Load all lyrics files through API
         const lyricsMap = new Map<string, SyncedLyrics>();
 
         for (const track of tracksData) {
           try {
-            const response = await fetch(`/data/lyrics/${track.id}.json`);
+            const response = await fetch(`/api/media?id=${track.id}&type=lyrics`);
             if (response.ok) {
               const lyrics: SyncedLyrics = await response.json();
               lyricsMap.set(track.id, lyrics);
