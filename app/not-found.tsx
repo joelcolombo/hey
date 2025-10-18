@@ -2,6 +2,7 @@ import type { Metadata } from 'next'
 import NotFoundClient from './NotFoundClient'
 
 export const metadata: Metadata = {
+  metadataBase: new URL('https://joelcolombo.com'),
   title: 'Sorry you didn\'t find what you were looking for... here\'s a mixtape | Joel Colombo',
   description: 'A curated playlist featuring Look by Sébastien Tellier, Gold by Chet Faker, and more. Enjoy this mixtape while you\'re here.',
   openGraph: {
@@ -11,7 +12,7 @@ export const metadata: Metadata = {
     siteName: 'Joel Colombo',
     images: [
       {
-        url: '/images/og-joelcolombo-404.png',
+        url: 'https://joelcolombo.com/images/og-joelcolombo-404.png',
         width: 1200,
         height: 630,
         alt: 'Sorry you didn\'t find what you were looking for... here\'s a mixtape - Joel Colombo',
@@ -24,7 +25,8 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: 'Sorry you didn\'t find what you were looking for... here\'s a mixtape',
     description: 'Joel Colombo ✦ Creative Director - A curated playlist for your listening pleasure.',
-    images: ['/images/og-joelcolombo-404.png'],
+    images: ['https://joelcolombo.com/images/og-joelcolombo-404.png'],
+    creator: '@joelcolombo',
   },
 }
 
