@@ -17,8 +17,8 @@ export default function NotFound() {
     // Load playlist tracks and lyrics
     async function loadData() {
       try {
-        // Load playlist tracks
-        const tracksResponse = await fetch('/data/playlist-tracks.json');
+        // Load playlist tracks (local version)
+        const tracksResponse = await fetch('/data/playlist-tracks-local.json');
         if (!tracksResponse.ok) {
           throw new Error('Failed to load playlist tracks');
         }

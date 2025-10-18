@@ -1,0 +1,254 @@
+[
+  {
+    "id": "01-look-sebastien-tellier",
+    "name": "Look",
+    "artists": ["Sébastien Tellier"],
+    "album": {
+      "name": "Sexuality",
+      "images": [
+        {
+          "height": 640,
+          "url": "/data/covers/01 - Look - Sébastien Tellier.jpg",
+          "width": 640
+        }
+      ]
+    },
+    "duration_ms": 275000,
+    "audio_file": "/data/songs/01 - Look - Sébastien Tellier.mp3",
+    "cover_file": "/data/covers/01 - Look - Sébastien Tellier.jpg"
+  },
+  {
+    "id": "02-gold-chet-faker",
+    "name": "Gold",
+    "artists": ["Chet Faker"],
+    "album": {
+      "name": "Built on Glass",
+      "images": [
+        {
+          "height": 640,
+          "url": "/data/covers/02 - Gold - Chet Faker.jpg",
+          "width": 640
+        }
+      ]
+    },
+    "duration_ms": 286000,
+    "audio_file": "/data/songs/02 - Gold - Chet Faker.mp3",
+    "cover_file": "/data/covers/02 - Gold - Chet Faker.jpg"
+  },
+  {
+    "id": "03-never-matter-toro-y-moi",
+    "name": "Never Matter",
+    "artists": ["Toro y Moi"],
+    "album": {
+      "name": "Boo Boo",
+      "images": [
+        {
+          "height": 640,
+          "url": "/data/covers/03 - Never Matter - Toro y Moi.jpg",
+          "width": 640
+        }
+      ]
+    },
+    "duration_ms": 262000,
+    "audio_file": "/data/songs/03 - Never Matter - Toro y Moi.mp3",
+    "cover_file": "/data/covers/03 - Never Matter - Toro y Moi.jpg"
+  },
+  {
+    "id": "04-heavens-on-the-other-side-curtis-harding",
+    "name": "Heaven's On The Other Side",
+    "artists": ["Curtis Harding"],
+    "album": {
+      "name": "Face Your Fear",
+      "images": [
+        {
+          "height": 640,
+          "url": "/data/covers/04 - Heaven_s On The Other Side - Curtis Harding.jpg",
+          "width": 640
+        }
+      ]
+    },
+    "duration_ms": 241000,
+    "audio_file": "/data/songs/04 - Heaven_s On The Other Side - Curtis Harding.mp3",
+    "cover_file": "/data/covers/04 - Heaven_s On The Other Side - Curtis Harding.jpg"
+  },
+  {
+    "id": "05-do-yourself-a-faver-jamie-lidell",
+    "name": "Do Yourself A Faver",
+    "artists": ["Jamie Lidell"],
+    "album": {
+      "name": "Jim",
+      "images": [
+        {
+          "height": 640,
+          "url": "/data/covers/05 - Do Yourself A Faver - Jamie Lidell.jpg",
+          "width": 640
+        }
+      ]
+    },
+    "duration_ms": 250000,
+    "audio_file": "/data/songs/05 - Do Yourself A Faver - Jamie Lidell.mp3",
+    "cover_file": "/data/covers/05 - Do Yourself A Faver - Jamie Lidell.jpg"
+  },
+  {
+    "id": "06-monta-el-trueno-illya-kuryaki-valderramas",
+    "name": "Monta El Trueno",
+    "artists": ["Illya Kuryaki & The Valderramas"],
+    "album": {
+      "name": "Chances",
+      "images": [
+        {
+          "height": 640,
+          "url": "/data/covers/06 - Monta El Trueno - Illya Kuryaki _ The Valderramas.jpg",
+          "width": 640
+        }
+      ]
+    },
+    "duration_ms": 142000,
+    "audio_file": "/data/songs/06 - Monta El Trueno - Illya Kuryaki _ The Valderramas.mp3",
+    "cover_file": "/data/covers/06 - Monta El Trueno - Illya Kuryaki _ The Valderramas.jpg"
+  },
+  {
+    "id": "07-parix-when-saints-go-machine",
+    "name": "Parix",
+    "artists": ["When Saints Go Machine"],
+    "album": {
+      "name": "Konkylie",
+      "images": [
+        {
+          "height": 640,
+          "url": "/data/covers/07 - Parix - When Saints Go Machine.jpeg",
+          "width": 640
+        }
+      ]
+    },
+    "duration_ms": 213000,
+    "audio_file": "/data/songs/07 - Parix - When Saints Go Machine.mp3",
+    "cover_file": "/data/covers/07 - Parix - When Saints Go Machine.jpeg"
+  },
+  {
+    "id": "08-lost-frank-ocean",
+    "name": "Lost",
+    "artists": ["Frank Ocean"],
+    "album": {
+      "name": "channel ORANGE",
+      "images": [
+        {
+          "height": 640,
+          "url": "/data/covers/08 - Lost - Frank Ocean.jpeg",
+          "width": 640
+        }
+      ]
+    },
+    "duration_ms": 234000,
+    "audio_file": "/data/songs/08 - Lost - Frank Ocean.mp3",
+    "cover_file": "/data/covers/08 - Lost - Frank Ocean.jpeg"
+  },
+  {
+    "id": "09-ocean-drive-duke-dumont",
+    "name": "Ocean Drive",
+    "artists": ["Duke Dumont"],
+    "album": {
+      "name": "Ocean Drive",
+      "images": [
+        {
+          "height": 640,
+          "url": "/data/covers/09 - Ocean Drive - Duke Dumont.jpeg",
+          "width": 640
+        }
+      ]
+    },
+    "duration_ms": 211000,
+    "audio_file": "/data/songs/09 - Ocean Drive - Duke Dumont.mp3",
+    "cover_file": "/data/covers/09 - Ocean Drive - Duke Dumont.jpeg"
+  },
+  {
+    "id": "10-gone-charli-xcx-christine-queens",
+    "name": "Gone",
+    "artists": ["Charli xcx", "Christine and the Queens"],
+    "album": {
+      "name": "Charli",
+      "images": [
+        {
+          "height": 640,
+          "url": "/data/covers/10 - Gone - Charli xcx_ Christine and the Queens.jpeg",
+          "width": 640
+        }
+      ]
+    },
+    "duration_ms": 246000,
+    "audio_file": "/data/songs/10 - Gone - Charli xcx_ Christine and the Queens.mp3",
+    "cover_file": "/data/covers/10 - Gone - Charli xcx_ Christine and the Queens.jpeg"
+  },
+  {
+    "id": "11-disco-tits-tove-lo",
+    "name": "Disco Tits",
+    "artists": ["Tove Lo"],
+    "album": {
+      "name": "Blue Lips",
+      "images": [
+        {
+          "height": 640,
+          "url": "/data/covers/11 - Disco Tits - Tove Lo.jpeg",
+          "width": 640
+        }
+      ]
+    },
+    "duration_ms": 176000,
+    "audio_file": "/data/songs/11 - Disco Tits - Tove Lo.mp3",
+    "cover_file": "/data/covers/11 - Disco Tits - Tove Lo.jpeg"
+  },
+  {
+    "id": "12-desire-bob-moses-zhu",
+    "name": "Desire",
+    "artists": ["Bob Moses", "ZHU"],
+    "album": {
+      "name": "Desire",
+      "images": [
+        {
+          "height": 640,
+          "url": "/data/covers/12 - Desire - Bob Moses_ ZHU.jpeg",
+          "width": 640
+        }
+      ]
+    },
+    "duration_ms": 140000,
+    "audio_file": "/data/songs/12 - Desire - Bob Moses_ ZHU.mp3",
+    "cover_file": "/data/covers/12 - Desire - Bob Moses_ ZHU.jpeg"
+  },
+  {
+    "id": "13-tracey-in-my-room-everything-but-the-girl",
+    "name": "Tracey In My Room - Lazy Dog Bootleg Vocal Mix",
+    "artists": ["Everything But The Girl", "Soul Vision"],
+    "album": {
+      "name": "Tracey In My Room",
+      "images": [
+        {
+          "height": 640,
+          "url": "/data/covers/13 - Tracey In My Room - Lazy Dog Bootleg Vocal Mix - Everything But The Girl_ Soul Vision.jpeg",
+          "width": 640
+        }
+      ]
+    },
+    "duration_ms": 201000,
+    "audio_file": "/data/songs/13 - Tracey In My Room - Lazy Dog Bootleg Vocal Mix - Everything But The Girl_ Soul Vision.mp3",
+    "cover_file": "/data/covers/13 - Tracey In My Room - Lazy Dog Bootleg Vocal Mix - Everything But The Girl_ Soul Vision.jpeg"
+  },
+  {
+    "id": "14-how-much-you-want-her-isaac-delusion",
+    "name": "How Much (You Want Her) 2017",
+    "artists": ["Isaac Delusion"],
+    "album": {
+      "name": "Rust & Gold",
+      "images": [
+        {
+          "height": 640,
+          "url": "/data/covers/14 - How Much _You Want Her_ 2017 - Isaac Delusion.jpeg",
+          "width": 640
+        }
+      ]
+    },
+    "duration_ms": 193000,
+    "audio_file": "/data/songs/14 - How Much _You Want Her_ 2017 - Isaac Delusion.mp3",
+    "cover_file": "/data/covers/14 - How Much _You Want Her_ 2017 - Isaac Delusion.jpeg"
+  }
+]

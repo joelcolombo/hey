@@ -1,12 +1,12 @@
 "use client";
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import Image from 'next/image';
 import Footer from './Footer';
 import LyricsDisplay from './LyricsDisplay';
 import AlbumDisplay from './AlbumDisplay';
 import MobilePlayerView from './MobilePlayerView';
-import YouTubePlayer from './YouTubePlayer';
+import { useAudioPlayer } from '@/hooks/useAudioPlayer';
 import type { Track, SyncedLyrics, PlaybackState } from '@/types/playlist';
 import { motion } from 'framer-motion';
 
@@ -19,17 +19,47 @@ interface PlaylistViewProps {
 const STORAGE_KEY = 'playlist_playback_state';
 
 export default function PlaylistView({ tracks, allLyrics, showLogoAndFooter = true }: PlaylistViewProps) {
+  console.log('🎬 PlaylistView rendering, tracks:', tracks.length, 'current audio file:', tracks[0]?.audio_file);
+
   const [playbackState, setPlaybackState] = useState<PlaybackState>({
     currentTrackIndex: 0,
     position: 0,
     isPlaying: false,
     startTime: Date.now(),
   });
-  const [isReady, setIsReady] = useState(false);
   const [hasUserInteracted, setHasUserInteracted] = useState(false);
 
+  const currentTrack = tracks[playbackState.currentTrackIndex];
+  console.log('📀 Current track:', currentTrack?.name, 'Audio URL:', currentTrack?.audio_file);
 
-  // Load saved state from localStorage
+  // Use local audio player
+  const { isReady, currentTime, play, pause, audioRef } = useAudioPlayer({
+    audioUrl: currentTrack?.audio_file || '',
+    onReady: () => {
+      // Auto-play if state says we should be playing
+      if (playbackState.isPlaying) {
+        play();
+      }
+    },
+    onStateChange: (state) => {
+      if (state === 'ended') {
+        // Auto-play next track
+        const nextIndex = (playbackState.currentTrackIndex + 1) % tracks.length;
+        setPlaybackState({
+          currentTrackIndex: nextIndex,
+          position: 0,
+          isPlaying: true,
+          startTime: Date.now(),
+        });
+      }
+    },
+    onError: (error) => {
+      console.error('Audio playback error:', error);
+    },
+  });
+
+
+  // Load saved state from localStorage and autoplay
   useEffect(() => {
     const savedState = localStorage.getItem(STORAGE_KEY);
     if (savedState) {
@@ -38,11 +68,17 @@ export default function PlaylistView({ tracks, allLyrics, showLogoAndFooter = tr
         setPlaybackState({
           ...parsed,
           startTime: Date.now(),
-          isPlaying: false,
+          isPlaying: true, // Autoplay on load
         });
       } catch (error) {
         console.error('Failed to load playback state:', error);
       }
+    } else {
+      // No saved state, start playing first track
+      setPlaybackState(prev => ({
+        ...prev,
+        isPlaying: true,
+      }));
     }
   }, []);
 
@@ -50,6 +86,25 @@ export default function PlaylistView({ tracks, allLyrics, showLogoAndFooter = tr
   useEffect(() => {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(playbackState));
   }, [playbackState]);
+
+  // Sync position from audio player
+  useEffect(() => {
+    if (currentTime > 0 && Math.floor(currentTime / 2000) !== Math.floor((currentTime - 100) / 2000)) {
+      console.log('PlaylistView: Syncing position:', currentTime.toFixed(0), 'ms');
+    }
+    setPlaybackState(prev => ({ ...prev, position: currentTime }));
+  }, [currentTime]);
+
+  // Control audio playback based on state
+  useEffect(() => {
+    if (!audioRef.current) return;
+
+    if (playbackState.isPlaying) {
+      play();
+    } else {
+      pause();
+    }
+  }, [playbackState.isPlaying, play, pause, audioRef]);
 
   // Preload all album images for instant display
   useEffect(() => {
@@ -63,12 +118,6 @@ export default function PlaylistView({ tracks, allLyrics, showLogoAndFooter = tr
     });
   }, [tracks]);
 
-  const currentTrack = tracks[playbackState.currentTrackIndex];
-  const currentVideoUrl = currentTrack?.youtube_id
-    ? `https://www.youtube.com/watch?v=${currentTrack.youtube_id}`
-    : '';
-
-
   const currentLyrics = allLyrics.get(currentTrack?.id) || null;
 
   // Calculate previous and upcoming tracks with looping
@@ -80,39 +129,6 @@ export default function PlaylistView({ tracks, allLyrics, showLogoAndFooter = tr
   const upcomingTracks = upcomingTracksAfterCurrent.length < 2
     ? [...upcomingTracksAfterCurrent, ...tracks.slice(0, 2 - upcomingTracksAfterCurrent.length)]
     : upcomingTracksAfterCurrent;
-
-  const handleReady = () => {
-    setIsReady(true);
-  };
-
-  const handlePlay = () => {
-    setPlaybackState(prev => ({ ...prev, isPlaying: true }));
-  };
-
-  const handlePause = () => {
-    setPlaybackState(prev => ({ ...prev, isPlaying: false }));
-  };
-
-  const handleError = (error: any) => {
-    console.error('❌ ReactPlayer error:', error);
-  };
-
-  const handleProgress = (state: { playedSeconds: number }) => {
-    setPlaybackState(prev => ({
-      ...prev,
-      position: state.playedSeconds * 1000,
-    }));
-  };
-
-  const handleEnded = () => {
-    const nextIndex = (playbackState.currentTrackIndex + 1) % tracks.length;
-    setPlaybackState({
-      currentTrackIndex: nextIndex,
-      position: 0,
-      isPlaying: true,
-      startTime: Date.now(),
-    });
-  };
 
   const handleTrackSelect = (trackIndex: number) => {
     setPlaybackState({
@@ -141,29 +157,6 @@ export default function PlaylistView({ tracks, allLyrics, showLogoAndFooter = tr
       transition={{ duration: 0.5 }}
       className="fixed inset-0"
     >
-      {/* YouTube Player - Hidden off-screen */}
-      <div style={{ position: 'absolute', top: -9999, left: -9999, width: 1, height: 1 }}>
-        <YouTubePlayer
-          videoId={currentTrack?.youtube_id || ''}
-          isPlaying={playbackState.isPlaying}
-          onReady={() => {
-            setIsReady(true);
-          }}
-          onTimeUpdate={(time) => {
-            setPlaybackState(prev => ({ ...prev, position: time }));
-          }}
-          onEnded={() => {
-            const nextIndex = (playbackState.currentTrackIndex + 1) % tracks.length;
-            setPlaybackState({
-              currentTrackIndex: nextIndex,
-              position: 0,
-              isPlaying: true,
-              startTime: Date.now(),
-            });
-          }}
-        />
-      </div>
-
 
       {/* Logo */}
       {showLogoAndFooter && (

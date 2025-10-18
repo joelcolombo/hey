@@ -20,7 +20,8 @@
       "Bash(node:*)",
       "Bash(npx tsc:*)",
       "Bash(git restore:*)",
-      "Bash(git push:*)"
+      "Bash(git push:*)",
+      "Bash(pkill:*)"
     ],
     "deny": [],
     "ask": []

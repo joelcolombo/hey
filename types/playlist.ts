@@ -11,6 +11,8 @@ export interface Track {
   lyrics_offset_ms?: number; // Offset to adjust lyrics timing (in milliseconds)
   uri?: string;
   preview_url?: string | null;
+  audio_file?: string; // Path to local MP3 file
+  cover_file?: string; // Path to local cover image
 }
 
 export interface LyricLine {
