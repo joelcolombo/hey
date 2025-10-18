@@ -17,20 +17,33 @@ export default function NotFound() {
     // Load playlist tracks and lyrics
     async function loadData() {
       try {
-        // Load playlist tracks (local version)
-        const tracksResponse = await fetch('/data/playlist-tracks-local.json');
+        // Determine which playlist to load based on environment
+        const isLocalHost = window.location.hostname === 'localhost' ||
+                           window.location.hostname === '127.0.0.1';
+
+        const playlistUrl = isLocalHost
+          ? '/data/playlist-tracks-local.json'
+          : '/data/playlist-tracks-production.json';
+
+        // Load playlist tracks
+        const tracksResponse = await fetch(playlistUrl);
         if (!tracksResponse.ok) {
           throw new Error('Failed to load playlist tracks');
         }
         const tracksData: Track[] = await tracksResponse.json();
         setTracks(tracksData);
 
-        // Load all lyrics files through API
+        // Load all lyrics files
         const lyricsMap = new Map<string, SyncedLyrics>();
 
         for (const track of tracksData) {
           try {
-            const response = await fetch(`/api/media?id=${track.id}&type=lyrics`);
+            // For production, fetch directly from GitHub
+            const lyricsUrl = isLocalHost
+              ? `/api/media?id=${track.id}&type=lyrics`
+              : (track as any).lyrics_file;
+
+            const response = await fetch(lyricsUrl);
             if (response.ok) {
               const lyrics: SyncedLyrics = await response.json();
               lyricsMap.set(track.id, lyrics);

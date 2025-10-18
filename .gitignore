@@ -34,3 +34,5 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+# Media files (MP3s only - covers and lyrics are tracked)
+public/data/songs/
