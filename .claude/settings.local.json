@@ -20,7 +20,12 @@
       "Bash(node:*)",
       "Bash(npx tsc:*)",
       "Bash(git restore:*)",
-      "Bash(git push:*)"
+      "Bash(git push:*)",
+      "Bash(pkill:*)",
+      "Bash(rm:*)",
+      "Bash(kill:*)",
+      "Read(//Users/joelcolombo/Downloads/**)",
+      "Bash(cat:*)"
     ],
     "deny": [],
     "ask": []

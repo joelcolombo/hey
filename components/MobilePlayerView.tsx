@@ -45,7 +45,6 @@ export default function MobilePlayerView({
   useEffect(() => {
     const checkDarkMode = () => {
       const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
-      console.log('Mobile: Dark mode detected:', isDark);
       setIsDarkMode(isDark);
     };
 
@@ -198,10 +197,11 @@ export default function MobilePlayerView({
       <div className="fixed bottom-[100px] left-0 right-0 z-20 px-[16px]">
         {/* Album Cover + Vinyl Container - Aligned to right margin */}
         <motion.div
-          className="relative w-[145px] h-[116px] mb-[20px] ml-auto"
+          className="relative w-[145px] h-[116px] mb-[20px] ml-auto cursor-pointer"
           drag="x"
           dragConstraints={{ left: 0, right: 0 }}
           dragElastic={0.7}
+          onClick={onTogglePlayback}
           onDragEnd={(_event, info) => {
             const swipeThreshold = 50; // Minimum distance in pixels to trigger track change
             const velocity = info.velocity.x;
@@ -248,21 +248,52 @@ export default function MobilePlayerView({
                         : 'linear-gradient(to bottom right, #111827, #000000)'
                     }}
                   >
-                    {/* Vinyl grooves effect */}
-                    <div className="absolute inset-0 opacity-30">
-                      {Array.from({ length: 40 }).map((_, i) => (
-                        <div
-                          key={i}
-                          className="absolute rounded-full border"
-                          style={{
-                            left: `${i * 2}%`,
-                            top: `${i * 2}%`,
-                            right: `${i * 2}%`,
-                            bottom: `${i * 2}%`,
-                            borderColor: isDarkMode ? '#d1d5db' : '#374151'
-                          }}
-                        />
-                      ))}
+                    {/* Vinyl grooves effect - unique pattern for each track */}
+                    <div className="absolute inset-0">
+                      {(() => {
+                        // Generate unique grooves based on track characteristics
+                        const trackIndex = allTracks.findIndex(t => t.id === currentTrack.id);
+                        const nameHash = currentTrack.name.length + currentTrack.artists[0].length;
+
+                        // Base pattern scaled for mobile (smaller vinyl)
+                        const basePositions = [4, 8, 12, 17, 23, 30, 38, 47, 57, 68];
+
+                        // Modify positions based on track
+                        let groovePositions = basePositions.map((pos, i) => {
+                          const indexVariation = (trackIndex % 3) * 1.5;
+                          const nameVariation = (nameHash % 5) - 2;
+                          const posVariation = Math.sin(trackIndex + i) * 2;
+                          return Math.max(3, Math.min(72, pos + indexVariation + nameVariation + posVariation));
+                        });
+
+                        // Sort and enforce minimum separation
+                        groovePositions.sort((a, b) => a - b);
+                        const MINIMUM_SEPARATION = 3.5;
+                        const finalGrooves = [];
+                        let lastPosition = -MINIMUM_SEPARATION;
+
+                        for (const position of groovePositions) {
+                          if (position - lastPosition >= MINIMUM_SEPARATION) {
+                            finalGrooves.push(position);
+                            lastPosition = position;
+                          }
+                        }
+
+                        return finalGrooves.map((position, i) => (
+                          <div
+                            key={`${currentTrack.id}-groove-${i}`}
+                            className="absolute rounded-full border"
+                            style={{
+                              left: `${position}%`,
+                              top: `${position}%`,
+                              right: `${position}%`,
+                              bottom: `${position}%`,
+                              borderColor: isDarkMode ? '#d1d5db' : '#4b5563',
+                              opacity: 0.25 + (Math.sin(i * 0.5 + trackIndex) * 0.1)
+                            }}
+                          />
+                        ));
+                      })()}
                     </div>
                     {/* Center label */}
                     <div
@@ -294,8 +325,7 @@ export default function MobilePlayerView({
                 opacity: 0,
                 transition: { duration: 0.5, ease: "backOut", delay: ALBUM_EXIT_DELAY / 1000 }
               }}
-              className="absolute left-[39.5px] top-[5.3px] w-[105.5px] h-[105.5px] z-10 cursor-pointer shadow-2xl"
-              onClick={onTogglePlayback}
+              className="absolute left-[39.5px] top-[5.3px] w-[105.5px] h-[105.5px] z-10 shadow-2xl pointer-events-none"
             >
               <Image
                 src={albumImage}
