@@ -23,7 +23,9 @@
       "Bash(git push:*)",
       "Bash(pkill:*)",
       "Bash(rm:*)",
-      "Bash(kill:*)"
+      "Bash(kill:*)",
+      "Read(//Users/joelcolombo/Downloads/**)",
+      "Bash(cat:*)"
     ],
     "deny": [],
     "ask": []

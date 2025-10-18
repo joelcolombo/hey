@@ -45,7 +45,6 @@ export default function AlbumDisplay({
   useEffect(() => {
     const checkDarkMode = () => {
       const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
-      console.log('Desktop: Dark mode detected:', isDark);
       setIsDarkMode(isDark);
     };
 
@@ -212,21 +211,65 @@ export default function AlbumDisplay({
                         : 'linear-gradient(to bottom right, #111827, #000000)'
                     }}
                   >
-                    {/* Vinyl grooves effect */}
-                    <div className="absolute inset-0 opacity-30">
-                      {Array.from({ length: 40 }).map((_, i) => (
-                        <div
-                          key={i}
-                          className="absolute rounded-full border"
-                          style={{
-                            left: `${i * 2}%`,
-                            top: `${i * 2}%`,
-                            right: `${i * 2}%`,
-                            bottom: `${i * 2}%`,
-                            borderColor: isDarkMode ? '#d1d5db' : '#374151'
-                          }}
-                        />
-                      ))}
+                    {/* Vinyl grooves effect - unique pattern for each track */}
+                    <div className="absolute inset-0">
+                      {(() => {
+                        // Generate unique grooves based on track characteristics
+                        const trackIndex = allTracks.findIndex(t => t.id === currentTrack.id);
+
+                        // Create a simple hash from track name for additional variation
+                        const nameHash = currentTrack.name.length + currentTrack.artists[0].length;
+
+                        // Base pattern that gets modified
+                        const basePositions = [3, 6, 9, 12, 16, 21, 27, 34, 42, 51, 61, 72];
+
+                        // Modify positions based on track index and name
+                        let groovePositions = basePositions.map((pos, i) => {
+                          // Add variation based on track position in playlist
+                          const indexVariation = (trackIndex % 3) * 2;
+                          // Add variation based on name length
+                          const nameVariation = (nameHash % 5) - 2;
+                          // Add some pseudo-randomness based on position
+                          const posVariation = Math.sin(trackIndex + i) * 3;
+
+                          return Math.max(2, Math.min(75, pos + indexVariation + nameVariation + posVariation));
+                        });
+
+                        // Sort positions to ensure they're in order
+                        groovePositions.sort((a, b) => a - b);
+
+                        // Enforce minimum separation between grooves (at least 2.5% apart)
+                        const MINIMUM_SEPARATION = 2.5;
+                        const finalGrooves = [];
+                        let lastPosition = -MINIMUM_SEPARATION;
+
+                        for (const position of groovePositions) {
+                          if (position - lastPosition >= MINIMUM_SEPARATION) {
+                            finalGrooves.push(position);
+                            lastPosition = position;
+                          }
+                        }
+
+                        // Adjust number of grooves based on track duration
+                        const durationFactor = currentTrack.duration_ms / 300000; // normalized around 5 min
+                        const targetGrooves = Math.round(12 * durationFactor);
+                        const limitedGrooves = finalGrooves.slice(0, Math.max(8, Math.min(16, targetGrooves)));
+
+                        return limitedGrooves.map((position, i) => (
+                          <div
+                            key={`${currentTrack.id}-${i}`}
+                            className="absolute rounded-full border"
+                            style={{
+                              left: `${position}%`,
+                              top: `${position}%`,
+                              right: `${position}%`,
+                              bottom: `${position}%`,
+                              borderColor: isDarkMode ? '#d1d5db' : '#4b5563',
+                              opacity: 0.25 + (Math.sin(i * 0.5 + trackIndex) * 0.1)
+                            }}
+                          />
+                        ));
+                      })()}
                     </div>
                     {/* Center label */}
                     <div

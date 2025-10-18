@@ -7,6 +7,7 @@ interface UseAudioPlayerProps {
   onReady?: () => void;
   onStateChange?: (state: 'playing' | 'paused' | 'ended' | 'loading') => void;
   onError?: (error: any) => void;
+  onTimeUpdate?: (timeMs: number) => void;
 }
 
 export function useAudioPlayer({
@@ -14,6 +15,7 @@ export function useAudioPlayer({
   onReady,
   onStateChange,
   onError,
+  onTimeUpdate,
 }: UseAudioPlayerProps) {
   const audioRef = useRef<HTMLAudioElement | null>(null);
   const [isReady, setIsReady] = useState(false);
@@ -26,18 +28,18 @@ export function useAudioPlayer({
   const onReadyRef = useRef(onReady);
   const onStateChangeRef = useRef(onStateChange);
   const onErrorRef = useRef(onError);
+  const onTimeUpdateRef = useRef(onTimeUpdate);
 
   useEffect(() => {
     onReadyRef.current = onReady;
     onStateChangeRef.current = onStateChange;
     onErrorRef.current = onError;
+    onTimeUpdateRef.current = onTimeUpdate;
   });
 
-  // Initialize audio element
+  // Create audio element once
   useEffect(() => {
-    console.log('🔊 useAudioPlayer hook initializing...');
     if (!audioRef.current) {
-      console.log('🎵 Creating new Audio element');
       audioRef.current = new Audio();
 
       // Configure for optimal streaming
@@ -46,90 +48,94 @@ export function useAudioPlayer({
       // Mobile-specific attributes for iOS compatibility
       audioRef.current.setAttribute('playsinline', 'true'); // Prevent fullscreen on iOS
       audioRef.current.setAttribute('webkit-playsinline', 'true'); // Older iOS versions
-
-      // Set up event listeners
-      const audio = audioRef.current;
-
-      const handleCanPlay = () => {
-        console.log('✅ Audio CAN PLAY - Ready to play');
-        setIsReady(true);
-        setIsLoading(false);
-        onReadyRef.current?.();
-      };
-
-      const handleLoadStart = () => {
-        setIsLoading(true);
-        onStateChangeRef.current?.('loading');
-      };
-
-      const handlePlay = () => {
-        console.log('🎵 Audio PLAY event fired');
-        setIsPlaying(true);
-        onStateChangeRef.current?.('playing');
-      };
-
-      const handlePause = () => {
-        setIsPlaying(false);
-        onStateChangeRef.current?.('paused');
-      };
-
-      const handleEnded = () => {
-        setIsPlaying(false);
-        onStateChangeRef.current?.('ended');
-      };
-
-      const handleTimeUpdate = () => {
-        const timeMs = audio.currentTime * 1000;
-        setCurrentTime(timeMs); // Convert to milliseconds
-
-        // Debug log every 2 seconds
-        if (Math.floor(timeMs / 2000) !== Math.floor((timeMs - 100) / 2000)) {
-          console.log('Audio time update:', timeMs.toFixed(0), 'ms');
-        }
-      };
-
-      const handleDurationChange = () => {
-        setDuration(audio.duration * 1000); // Convert to milliseconds
-      };
-
-      const handleError = (e: ErrorEvent) => {
-        console.error('Audio playback error:', e);
-        setIsLoading(false);
-        onErrorRef.current?.(e);
-      };
-
-      audio.addEventListener('canplay', handleCanPlay);
-      audio.addEventListener('loadstart', handleLoadStart);
-      audio.addEventListener('play', handlePlay);
-      audio.addEventListener('pause', handlePause);
-      audio.addEventListener('ended', handleEnded);
-      audio.addEventListener('timeupdate', handleTimeUpdate);
-      audio.addEventListener('durationchange', handleDurationChange);
-      audio.addEventListener('error', handleError as any);
-
-      return () => {
-        audio.removeEventListener('canplay', handleCanPlay);
-        audio.removeEventListener('loadstart', handleLoadStart);
-        audio.removeEventListener('play', handlePlay);
-        audio.removeEventListener('pause', handlePause);
-        audio.removeEventListener('ended', handleEnded);
-        audio.removeEventListener('timeupdate', handleTimeUpdate);
-        audio.removeEventListener('durationchange', handleDurationChange);
-        audio.removeEventListener('error', handleError as any);
-        audio.pause();
-        audio.src = '';
-      };
     }
+
+    return () => {
+      if (audioRef.current) {
+        audioRef.current.pause();
+        audioRef.current.src = '';
+      }
+    };
   }, []);
+
+  // Set up event listeners - recreate when audio element changes
+  useEffect(() => {
+    const audio = audioRef.current;
+    if (!audio) return;
+
+
+    const handleCanPlay = () => {
+      setIsReady(true);
+      setIsLoading(false);
+      onReadyRef.current?.();
+    };
+
+    const handleLoadStart = () => {
+      setIsLoading(true);
+      onStateChangeRef.current?.('loading');
+    };
+
+    const handlePlay = () => {
+      setIsPlaying(true);
+      onStateChangeRef.current?.('playing');
+    };
+
+    const handlePause = () => {
+      setIsPlaying(false);
+      onStateChangeRef.current?.('paused');
+    };
+
+    const handleEnded = () => {
+      setIsPlaying(false);
+      onStateChangeRef.current?.('ended');
+    };
+
+    const handleTimeUpdate = () => {
+      const timeMs = audio.currentTime * 1000;
+      // Only log every second to reduce noise
+      if (Math.floor(timeMs / 1000) !== Math.floor((timeMs - 100) / 1000)) {
+      }
+      setCurrentTime(timeMs); // Convert to milliseconds
+      onTimeUpdateRef.current?.(timeMs); // Call the callback directly
+    };
+
+    const handleDurationChange = () => {
+      setDuration(audio.duration * 1000); // Convert to milliseconds
+    };
+
+    const handleError = (e: ErrorEvent) => {
+      console.error('Audio playback error:', e);
+      setIsLoading(false);
+      onErrorRef.current?.(e);
+    };
+
+    audio.addEventListener('canplay', handleCanPlay);
+    audio.addEventListener('loadstart', handleLoadStart);
+    audio.addEventListener('play', handlePlay);
+    audio.addEventListener('pause', handlePause);
+    audio.addEventListener('ended', handleEnded);
+    audio.addEventListener('timeupdate', handleTimeUpdate);
+    audio.addEventListener('durationchange', handleDurationChange);
+    audio.addEventListener('error', handleError as any);
+
+    return () => {
+      audio.removeEventListener('canplay', handleCanPlay);
+      audio.removeEventListener('loadstart', handleLoadStart);
+      audio.removeEventListener('play', handlePlay);
+      audio.removeEventListener('pause', handlePause);
+      audio.removeEventListener('ended', handleEnded);
+      audio.removeEventListener('timeupdate', handleTimeUpdate);
+      audio.removeEventListener('durationchange', handleDurationChange);
+      audio.removeEventListener('error', handleError as any);
+    };
+  }, [audioUrl]); // Re-attach listeners when URL changes
 
   // Update audio source when URL changes
   useEffect(() => {
-    console.log('📂 Audio URL changed to:', audioUrl);
     if (audioRef.current && audioUrl) {
       const audio = audioRef.current;
       const wasPlaying = !audio.paused;
 
-      console.log('⏳ Loading audio from:', audioUrl);
       setIsReady(false);
       setIsLoading(true);
 
@@ -154,7 +160,6 @@ export function useAudioPlayer({
         playPromise.catch(error => {
           // Autoplay was prevented (common on mobile)
           if (error.name === 'NotAllowedError') {
-            console.log('Autoplay prevented - user interaction required');
             // Don't call onError for autoplay prevention, it's expected behavior
           } else {
             console.error('Play failed:', error);

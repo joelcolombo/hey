@@ -18,7 +18,7 @@ export default function SplashScreen({ onComplete }: SplashScreenProps) {
       {/* Centered Message */}
       <div className="pl-[16px] pr-[20px] max-md:pl-[16px] max-md:pr-[16px] w-[1093.78px] max-w-full">
         <h1 className="text-left font-normal text-[80px] leading-[1.2em] max-md:text-[2.5em] max-md:leading-[1.2em]" style={{ fontWeight: 400 }}>
-          The thing you were searching for got lost… but the music found you instead.
+          Sorry you didn't find what you were looking for... here's a mixtape for you.
         </h1>
       </div>
     </motion.div>

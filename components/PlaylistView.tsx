@@ -19,7 +19,6 @@ interface PlaylistViewProps {
 const STORAGE_KEY = 'playlist_playback_state';
 
 export default function PlaylistView({ tracks, allLyrics, showLogoAndFooter = true }: PlaylistViewProps) {
-  console.log('🎬 PlaylistView rendering, tracks:', tracks.length, 'current audio file:', tracks[0]?.audio_file);
 
   const [playbackState, setPlaybackState] = useState<PlaybackState>({
     currentTrackIndex: 0,
@@ -30,7 +29,6 @@ export default function PlaylistView({ tracks, allLyrics, showLogoAndFooter = tr
   const [hasUserInteracted, setHasUserInteracted] = useState(false);
 
   const currentTrack = tracks[playbackState.currentTrackIndex];
-  console.log('📀 Current track:', currentTrack?.name, 'Audio URL:', currentTrack?.audio_file);
 
   // Use local audio player
   const { isReady, currentTime, play, pause, audioRef } = useAudioPlayer({
@@ -52,6 +50,9 @@ export default function PlaylistView({ tracks, allLyrics, showLogoAndFooter = tr
           startTime: Date.now(),
         });
       }
+    },
+    onTimeUpdate: () => {
+      // Position update handled below in the currentTime effect
     },
     onError: (error) => {
       console.error('Audio playback error:', error);
@@ -93,10 +94,9 @@ export default function PlaylistView({ tracks, allLyrics, showLogoAndFooter = tr
 
   // Sync position from audio player
   useEffect(() => {
-    if (currentTime > 0 && Math.floor(currentTime / 2000) !== Math.floor((currentTime - 100) / 2000)) {
-      console.log('PlaylistView: Syncing position:', currentTime.toFixed(0), 'ms');
-    }
-    setPlaybackState(prev => ({ ...prev, position: currentTime }));
+    setPlaybackState(prev => {
+      return { ...prev, position: currentTime };
+    });
   }, [currentTime]);
 
   // Control audio playback based on state
@@ -153,6 +153,8 @@ export default function PlaylistView({ tracks, allLyrics, showLogoAndFooter = tr
       isPlaying: !prev.isPlaying,
     }));
   };
+
+  // Debug logging
 
   return (
     <motion.div

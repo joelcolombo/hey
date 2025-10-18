@@ -12,6 +12,7 @@ interface LyricsDisplayProps {
 export default function LyricsDisplay({ lyrics, currentPosition, offsetMs = 0 }: LyricsDisplayProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const [activeLineIndex, setActiveLineIndex] = useState<number>(-1);
+  const prevActiveLineRef = useRef<number>(-1);
 
   useEffect(() => {
     if (!lyrics || lyrics.lines.length === 0) {
@@ -32,8 +33,13 @@ export default function LyricsDisplay({ lyrics, currentPosition, offsetMs = 0 }:
       }
     }
 
+    // Track when active line changes
+    if (currentIndex !== prevActiveLineRef.current) {
+      prevActiveLineRef.current = currentIndex;
+    }
+
     setActiveLineIndex(currentIndex);
-  }, [lyrics, currentPosition, offsetMs, activeLineIndex]);
+  }, [lyrics, currentPosition, offsetMs]);
 
   useEffect(() => {
     // Auto-scroll to keep active line centered (or higher for first line)
@@ -87,21 +93,21 @@ export default function LyricsDisplay({ lyrics, currentPosition, offsetMs = 0 }:
 
         {lyrics.lines.map((line, index) => (
           <p
-            key={index}
-            data-line-index={index}
-            className={`
-              text-left font-normal text-[80px] leading-[1.2em] mb-[40px] transition-colors duration-300
-              max-md:text-[32px] max-md:leading-[1.3em] max-md:mb-[16px]
-              ${
-                index === activeLineIndex
-                  ? 'text-[var(--foreground)]'
-                  : 'text-[#a0a0a0]'
-              }
-            `}
-            style={{ fontWeight: 400 }}
-          >
-            {line.text}
-          </p>
+              key={index}
+              data-line-index={index}
+              className={`
+                text-left font-normal text-[80px] leading-[1.2em] mb-[40px] transition-colors duration-300
+                max-md:text-[32px] max-md:leading-[1.3em] max-md:mb-[16px]
+                ${
+                  index === activeLineIndex
+                    ? 'text-[var(--foreground)]'
+                    : 'text-[#a0a0a0]'
+                }
+              `}
+              style={{ fontWeight: 400 }}
+            >
+              {line.text}
+            </p>
         ))}
 
         {/* Bottom spacer to allow last line to center */}

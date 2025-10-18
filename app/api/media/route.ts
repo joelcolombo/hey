@@ -43,6 +43,10 @@ export async function GET(request: NextRequest) {
 
   const filePath = path.join(process.cwd(), 'public', 'data', folder, filename);
 
+  // Debug logging for lyrics
+  if (type === 'lyrics') {
+  }
+
   try {
     // Check if file exists
     if (!fs.existsSync(filePath)) {
@@ -51,10 +55,20 @@ export async function GET(request: NextRequest) {
 
     const fileBuffer = fs.readFileSync(filePath);
 
+    // Debug log first few lines of lyrics
+    if (type === 'lyrics') {
+      const content = JSON.parse(fileBuffer.toString());
+      content.lines?.slice(0, 3).forEach((line: any, i: number) => {
+      });
+    }
+
     return new NextResponse(fileBuffer, {
       headers: {
         'Content-Type': contentType,
-        'Cache-Control': 'public, max-age=31536000, immutable',
+        // Reduce cache for lyrics to allow updates
+        'Cache-Control': type === 'lyrics'
+          ? 'no-cache, no-store, must-revalidate'
+          : 'public, max-age=31536000, immutable',
       },
     });
   } catch (error) {
