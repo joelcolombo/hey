@@ -7,6 +7,16 @@ const nextConfig = {
         hostname: 'i.scdn.co',
         pathname: '/image/**',
       },
+      {
+        protocol: 'https',
+        hostname: 'raw.githubusercontent.com',
+        pathname: '/joelcolombo/hey/**',
+      },
+      {
+        protocol: 'https',
+        hostname: 'play.joelcolombo.co',
+        pathname: '/404/**',
+      },
     ],
   },
 };
