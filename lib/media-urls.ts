@@ -29,10 +29,11 @@ export const getMediaUrls = () => {
 // Get the correct URL for a media file
 export const getMediaUrl = (type: 'song' | 'cover' | 'lyrics', id: string, filename?: string) => {
   const urls = getMediaUrls();
+  const urlKey = `${type}s` as 'songs' | 'covers' | 'lyrics';
 
   if (isDevelopment || isLocalHost) {
     // Use API route for local development
-    return `${urls[type + 's']}${id}`;
+    return `${urls[urlKey]}${id}`;
   }
 
   // For production, we need the actual filename
@@ -42,5 +43,5 @@ export const getMediaUrl = (type: 'song' | 'cover' | 'lyrics', id: string, filen
   }
 
   // Direct URL to the file
-  return `${urls[type + 's']}${filename}`;
+  return `${urls[urlKey]}${filename}`;
 };
