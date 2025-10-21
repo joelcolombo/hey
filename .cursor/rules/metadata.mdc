@@ -1,0 +1,192 @@
+---
+title: Next.js Portfolio - Metadata Rules
+description: Comprehensive metadata structure rules for all pages in Joel Colombo's Next.js portfolio
+category: Development Rules
+priority: high
+---
+
+# Metadata Structure for All Pages
+
+::alert{type="info"}
+When creating or updating any page in this Next.js portfolio, always apply the following complete metadata structure.
+::
+
+## Required Metadata Template
+
+::code-group
+```typescript [page.tsx]
+import type { Metadata } from 'next'
+
+export const metadata: Metadata = {
+  metadataBase: new URL('https://joelcolombo.co'),
+  title: '[Page Title] | Joel Colombo',
+  description: '[Page description]',
+  keywords: ['Joel Colombo', 'Creative Director', /* relevant page-specific keywords */],
+  authors: [{ name: 'Joel Colombo' }],
+  creator: 'Joel Colombo',
+  openGraph: {
+    title: '[Open Graph Title]',
+    description: '[Open Graph Description]',
+    url: 'https://joelcolombo.co/[page-path]',
+    siteName: 'Joel Colombo',
+    images: [
+      {
+        url: 'https://joelcolombo.co/images/[og-image].png',
+        width: 1200,
+        height: 630,
+        alt: '[Image alt text]',
+      },
+    ],
+    type: 'website',
+    locale: 'en_US',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: '[Twitter Card Title]',
+    description: '[Twitter Card Description]',
+    images: ['https://joelcolombo.co/images/[og-image].png'],
+    creator: '@joelcolombo',
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      'max-video-preview': -1,
+      'max-image-preview': 'large',
+      'max-snippet': -1,
+    },
+  },
+}
+```
+::
+
+## Required Fields Checklist
+
+::list{type="success"}
+- **metadataBase**: Always use `https://joelcolombo.co`
+- **title**: Include page name and "Joel Colombo" branding
+- **description**: Clear, concise description of the page content
+- **keywords**: Always include "Joel Colombo" and "Creative Director", plus page-specific terms
+- **authors**: Always `[{ name: 'Joel Colombo' }]`
+- **creator**: Always "Joel Colombo"
+- **openGraph**: Complete with absolute URLs for images and page URL
+- **twitter**: Include card type, creator handle, and images
+- **robots**: Include googleBot configuration for maximum SEO visibility
+::
+
+## Implementation Guidelines
+
+### Open Graph & Social Media
+
+::callout{type="warning"}
+Always use absolute URLs for Open Graph and Twitter images with the `https://joelcolombo.co` prefix.
+::
+
+::list{type="primary"}
+- Include proper alt text for all Open Graph images
+- Keep descriptions concise but informative (155-160 characters ideal)
+- Use consistent branding (✦ symbol where appropriate)
+- For 404 and error pages, make the metadata engaging and on-brand
+::
+
+### Image Specifications
+
+::badge[Required Dimensions]{type="info"}
+- Width: **1200px**
+- Height: **630px**
+- Format: **PNG** (preferred) or **JPG**
+::
+
+## Logo Implementation Rules
+
+::alert{type="success"}
+When adding logos to pages, always make them clickable and link back to the homepage.
+::
+
+### Implementation Example
+
+::code-group
+```tsx [Logo Component]
+import Link from 'next/link';
+import Image from 'next/image';
+
+// Logo with homepage link and no focus border
+<Link href="/" className="focus:outline-none">
+  <Image
+    src="/images/logo.gif"
+    alt="Joel Colombo"
+    width={100}
+    height={100}
+    unoptimized
+  />
+</Link>
+```
+::
+
+### Logo Requirements
+
+::list{type="info"}
+1. Make the logo link back to homepage using Next.js `Link` component
+2. Add `className="focus:outline-none"` to remove focus borders
+3. Always import `Link` from `'next/link'`
+4. Use descriptive alt text for accessibility
+::
+
+## General Development Practices
+
+::list{type="warning"}
+- **No Emojis**: Avoid using emojis in code unless explicitly requested
+- **Edit First**: Prefer editing existing files over creating new ones
+- **No Proactive Docs**: Never create documentation files unless requested
+- **Clean Code**: Remove unused imports and files when refactoring
+::
+
+## Example Implementations
+
+### Homepage Example
+
+::code-block{label="app/page.tsx" }
+```typescript
+export const metadata: Metadata = {
+  metadataBase: new URL('https://joelcolombo.co'),
+  title: 'Joel Colombo ✦ Creative Director',
+  description: 'Designer turned creative director turned agency founder...',
+  keywords: ['Joel Colombo', 'Creative Director', 'Designer', 'UX Design'],
+  // ... rest of metadata
+}
+```
+::
+
+### 404 Page Example
+
+::code-block{label="app/404/page.tsx"}
+```typescript
+export const metadata: Metadata = {
+  metadataBase: new URL('https://joelcolombo.co'),
+  title: 'Joel Colombo ✦ Page Not Found',
+  description: 'Sorry you didn\'t find what you were looking for...',
+  keywords: ['404', 'Page Not Found', 'Joel Colombo', 'Mixtape'],
+  // ... rest of metadata
+}
+```
+::
+
+## Quick Reference
+
+::card
+#title
+Metadata Checklist for New Pages
+#description
+- [ ] Set `metadataBase` to production URL
+- [ ] Add descriptive title with branding
+- [ ] Write clear description (155-160 chars)
+- [ ] Include relevant keywords
+- [ ] Set author and creator to "Joel Colombo"
+- [ ] Configure Open Graph with absolute URLs
+- [ ] Add Twitter Card metadata
+- [ ] Set robots and googleBot permissions
+- [ ] Create/specify OG image (1200x630)
+- [ ] Test metadata with social media debuggers
+::

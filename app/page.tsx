@@ -1,4 +1,5 @@
 import Image from 'next/image';
+import Link from 'next/link';
 import Footer from '@/components/Footer';
 import ProtectedEmailLink from '@/components/ProtectedEmailLink';
 import TrailContainer from '@/components/TrailContainer';
@@ -11,22 +12,24 @@ export default function Home() {
 
       {/* Logo */}
       <div className="h-[30px] mt-2.5">
-        <Image
-          className="h-[100px] w-auto mt-5 ml-2.5 logo-switch"
-          src="/images/logo-joelcolombo.gif"
-          alt="Hey!"
-          width={100}
-          height={100}
-          unoptimized
-        />
-        <Image
-          className="h-[100px] w-auto mt-5 ml-2.5 logo-switch-dark"
-          src="/images/logo-joelcolombo-dark.gif"
-          alt="Hey!"
-          width={100}
-          height={100}
-          unoptimized
-        />
+        <Link href="/" className="focus:outline-none">
+          <Image
+            className="h-[100px] w-auto mt-5 ml-2.5 logo-switch"
+            src="/images/logo-joelcolombo.gif"
+            alt="Hey!"
+            width={100}
+            height={100}
+            unoptimized
+          />
+          <Image
+            className="h-[100px] w-auto mt-5 ml-2.5 logo-switch-dark"
+            src="/images/logo-joelcolombo-dark.gif"
+            alt="Hey!"
+            width={100}
+            height={100}
+            unoptimized
+          />
+        </Link>
       </div>
 
       {/* Spacer */}
@@ -51,6 +54,11 @@ export default function Home() {
               className="hover:text-[var(--hover-color)] transition-colors"
               subject="Hey there!"
             />
+          </h2>
+          <h2 className="text-left font-normal text-[5em] leading-[1.1em] mb-[0.5em] max-md:text-[2.3em] max-md:leading-[1.15em] max-md:ml-2.5">
+            <Link href="/play" className="hover:text-[var(--hover-color)] transition-colors">
+              Play →
+            </Link>
           </h2>
         </div>
       </div>

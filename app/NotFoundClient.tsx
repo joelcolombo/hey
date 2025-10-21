@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import Image from 'next/image';
+import Link from 'next/link';
 import SplashScreen from '@/components/SplashScreen';
 import PlaylistView from '@/components/PlaylistView';
 import Footer from '@/components/Footer';
@@ -78,22 +79,24 @@ export default function NotFoundClient() {
 
       {/* Logo - Always visible on top (matches page.tsx positioning) */}
       <div className="h-[30px] fixed top-0 left-0 z-[60]">
-        <Image
-          className="h-[100px] w-auto mt-5 ml-2.5 logo-switch"
-          src="/images/logo-joelcolombo.gif"
-          alt="Hey!"
-          width={100}
-          height={100}
-          unoptimized
-        />
-        <Image
-          className="h-[100px] w-auto mt-5 ml-2.5 logo-switch-dark"
-          src="/images/logo-joelcolombo-dark.gif"
-          alt="Hey!"
-          width={100}
-          height={100}
-          unoptimized
-        />
+        <Link href="/" className="focus:outline-none">
+          <Image
+            className="h-[100px] w-auto mt-5 ml-2.5 logo-switch"
+            src="/images/logo-joelcolombo.gif"
+            alt="Hey!"
+            width={100}
+            height={100}
+            unoptimized
+          />
+          <Image
+            className="h-[100px] w-auto mt-5 ml-2.5 logo-switch-dark"
+            src="/images/logo-joelcolombo-dark.gif"
+            alt="Hey!"
+            width={100}
+            height={100}
+            unoptimized
+          />
+        </Link>
       </div>
 
       {/* Footer - Always visible on top (matches page.tsx) */}

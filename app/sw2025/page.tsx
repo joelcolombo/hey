@@ -1,28 +1,47 @@
 import { redirect } from 'next/navigation';
-import { Metadata } from 'next';
+import type { Metadata } from 'next';
 
-export const generateMetadata = async (): Promise<Metadata> => {
-  // You can fetch data here if needed
-  return {
-    title: 'Joel Colombo ✦ Selected Works 2025',
-    description: 'Joel Colombo ✦ Selected Works 2025',
-    icons: {
-      icon: '/images/logo.png',
+export const metadata: Metadata = {
+  metadataBase: new URL('https://joelcolombo.co'),
+  title: 'Joel Colombo ✦ Selected Works 2025',
+  description: 'Joel Colombo ✦ Selected Works 2025',
+  keywords: ['Joel Colombo', 'Selected Works', 'Portfolio', '2025', 'Creative Director', 'Design', 'UX Design', 'Product Design', 'Case Studies', 'Agency Founder'],
+  authors: [{ name: 'Joel Colombo' }],
+  creator: 'Joel Colombo',
+  openGraph: {
+    title: 'Joel Colombo ✦ Creative Director',
+    description: 'Presentation with projects that I worked on during the last couple of years',
+    url: 'https://joelcolombo.co/sw2025',
+    siteName: 'Joel Colombo',
+    images: [
+      {
+        url: '/images/og-joelcolombo-sw2025.png',
+        width: 1200,
+        height: 630,
+        alt: 'Joel Colombo ✦ Creative Director',
+      },
+    ],
+    type: 'website',
+    locale: 'en_US',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Joel Colombo ✦ Creative Director',
+    description: 'Presentation with projects that I worked on during the last couple of years',
+    images: ['/images/og-joelcolombo-sw2025.png'],
+    creator: '@joelcolombo',
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      'max-video-preview': -1,
+      'max-image-preview': 'large',
+      'max-snippet': -1,
     },
-    openGraph: {
-      title: 'Joel Colombo ✦ Creative Director & Entrepreneur',
-      description: 'Presentation with projects that I worked on during the last couple of years',
-      images: [
-        {
-          url: '/images/og-joelcolombo-sw2025.png',
-          width: 1200,
-          height: 630,
-        },
-      ],
-      type: 'website',
-      locale: 'en_US',
-    },
-  }
+  },
 }
 
 
