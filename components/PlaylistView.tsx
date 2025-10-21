@@ -19,8 +19,9 @@ interface PlaylistViewProps {
 const STORAGE_KEY = 'playlist_playback_state';
 
 export default function PlaylistView({ tracks, allLyrics, showLogoAndFooter = true }: PlaylistViewProps) {
-  // Start with the first track (Look by Sébastien Tellier)
-  const initialTrackIndex = 0;
+  // Start with a random track for each new session
+  const getRandomTrackIndex = () => Math.floor(Math.random() * tracks.length);
+  const [initialTrackIndex] = useState(() => getRandomTrackIndex());
 
   const [playbackState, setPlaybackState] = useState<PlaybackState>({
     currentTrackIndex: initialTrackIndex,
@@ -88,13 +89,15 @@ export default function PlaylistView({ tracks, allLyrics, showLogoAndFooter = tr
         console.error('Failed to load playback state:', error);
       }
     } else {
-      // No saved state, start with initial track and autoplay
-      setPlaybackState(prev => ({
-        ...prev,
+      // No saved state, start with random track and autoplay
+      setPlaybackState({
+        currentTrackIndex: initialTrackIndex,
+        position: 0,
         isPlaying: true,
-      }));
+        startTime: Date.now(),
+      });
     }
-  }, []);
+  }, [initialTrackIndex]);
 
   // Save state to localStorage
   useEffect(() => {

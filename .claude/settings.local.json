@@ -38,7 +38,8 @@
       "Bash(git rm:*)",
       "Bash(for file in /Users/joelcolombo/nextjs-portfolio/public/data/covers/*.jpeg)",
       "Bash(do mv \"$file\" \"$file%.jpeg.jpg\")",
-      "Bash(gh pr list:*)"
+      "Bash(gh pr list:*)",
+      "Bash(git log --since=\"1 week ago\" --pretty=format:\"%h - %s (%an, %ar)\" --graph)"
     ],
     "deny": [],
     "ask": []

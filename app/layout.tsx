@@ -7,7 +7,7 @@ import Analytics from "@/components/Analytics";
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://joelcolombo.co'),
-  title: 'Joel Colombo ✦ Creative Director & Designer',
+  title: 'Joel Colombo ✦ Creative Director',
   description: 'Designer turned creative director turned agency founder turned designer. Two decades of experience in design, technology & strategy. Available for select projects with founders and teams.',
   keywords: ['Creative Director', 'Designer', 'UX Design', 'Product Design', 'Agency Founder', 'Design Strategy', 'Joel Colombo'],
   authors: [{ name: 'Joel Colombo' }],
@@ -16,16 +16,16 @@ export const metadata: Metadata = {
     icon: '/images/logo.png',
   },
   openGraph: {
-    title: 'Joel Colombo ✦ Creative Director & Designer',
+    title: 'Joel Colombo ✦ Creative Director',
     description: 'Designer turned creative director turned agency founder turned designer. Two decades of experience in design, technology & strategy.',
     url: 'https://joelcolombo.co',
     siteName: 'Joel Colombo',
     images: [
       {
-        url: '/images/og-joelcolombo-landing.png',
+        url: 'https://joelcolombo.co/images/og-joelcolombo-landing.png',
         width: 1200,
         height: 630,
-        alt: 'Joel Colombo - Creative Director & Designer',
+        alt: 'Joel Colombo ✦ Creative Director',
       },
     ],
     type: 'website',
@@ -33,9 +33,10 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Joel Colombo ✦ Creative Director & Designer',
+    title: 'Joel Colombo ✦ Creative Director',
     description: 'Designer turned creative director turned agency founder turned designer. Two decades of experience in design, technology & strategy.',
-    images: ['/images/og-joelcolombo-landing.png'],
+    images: ['https://joelcolombo.co/images/og-joelcolombo-landing.png'],
+    creator: '@joelcolombo',
   },
   robots: {
     index: true,
