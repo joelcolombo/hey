@@ -50,15 +50,10 @@ export default function Home() {
           <h2 className="text-left font-normal text-[5em] leading-[1.1em] mb-[0.5em] max-md:text-[2.3em] max-md:leading-[1.15em] max-md:ml-2.5">
             <ProtectedEmailLink
               mode="mailto"
-              text="Let's connect."
+              text="Let's connect →"
               className="hover:text-[var(--hover-color)] transition-colors"
               subject="Hey there!"
             />
-          </h2>
-          <h2 className="text-left font-normal text-[5em] leading-[1.1em] mb-[0.5em] max-md:text-[2.3em] max-md:leading-[1.15em] max-md:ml-2.5">
-            <Link href="/play" className="hover:text-[var(--hover-color)] transition-colors">
-              Play →
-            </Link>
           </h2>
         </div>
       </div>
