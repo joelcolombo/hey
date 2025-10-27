@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { mediaMapping } from '@/lib/media-mapping';
-import fs from 'fs';
+import { promises as fs } from 'fs';
 import path from 'path';
 
 export async function GET(request: NextRequest) {
@@ -41,31 +41,44 @@ export async function GET(request: NextRequest) {
       return NextResponse.json({ error: 'Invalid type parameter' }, { status: 400 });
   }
 
-  const filePath = path.join(process.cwd(), 'public', 'data', folder, filename);
-
-  // Debug logging for lyrics
-  if (type === 'lyrics') {
-  }
-
   try {
-    // Check if file exists
-    if (!fs.existsSync(filePath)) {
-      return NextResponse.json({ error: 'File not found' }, { status: 404 });
-    }
+    // For production on Vercel, files in the public directory are available
+    // We use path.join with process.cwd() to get the absolute path
+    const publicDirectory = path.join(process.cwd(), 'public');
+    const filePath = path.join(publicDirectory, 'data', folder, filename);
 
-    const fileBuffer = fs.readFileSync(filePath);
-
-    // Debug log first few lines of lyrics
+    // Debug logging
     if (type === 'lyrics') {
-      const content = JSON.parse(fileBuffer.toString());
-      content.lines?.slice(0, 3).forEach((line: any, i: number) => {
-      });
+      console.log('Attempting to read file from:', filePath);
+      console.log('Current working directory:', process.cwd());
+
+      // Check if public directory exists
+      try {
+        const publicExists = await fs.access(publicDirectory);
+        console.log('Public directory exists');
+      } catch {
+        console.log('Public directory not found, trying alternative paths');
+
+        // In production, try to read directly from the data folder
+        const altPath = path.join(process.cwd(), 'data', folder, filename);
+        const fileBuffer = await fs.readFile(altPath);
+
+        return new NextResponse(fileBuffer, {
+          headers: {
+            'Content-Type': contentType,
+            'Cache-Control': type === 'lyrics'
+              ? 'no-cache, no-store, must-revalidate'
+              : 'public, max-age=31536000, immutable',
+          },
+        });
+      }
     }
+
+    const fileBuffer = await fs.readFile(filePath);
 
     return new NextResponse(fileBuffer, {
       headers: {
         'Content-Type': contentType,
-        // Reduce cache for lyrics to allow updates
         'Cache-Control': type === 'lyrics'
           ? 'no-cache, no-store, must-revalidate'
           : 'public, max-age=31536000, immutable',
@@ -73,6 +86,13 @@ export async function GET(request: NextRequest) {
     });
   } catch (error) {
     console.error('Error serving media file:', error);
-    return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
+    console.error('Attempted path:', path.join(process.cwd(), 'public', 'data', folder, filename));
+
+    const errorMessage = error instanceof Error ? error.message : 'Unknown error';
+
+    return NextResponse.json({
+      error: 'File not found',
+      details: process.env.NODE_ENV === 'development' ? errorMessage : undefined
+    }, { status: 404 });
   }
 }
