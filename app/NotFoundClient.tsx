@@ -39,10 +39,8 @@ export default function NotFoundClient() {
 
         for (const track of tracksData) {
           try {
-            // For production, fetch directly from GitHub
-            const lyricsUrl = isLocalHost
-              ? `/api/media?id=${track.id}&type=lyrics`
-              : (track as any).lyrics_file;
+            // Always use the API endpoint for lyrics to avoid CORS issues
+            const lyricsUrl = `/api/media?id=${track.id}&type=lyrics`;
 
             const response = await fetch(lyricsUrl);
             if (response.ok) {
