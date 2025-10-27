@@ -73,8 +73,9 @@ export function parseLRC(lrcString: string): LyricLine[] {
     }
   }
 
-  // Sort by timestamp (just in case)
-  return lines.sort((a, b) => a.timestamp - b.timestamp);
+  // Return lines in their original order - DO NOT sort
+  // Sorting can break lyrics that have intentional ordering or same timestamps
+  return lines;
 }
 
 /**
