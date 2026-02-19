@@ -45,7 +45,7 @@ export default function Home() {
           Built to build. Two decades of experience synthesized into creative execution and business insight. Pixels to P&L. Been there, shipped that.
           </h2>
           <h2 className="text-left font-normal text-[5em] leading-[1.1em] mb-[0.5em] max-md:text-[2.3em] max-md:leading-[1.15em] max-md:ml-2.5">
-            Currently pushing a new SaaS company toward launch in Q4'25, and taking on select projects with founders and teams to help them bring their vision to life through design, technology & strategy.
+            Currently taking on select projects with founders and teams to help them bring their vision to life through design, technology & strategy.
           </h2>
           <h2 className="text-left font-normal text-[5em] leading-[1.1em] mb-[0.5em] max-md:text-[2.3em] max-md:leading-[1.15em] max-md:ml-2.5">
             <ProtectedEmailLink
