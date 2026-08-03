@@ -45,7 +45,7 @@ export default function Home() {
           Built to build. Two decades of experience synthesized into creative execution and business insight. Pixels to P&L. Been there, shipped that.
           </h2>
           <h2 className="text-left font-normal text-[5em] leading-[1.1em] mb-[0.5em] max-md:text-[2.3em] max-md:leading-[1.15em] max-md:ml-2.5">
-            Currently building <a href="https://tiendapop.xyz/?utm_source=joelcolombo&utm_medium=website&utm_campaign=personal_site_referral" target="_blank" rel="noopener noreferrer" className="hover:text-[var(--hover-color)] transition-colors">TiendaPop</a>, an AI-powered SaaS for online merchants, while helping select founders and teams shape better brands, products, and digital experiences.
+            Currently building <a href="https://shoptic.ai/?utm_source=joelcolombo&utm_medium=website&utm_campaign=personal_site_referral" target="_blank" rel="noopener noreferrer" className="hover:text-[var(--hover-color)] transition-colors">Shoptic</a>, an AI-powered SaaS for online merchants, while helping select founders and teams shape better brands, products, and digital experiences.
           </h2>
           <h2 className="text-left font-normal text-[5em] leading-[1.1em] mb-[0.5em] max-md:text-[2.3em] max-md:leading-[1.15em] max-md:ml-2.5">
             <ProtectedEmailLink
