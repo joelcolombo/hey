@@ -8,6 +8,6 @@ export const testProject: ProjectConfig = {
   projectSlug: 'sandbox',
   clientName: 'Acme Co',
   projectTitle: 'Visual Identity (Test)',
-  notionDatabaseId: null, // paste the ID printed by `npm run questionnaire:setup -- test/sandbox`
+  notionDatabaseId: '3eb31d76-5671-45c9-acdb-ddb6708ef513',
   template: applyOverrides(visualIdentityTemplate, {}),
 }

@@ -2,7 +2,7 @@ import { config as loadEnv } from 'dotenv'
 loadEnv({ path: '.env.local' })
 
 import { Client } from '@notionhq/client'
-import type { CreateDataSourceParameters, DatabaseObjectResponse, UpdateDataSourceParameters } from '@notionhq/client'
+import type { CreateDataSourceParameters, UpdateDataSourceParameters } from '@notionhq/client'
 import { getProjectConfig, resolveConfig } from '../lib/questionnaire/projects'
 import { buildDatabaseProperties, columnsForQuestion, QUESTION_KEY_RE } from '../lib/questionnaire/notion-format'
 
@@ -45,7 +45,7 @@ async function main() {
       console.error('Database response missing data_sources — check integration access.')
       process.exit(1)
     }
-    const dataSourceId = (dbRes as DatabaseObjectResponse).data_sources[0]?.id
+    const dataSourceId = dbRes.data_sources[0]?.id
     if (!dataSourceId) {
       console.error(`No data source found for database ${cfg.notionDatabaseId}`)
       process.exit(1)
