@@ -13,10 +13,14 @@ import { useQuestionnaire } from './useQuestionnaire'
 export default function QuestionnaireApp({ config }: { config: ProjectConfig }) {
   const q = useQuestionnaire(config)
 
-  // Arrow-key navigation between screens.
+  // Arrow-key navigation between screens. Ignored while focus is inside a
+  // text field — otherwise moving the cursor in a multi-line answer would
+  // navigate away and discard the un-submitted draft.
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
       if (q.phase !== 'flow') return
+      const t = e.target as HTMLElement | null
+      if (t && (t.tagName === 'INPUT' || t.tagName === 'TEXTAREA' || t.isContentEditable)) return
       if (e.key === 'ArrowUp') q.goBack()
       if (e.key === 'ArrowDown') q.advance()
     }
