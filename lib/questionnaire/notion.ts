@@ -11,20 +11,38 @@ const chunkRichText = (s: string) => {
   return out.length ? out : [{ text: { content: '' } }]
 }
 
-/** question key -> actual property name, resolved by [key] prefix. Cached 60s per DB. */
-const propertyMapCache = new Map<string, { at: number; map: Map<string, string> }>()
+/** Cached mapping: dbId -> { dataSourceId, propertyMap, timestamp }. Cache 60s per DB. */
+const dataSourceCache = new Map<string, { at: number; dataSourceId: string; propertyMap: Map<string, string> }>()
+
+/** Resolve dbId -> dataSourceId and cache property map in one call. */
+async function getDataSourceIdAndPropertyMap(
+  dbId: string
+): Promise<{ dataSourceId: string; propertyMap: Map<string, string> }> {
+  const cached = dataSourceCache.get(dbId)
+  if (cached && Date.now() - cached.at < 60_000) {
+    return { dataSourceId: cached.dataSourceId, propertyMap: cached.propertyMap }
+  }
+
+  // Get database to extract data_source_id
+  const db = await notion().databases.retrieve({ database_id: dbId })
+  const dataSourceId = (db as { data_sources?: Array<{ id: string }> }).data_sources?.[0]?.id
+  if (!dataSourceId) throw new Error(`No data source found for database ${dbId}`)
+
+  // Retrieve data source to get properties
+  const dataSource = await notion().dataSources.retrieve({ data_source_id: dataSourceId })
+  const propertyMap = new Map<string, string>()
+  for (const name of Object.keys((dataSource as { properties: Record<string, unknown> }).properties)) {
+    const m = name.match(QUESTION_KEY_RE)
+    if (m) propertyMap.set(m[1], name)
+  }
+
+  dataSourceCache.set(dbId, { at: Date.now(), dataSourceId, propertyMap })
+  return { dataSourceId, propertyMap }
+}
 
 export async function getPropertyMap(dbId: string): Promise<Map<string, string>> {
-  const cached = propertyMapCache.get(dbId)
-  if (cached && Date.now() - cached.at < 60_000) return cached.map
-  const db = await notion().databases.retrieve({ database_id: dbId })
-  const map = new Map<string, string>()
-  for (const name of Object.keys((db as unknown as { properties: Record<string, unknown> }).properties)) {
-    const m = name.match(QUESTION_KEY_RE)
-    if (m) map.set(m[1], name)
-  }
-  propertyMapCache.set(dbId, { at: Date.now(), map })
-  return map
+  const { propertyMap } = await getDataSourceIdAndPropertyMap(dbId)
+  return propertyMap
 }
 
 type RawProp =
@@ -44,29 +62,33 @@ function toPropValue(raw: RawProp | undefined): NotionPropValue | undefined {
   return undefined
 }
 
-export async function findRow(dbId: string, email: string, template: Template) {
-  const client = notion()
-  const res = await client.request<{ results: Array<{ id: string; properties: Record<string, RawProp> }> }>({
-    path: `/databases/${dbId}/query`,
-    method: 'post',
-    body: {
-      filter: { property: 'Email', email: { equals: email.trim().toLowerCase() } },
-      page_size: 1,
-    },
+export async function findRow(
+  dbId: string,
+  email: string,
+  template: Template
+): Promise<{ pageId: string; answers: Answers; completed: boolean } | null> {
+  const { dataSourceId, propertyMap } = await getDataSourceIdAndPropertyMap(dbId)
+  const res = await notion().dataSources.query({
+    data_source_id: dataSourceId,
+    filter: {
+      email: { equals: email.trim().toLowerCase() },
+      property: 'Email',
+      type: 'email',
+    } as any,
+    page_size: 1,
   })
   const page = res.results[0]
-  if (!page) return null
+  if (!page || page.object !== 'page') return null
 
-  const names = await getPropertyMap(dbId)
   const answers: Answers = {}
   for (const section of template.sections) {
     for (const q of section.questions) {
-      const getProp = (key: string) => toPropValue(page.properties[names.get(key) ?? ''])
+      const getProp = (key: string) => toPropValue((page as any).properties[propertyMap.get(key) ?? ''])
       const a = parseAnswer(q, getProp)
       if (a) answers[q.id] = a
     }
   }
-  const status = toPropValue(page.properties['Status'])
+  const status = toPropValue((page as any).properties['Status'])
   const completed = status?.type === 'select' && status.name === 'Completed'
   return { pageId: page.id, answers, completed }
 }
