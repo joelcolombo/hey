@@ -2,6 +2,7 @@
 
 import { useEffect, useRef } from 'react'
 import type { Answer, Question } from '@/lib/questionnaire/types'
+import ChoiceInput from './ChoiceInput'
 
 export type Draft = Answer | null
 
@@ -67,8 +68,11 @@ export function renderInput(props: InputProps) {
       return <TextInput {...props} />
     case 'longtext':
       return <LongTextInput {...props} />
+    case 'select':
+    case 'multiselect':
+      return <ChoiceInput {...props} />
     default:
-      // Remaining types land in Tasks 9–10; text entry keeps the flow unblocked meanwhile.
+      // Remaining types land in Tasks 10–11; text entry keeps the flow unblocked meanwhile.
       return <TextInput {...props} />
   }
 }
