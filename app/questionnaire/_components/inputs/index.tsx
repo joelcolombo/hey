@@ -3,6 +3,7 @@
 import { useEffect, useRef } from 'react'
 import type { Answer, Question } from '@/lib/questionnaire/types'
 import ChoiceInput from './ChoiceInput'
+import SlidersInput from './SlidersInput'
 
 export type Draft = Answer | null
 
@@ -61,7 +62,7 @@ export function LongTextInput({ question, draft, setDraft, onSubmit }: InputProp
   )
 }
 
-/** Single dispatch point — Tasks 9–11 extend this switch. */
+/** Single dispatch point — exhaustive over Question['type']. */
 export function renderInput(props: InputProps) {
   switch (props.question.type) {
     case 'text':
@@ -71,8 +72,9 @@ export function renderInput(props: InputProps) {
     case 'select':
     case 'multiselect':
       return <ChoiceInput {...props} />
-    default:
-      // Remaining types land in Tasks 10–11; text entry keeps the flow unblocked meanwhile.
-      return <TextInput {...props} />
+    case 'trait-slider':
+    case 'dual-slider':
+    case 'sliders-group':
+      return <SlidersInput {...props} />
   }
 }
