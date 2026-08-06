@@ -4,6 +4,7 @@ import { useEffect, useRef } from 'react'
 import type { Answer, Question } from '@/lib/questionnaire/types'
 import ChoiceInput from './ChoiceInput'
 import SlidersInput from './SlidersInput'
+import VoiceInput from './VoiceInput'
 
 export type Draft = Answer | null
 
@@ -48,17 +49,26 @@ export function LongTextInput({ question, draft, setDraft, onSubmit }: InputProp
     el.style.height = `${Math.min(el.scrollHeight, 320)}px`
   }, [value])
   return (
-    <textarea
-      ref={ref}
-      value={value}
-      rows={2}
-      placeholder={question.type === 'longtext' ? question.placeholder ?? 'Type — or talk — your answer…' : ''}
-      onChange={(e) => setDraft(e.target.value ? { type: 'text', text: e.target.value } : null)}
-      onKeyDown={(e) => {
-        if (e.key === 'Enter' && (e.metaKey || e.ctrlKey)) onSubmit()
-      }}
-      className="w-full resize-none bg-transparent border-b border-[var(--foreground)] py-3 text-[1.5em] leading-[1.3] outline-none placeholder:text-[var(--hover-color)]"
-    />
+    <div>
+      <textarea
+        ref={ref}
+        value={value}
+        rows={2}
+        placeholder={question.type === 'longtext' ? question.placeholder ?? 'Type — or talk — your answer…' : ''}
+        onChange={(e) => setDraft(e.target.value ? { type: 'text', text: e.target.value } : null)}
+        onKeyDown={(e) => {
+          if (e.key === 'Enter' && (e.metaKey || e.ctrlKey)) onSubmit()
+        }}
+        className="w-full resize-none bg-transparent border-b border-[var(--foreground)] py-3 text-[1.5em] leading-[1.3] outline-none placeholder:text-[var(--hover-color)]"
+      />
+      <div className="mt-4">
+        <VoiceInput
+          onTranscript={(text) =>
+            setDraft({ type: 'text', text: value ? `${value.trim()} ${text}` : text })
+          }
+        />
+      </div>
+    </div>
   )
 }
 
