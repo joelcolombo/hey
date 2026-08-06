@@ -20,23 +20,13 @@ export async function POST(req: Request) {
   if (audio.size > MAX_BYTES) return NextResponse.json({ error: 'audio too large' }, { status: 422 })
 
   const out = new FormData()
-  // Detect format from MIME type or filename
-  let ext = 'webm'
-  if (audio.type.includes('mp4') || audio.type.includes('m4a')) ext = 'm4a'
-  else if (audio.type.includes('mp3') || audio.type.includes('mpeg')) ext = 'mp3'
-  else if (audio.type.includes('ogg') || audio.type.includes('oga')) ext = 'ogg'
-  else if (audio.type.includes('wav')) ext = 'wav'
-  else if (audio.type.includes('flac')) ext = 'flac'
-  else if (audio.type.includes('webm')) ext = 'webm'
-  // Try to extract extension from filename if available
+  let ext = audio.type.includes('mp4') ? 'mp4' : audio.type.includes('ogg') ? 'ogg' : 'webm'
+  // Prefer filename extension if available to match Whisper's strict format validation
   if (audio.name) {
     const nameExt = audio.name.split('.').pop()?.toLowerCase()
-    if (nameExt && ['m4a', 'mp3', 'mp4', 'mpeg', 'mpga', 'oga', 'ogg', 'wav', 'webm', 'flac'].includes(nameExt)) {
-      ext = nameExt
-    }
+    if (nameExt && ['webm', 'ogg', 'mp4', 'm4a'].includes(nameExt)) ext = nameExt
   }
-  const buffer = await audio.arrayBuffer()
-  out.append('file', new Blob([buffer], { type: audio.type }), `note.${ext}`)
+  out.append('file', audio, `note.${ext}`)
   out.append('model', 'whisper-1')
 
   try {
