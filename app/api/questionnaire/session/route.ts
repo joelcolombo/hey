@@ -14,7 +14,8 @@ export async function POST(req: Request) {
   // Honeypot: pretend success, save nothing.
   if (website) return NextResponse.json({ sessionId: 'hp', answers: {}, completed: false })
 
-  if (!client || !project || !name?.trim() || !email?.includes('@')) {
+  const trimmedName = name?.trim() ?? ''
+  if (!client || !project || trimmedName.length <= 1 || !email?.includes('@')) {
     return NextResponse.json({ error: 'bad request' }, { status: 400 })
   }
   const cfg = getProjectConfig(client, project)
@@ -26,7 +27,7 @@ export async function POST(req: Request) {
     if (existing) {
       return NextResponse.json({ sessionId: existing.pageId, answers: existing.answers, completed: existing.completed })
     }
-    const pageId = await createRow(cfg.notionDatabaseId, name.trim(), email)
+    const pageId = await createRow(cfg.notionDatabaseId, trimmedName, email)
     return NextResponse.json({ sessionId: pageId, answers: {}, completed: false })
   } catch (err) {
     console.error('[questionnaire/session]', err)

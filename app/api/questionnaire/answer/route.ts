@@ -18,6 +18,9 @@ export async function POST(req: Request) {
   if (sessionId === 'hp') return NextResponse.json({ ok: true }) // honeypot session: drop silently
 
   if (!client || !project || !sessionId) return NextResponse.json({ error: 'bad request' }, { status: 400 })
+  if ((questionId != null) !== (answer != null)) {
+    return NextResponse.json({ error: 'bad request' }, { status: 400 })
+  }
   const cfg = getProjectConfig(client, project)
   if (!cfg?.notionDatabaseId) return NextResponse.json({ error: 'not found' }, { status: 404 })
 
