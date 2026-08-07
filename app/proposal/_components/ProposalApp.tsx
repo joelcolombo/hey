@@ -79,11 +79,11 @@ export default function ProposalApp({ meta, sections }: { meta: ProposalPublicMe
       </div>
 
       {/* Title block */}
-      <div className="proposal-section max-w-3xl mx-auto px-6 py-24">
+      <div className="proposal-section proposal-titleblock max-w-3xl mx-auto px-6 py-24">
         <h1 className="text-[3em] leading-[1.1] mb-4 max-md:text-[2em]">Services Proposal</h1>
         <p className="text-[1.2em] mb-2">{meta.title}</p>
         <p className="text-[1.2em] text-[var(--hover-color)] mb-16">{meta.number}</p>
-        <div className="text-[0.95em] text-[var(--hover-color)] flex flex-col gap-1">
+        <div className="proposal-meta text-[0.95em] text-[var(--hover-color)] flex flex-col gap-1">
           {meta.requestedBy && <p>Requested by: {meta.requestedBy}</p>}
           {meta.date && <p>Date: {formatDate(meta.date)}</p>}
           {meta.version && <p>Version: {meta.version}</p>}

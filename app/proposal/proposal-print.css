@@ -2,6 +2,13 @@
   @page {
     size: A4 landscape;
     margin: 16mm 24mm;
+
+    /* Page number, bottom center, like the Word-exported PDFs */
+    @bottom-center {
+      content: counter(page);
+      font-size: 9px;
+      color: #b0b0b0;
+    }
   }
   /* The cover is the only full-bleed page */
   @page cover {
@@ -32,6 +39,7 @@
   /* Full-bleed black cover, like the original PDFs */
   .proposal-cover {
     page: cover;
+    counter-reset: page 0;
     background: #000 !important;
     color: #fff !important;
     height: 100vh !important;
@@ -54,13 +62,40 @@
     max-width: none !important;
     margin: 0 !important;
     padding: 0 !important;
-    font-size: 13px !important;
+    font-size: 12px !important;
   }
   .proposal-cover + .proposal-section {
     break-before: auto;
   }
   .proposal-section h1 {
     font-size: 2.9em !important;
+  }
+
+  /* Title page: number/date/version block anchored at the page foot.
+     vh maps to the full paper height; subtract the page margins to fit. */
+  .proposal-titleblock {
+    height: calc(100vh - 36mm);
+    display: flex;
+    flex-direction: column;
+  }
+  .proposal-titleblock .proposal-meta {
+    margin-top: auto;
+  }
+
+  /* Confidentiality: small bold note at the foot of an otherwise empty page */
+  .proposal-section[data-section='confidentiality-agreement'],
+  .proposal-section[data-section='confidentiality'] {
+    height: calc(100vh - 36mm);
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    font-size: 10.5px !important;
+  }
+  .proposal-section[data-section='confidentiality-agreement'] h1,
+  .proposal-section[data-section='confidentiality'] h1 {
+    font-size: 1.1em !important;
+    font-weight: 600;
+    margin-bottom: 0.8em;
   }
   /* Keep headings attached to their content; avoid splitting paragraphs/rows */
   .proposal-section h2,

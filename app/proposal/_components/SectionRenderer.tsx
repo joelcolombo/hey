@@ -28,7 +28,10 @@ export default function SectionRenderer({
   pricingSlot?: (pricing: PricingTable) => ReactNode
 }) {
   return (
-    <section className="proposal-section max-w-3xl mx-auto px-6 py-16">
+    <section
+      className="proposal-section max-w-3xl mx-auto px-6 py-16"
+      data-section={section.title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '')}
+    >
       <h1 className="text-[3em] leading-[1.1] mb-10 max-md:text-[2em] text-balance">{section.title}</h1>
       {section.blocks.map((block, i) => {
         switch (block.kind) {
