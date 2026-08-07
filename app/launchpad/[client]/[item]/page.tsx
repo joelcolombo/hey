@@ -39,7 +39,7 @@ export default async function LaunchpadItemPage({ params }: { params: Params }) 
   if (!entry || !entry.enabled) notFound()
 
   if (entry.kind === 'proposal') {
-    return <ProposalPageBody slug={entry.target} launchpadEmail={session.email} />
+    return <ProposalPageBody slug={entry.target} launchpadEmail={session.email} launchpadHref={`/launchpad/${client}`} />
   }
 
   if (entry.kind === 'link') {
@@ -57,5 +57,5 @@ export default async function LaunchpadItemPage({ params }: { params: Params }) 
       </div>
     )
   }
-  return <QuestionnaireApp config={resolveConfig(cfg)} />
+  return <QuestionnaireApp config={resolveConfig(cfg)} launchpadHref={`/launchpad/${client}`} />
 }

@@ -21,7 +21,15 @@ export function formatDate(iso: string): string {
 
 type Approval = { approvedBy: string; approvedAt: string; summaryLabel: string }
 
-export default function ProposalApp({ meta, sections }: { meta: ProposalPublicMeta; sections: Section[] }) {
+export default function ProposalApp({
+  meta,
+  sections,
+  launchpadHref,
+}: {
+  meta: ProposalPublicMeta
+  sections: Section[]
+  launchpadHref?: string
+}) {
   const pricing: PricingTable | null = useMemo(() => {
     const block = sections.flatMap((s) => s.blocks).find((b) => b.kind === 'pricing')
     return block?.kind === 'pricing' ? block.pricing : null
@@ -59,6 +67,16 @@ export default function ProposalApp({ meta, sections }: { meta: ProposalPublicMe
 
   return (
     <main className={approval ? '' : 'pb-28'}>
+      {/* Way back to the hub. The review sheet (z-80) covers it and shows its
+          own Close pill in the same corner. */}
+      {launchpadHref && (
+        <a
+          href={launchpadHref}
+          className="fixed top-4 left-5 z-[70] border border-[var(--hairline)] rounded-full px-2.5 py-0.5 label text-[color-mix(in_srgb,var(--foreground)_80%,transparent)] hover:border-[var(--foreground)] hover:text-[var(--foreground)] transition-colors print:hidden"
+        >
+          Launchpad
+        </a>
+      )}
       {approval && (
         <div className="proposal-approved-banner max-w-3xl mx-auto px-6 pt-10">
           <div className="border border-[var(--foreground)] rounded-2xl px-6 py-5 text-[1.05em] leading-[1.5]">

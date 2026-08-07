@@ -14,7 +14,16 @@ import SectionInterlude from './SectionInterlude'
 import WelcomeScreen from './WelcomeScreen'
 import { useQuestionnaire } from './useQuestionnaire'
 
-export default function QuestionnaireApp({ config }: { config: ProjectConfig }) {
+const pill =
+  'border border-[var(--hairline)] rounded-full px-2.5 py-0.5 label text-[color-mix(in_srgb,var(--foreground)_80%,transparent)] hover:border-[var(--foreground)] hover:text-[var(--foreground)] transition-colors'
+
+export default function QuestionnaireApp({
+  config,
+  launchpadHref,
+}: {
+  config: ProjectConfig
+  launchpadHref?: string
+}) {
   const q = useQuestionnaire(config)
   const [showIndex, setShowIndex] = useState(false)
 
@@ -89,18 +98,24 @@ export default function QuestionnaireApp({ config }: { config: ProjectConfig }) 
           {q.phase === 'done' && <DoneScreen config={config} name={q.identity?.name ?? null} onEdit={q.toReview} />}
         </motion.div>
       </AnimatePresence>
-      {/* Question index: jump anywhere without walking the flow. Button
-          mirrors the voice pill (sans dot). The SAME button becomes Close
-          while the overlay is open: it lives outside the overlay's DOM, so
-          no scroll or animation in there can ever drag it along. */}
-      {(q.phase === 'flow' || q.phase === 'review') && q.identity && (
-        <button
-          onClick={() => setShowIndex(!showIndex)}
-          className="fixed top-4 left-5 border border-[var(--hairline)] rounded-full px-2.5 py-0.5 label text-[color-mix(in_srgb,var(--foreground)_80%,transparent)] hover:border-[var(--foreground)] hover:text-[var(--foreground)] transition-colors z-[70]"
-        >
-          {showIndex ? 'Close' : 'Index'}
-        </button>
-      )}
+      {/* Top-left cluster: the way out of the current layer. Launchpad (when
+          arrived via the hub) + Index. While the index overlay is open the
+          Launchpad pill hides and the same Index button becomes Close, taking
+          the corner: Close always sits top-left and closes the topmost layer.
+          Lives outside the overlay's DOM so no scroll or animation in there
+          can ever drag it along. */}
+      <div className="fixed top-4 left-5 z-[70] flex items-center gap-2">
+        {launchpadHref && !showIndex && (
+          <a href={launchpadHref} className={pill}>
+            Launchpad
+          </a>
+        )}
+        {(q.phase === 'flow' || q.phase === 'review') && q.identity && (
+          <button onClick={() => setShowIndex(!showIndex)} className={pill}>
+            {showIndex ? 'Close' : 'Index'}
+          </button>
+        )}
+      </div>
       <AnimatePresence>
         {showIndex && (
           <IndexOverlay

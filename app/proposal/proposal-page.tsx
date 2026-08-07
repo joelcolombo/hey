@@ -31,7 +31,15 @@ function Unavailable() {
   )
 }
 
-export async function ProposalPageBody({ slug, launchpadEmail }: { slug: string; launchpadEmail?: string }) {
+export async function ProposalPageBody({
+  slug,
+  launchpadEmail,
+  launchpadHref,
+}: {
+  slug: string
+  launchpadEmail?: string
+  launchpadHref?: string
+}) {
   let meta
   try {
     meta = await findProposalBySlug(slug)
@@ -63,5 +71,5 @@ export async function ProposalPageBody({ slug, launchpadEmail }: { slug: string;
     console.error('[proposal/page]', err)
     return <Unavailable />
   }
-  return <ProposalApp meta={toPublicMeta(meta)} sections={sections} />
+  return <ProposalApp meta={toPublicMeta(meta)} sections={sections} launchpadHref={launchpadHref} />
 }
