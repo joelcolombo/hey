@@ -53,9 +53,12 @@ export default function IndexOverlay({
     }
   }, [])
 
+  // Opacity only on the root: a transform there would turn the fixed Close
+  // pill into an absolutely-positioned one (transformed ancestors become the
+  // containing block for fixed descendants) and it would scroll away.
   const overlayVariants = {
-    hidden: { opacity: 0, y: 12, transition: { duration: 0.18, ease: 'easeIn' as const, staggerChildren: 0.015, staggerDirection: -1 } },
-    show: { opacity: 1, y: 0, transition: { duration: 0.22, ease: 'easeOut' as const, staggerChildren: 0.045, delayChildren: 0.05 } },
+    hidden: { opacity: 0, transition: { duration: 0.18, ease: 'easeIn' as const, staggerChildren: 0.015, staggerDirection: -1 } },
+    show: { opacity: 1, transition: { duration: 0.22, ease: 'easeOut' as const, staggerChildren: 0.045, delayChildren: 0.05 } },
   }
   const sectionVariants = {
     hidden: { opacity: 0, y: 8, transition: { duration: 0.12 } },
