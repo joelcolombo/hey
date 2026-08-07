@@ -12,6 +12,12 @@ const supported = () =>
 
 const fmt = (s: number) => `${Math.floor(s / 60)}:${String(Math.floor(s % 60)).padStart(2, '0')}`
 
+const extFromMime = (mime: string): string => {
+  if (mime.includes('mp4')) return 'mp4'
+  if (mime.includes('ogg')) return 'ogg'
+  return 'webm'
+}
+
 type State = 'idle' | 'recording' | 'transcribing' | 'error' | 'denied'
 
 export default function VoiceInput({ onTranscript }: { onTranscript: (text: string) => void }) {
@@ -21,14 +27,25 @@ export default function VoiceInput({ onTranscript }: { onTranscript: (text: stri
   const recorderRef = useRef<MediaRecorder | null>(null)
   const chunksRef = useRef<BlobPart[]>([])
   const tickRef = useRef<number | undefined>(undefined)
+  const onTranscriptRef = useRef(onTranscript)
+  const startingRef = useRef(false)
+  const abortRef = useRef<AbortController | null>(null)
 
-  const stopTracks = () => recorderRef.current?.stream.getTracks().forEach((t) => t.stop())
+  useEffect(() => {
+    onTranscriptRef.current = onTranscript
+  }, [onTranscript])
+
+  const stopTracks = (stream?: MediaStream) => {
+    const s = stream || recorderRef.current?.stream
+    s?.getTracks().forEach((t) => t.stop())
+  }
 
   useEffect(
     () => () => {
       if (recorderRef.current?.state !== 'inactive') recorderRef.current?.stop()
       stopTracks()
       window.clearInterval(tickRef.current)
+      abortRef.current?.abort()
     },
     []
   )
@@ -36,6 +53,9 @@ export default function VoiceInput({ onTranscript }: { onTranscript: (text: stri
   if (!available) return null
 
   const start = async () => {
+    if (startingRef.current) return
+    startingRef.current = true
+
     try {
       const stream = await navigator.mediaDevices.getUserMedia({ audio: true })
       const mime = MIME_CANDIDATES.find((m) => MediaRecorder.isTypeSupported(m)) ?? ''
@@ -59,6 +79,8 @@ export default function VoiceInput({ onTranscript }: { onTranscript: (text: stri
       }, 250)
     } catch {
       setState('denied')
+    } finally {
+      startingRef.current = false
     }
   }
 
@@ -68,15 +90,24 @@ export default function VoiceInput({ onTranscript }: { onTranscript: (text: stri
 
   const transcribe = async (blob: Blob) => {
     setState('transcribing')
+    const abort = new AbortController()
+    abortRef.current = abort
+
     try {
       const form = new FormData()
-      form.append('audio', new File([blob], 'note.webm', { type: blob.type }))
-      const res = await fetch('/api/questionnaire/transcribe', { method: 'POST', body: form })
+      const ext = extFromMime(blob.type)
+      form.append('audio', new File([blob], `note.${ext}`, { type: blob.type }))
+      const res = await fetch('/api/questionnaire/transcribe', {
+        method: 'POST',
+        body: form,
+        signal: abort.signal,
+      })
       if (!res.ok) throw new Error(String(res.status))
       const data = (await res.json()) as { text: string }
-      if (data.text.trim()) onTranscript(data.text.trim())
+      if (data.text.trim()) onTranscriptRef.current(data.text.trim())
       setState('idle')
-    } catch {
+    } catch (err) {
+      if (abort.signal.aborted) return
       setState('error')
     }
   }
