@@ -44,6 +44,15 @@ describe('applyOverrides', () => {
     expect(out.sections[1].questions.map((x) => x.id)).toEqual(['c', 'y'])
   })
 
+  it('replaces a question in place, keeping id and position', () => {
+    const replacement: Question = {
+      id: 'b', type: 'select', prompt: 'New select prompt', options: ['One', 'Two'],
+    }
+    const out = applyOverrides(base, { replaceQuestions: [replacement] })
+    expect(out.sections[0].questions.map((x) => x.id)).toEqual(['a', 'b'])
+    expect(out.sections[0].questions[1]).toEqual(replacement)
+  })
+
   it('overrides title and intro', () => {
     const out = applyOverrides(base, { title: 'T2', intro: 'I2' })
     expect(out.title).toBe('T2')

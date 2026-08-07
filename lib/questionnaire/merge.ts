@@ -6,6 +6,12 @@ export interface TemplateOverrides {
   removeQuestions?: string[]
   /** questionId -> new prompt */
   reword?: Record<string, string>
+  /**
+   * Full in-place replacements matched by question id: keeps the question's
+   * position and (crucially) its Notion column key while changing its type,
+   * prompt, hint, options, or sliders.
+   */
+  replaceQuestions?: Question[]
   addQuestions?: { sectionId: string; after?: string; question: Question }[]
 }
 
@@ -15,8 +21,11 @@ export function applyOverrides(template: Template, o: TemplateOverrides): Templa
   if (o.intro) out.intro = o.intro
 
   const removed = new Set(o.removeQuestions ?? [])
+  const replacements = new Map((o.replaceQuestions ?? []).map((q) => [q.id, q]))
   for (const section of out.sections) {
-    section.questions = section.questions.filter((q) => !removed.has(q.id))
+    section.questions = section.questions
+      .filter((q) => !removed.has(q.id))
+      .map((q) => replacements.get(q.id) ?? q)
     for (const q of section.questions) {
       const newPrompt = o.reword?.[q.id]
       if (newPrompt) q.prompt = newPrompt
