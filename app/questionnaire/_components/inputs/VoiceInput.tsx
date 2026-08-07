@@ -144,22 +144,27 @@ export default function VoiceInput({ onTranscript }: { onTranscript: (text: stri
       </button>
     )
 
-  // Idle / transcribing: dot pill + helper line.
+  // Idle / transcribing: dot pill; the helper line lives in a hover tooltip.
   return (
-    <div className="flex flex-col items-start gap-3">
-      {/* formform's idle pill verbatim: border-hairline, text ink/80, dot ink/70 */}
-      <button
-        type="button"
-        onClick={() => void start()}
-        disabled={state === 'transcribing'}
-        className="inline-flex items-center gap-2 border border-[var(--hairline)] rounded-full px-2.5 py-0.5 label text-[color-mix(in_srgb,var(--foreground)_80%,transparent)] hover:border-[var(--foreground)] hover:text-[var(--foreground)] transition-colors disabled:opacity-40"
-      >
-        <span className="inline-block h-1.5 w-1.5 rounded-full bg-[color-mix(in_srgb,var(--foreground)_70%,transparent)]" aria-hidden />
-        <span>{state === 'transcribing' ? 'Transcribing…' : 'Answer with your voice'}</span>
-      </button>
-      <p className="label text-[0.625rem] text-[var(--hover-color)]">
-        Prefer talking? Skip the typing and answer with a voice note of up to 3&rsquo;
-      </p>
+    <div className="flex items-center gap-3">
+      <div className="relative group inline-flex">
+        {/* formform's idle pill verbatim: border-hairline, text ink/80, dot ink/70 */}
+        <button
+          type="button"
+          onClick={() => void start()}
+          disabled={state === 'transcribing'}
+          className="inline-flex items-center gap-2 border border-[var(--hairline)] rounded-full px-2.5 py-0.5 label text-[color-mix(in_srgb,var(--foreground)_80%,transparent)] hover:border-[var(--foreground)] hover:text-[var(--foreground)] transition-colors disabled:opacity-40"
+        >
+          <span className="inline-block h-1.5 w-1.5 rounded-full bg-[color-mix(in_srgb,var(--foreground)_70%,transparent)]" aria-hidden />
+          <span>{state === 'transcribing' ? 'Transcribing…' : 'Answer with your voice'}</span>
+        </button>
+        <span
+          role="tooltip"
+          className="absolute top-full left-0 mt-2 label text-[0.625rem] text-[var(--hover-color)] whitespace-nowrap opacity-0 group-hover:opacity-100 group-focus-within:opacity-100 transition-opacity duration-200 pointer-events-none"
+        >
+          Prefer talking? Skip the typing and answer with a voice note of up to 3&rsquo;
+        </span>
+      </div>
       {state === 'error' && (
         <p className="label text-[0.625rem] text-[var(--hover-color)]" role="alert">
           Transcription failed. Try again or type.
