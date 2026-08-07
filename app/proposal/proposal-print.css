@@ -1,13 +1,31 @@
+/*
+ * Print theme derived from the reference Word document
+ * (012-260306 Recoding America — extracted from the .docx XML):
+ *   Page      A4 landscape · margins 25.4mm top/bottom, 24.1mm sides · footer at ~15mm
+ *   Cover     PP Neue Light 55pt white on black, full bleed
+ *   H1        PP Neue Light 38pt black
+ *   Subheads  PP Neue Medium 14pt #666 (Word Heading3)
+ *   Sub-sub   PP Neue Medium 11pt black (Milestone lines)
+ *   Body      PP Neue Book 11pt, 1.5 line height
+ *   Meta      PP Neue Book 10pt, 2.0 line height (Requested by / Date / Version)
+ *   Confid.   Medium 11pt title + Book 10pt body, foot of an empty page
+ *   Page no.  PP Neue Light 11pt #BBB9B9, bottom center (Word starts counting at 0
+ *             on the cover — CSS can't, so our numbers run one higher)
+ */
 @media print {
   @page {
     size: A4 landscape;
-    margin: 16mm 24mm;
+    margin: 25.4mm 24.1mm;
 
-    /* Page number, bottom center, like the Word-exported PDFs */
     @bottom-center {
-      content: counter(page);
-      font-size: 9px;
-      color: #b0b0b0;
+      content: counter(page) '\A\2502';
+      white-space: pre;
+      text-align: center;
+      font-family: 'PP Neue Montreal TT', sans-serif;
+      font-weight: 300;
+      font-size: 11pt;
+      line-height: 1.5;
+      color: #bbb9b9;
     }
   }
   /* The cover is the only full-bleed page */
@@ -36,7 +54,7 @@
     display: none !important;
   }
 
-  /* Full-bleed black cover, like the original PDFs */
+  /* ---- Cover ---- */
   .proposal-cover {
     page: cover;
     counter-reset: page 0;
@@ -44,59 +62,60 @@
     color: #fff !important;
     height: 100vh !important;
     min-height: 0 !important;
-    padding: 20mm 24mm !important;
+    padding: 25mm 24mm !important;
     margin: 0 !important;
     break-after: page;
     -webkit-print-color-adjust: exact;
     print-color-adjust: exact;
   }
   .proposal-cover h1 {
-    font-size: 3.4em !important;
-    margin-top: 10mm !important;
-    max-width: 75% !important;
+    font-size: 55pt !important;
+    font-weight: 300 !important;
+    line-height: 1.15 !important;
+    margin-top: 12mm !important;
+    max-width: 85% !important;
+  }
+  .proposal-cover p {
+    font-size: 11pt !important;
   }
 
-  /* One section per page; left-aligned column spanning the page like the PDFs */
+  /* ---- Document column ---- */
   .proposal-section {
     break-before: page;
     max-width: none !important;
     margin: 0 !important;
     padding: 0 !important;
-    font-size: 12px !important;
+    font-size: 11pt !important;
   }
   .proposal-cover + .proposal-section {
     break-before: auto;
   }
+
   .proposal-section h1 {
-    font-size: 2.9em !important;
+    font-size: 38pt !important;
+    font-weight: 300 !important;
+    margin-bottom: 18pt !important;
+  }
+  .proposal-section h2 {
+    font-size: 14pt !important;
+    font-weight: 500 !important;
+    color: #666 !important;
+    margin-top: 18pt !important;
+    margin-bottom: 8pt !important;
+  }
+  .proposal-section h3 {
+    font-size: 11pt !important;
+    font-weight: 500 !important;
+    color: #000 !important;
+    margin-top: 14pt !important;
+    margin-bottom: 6pt !important;
+  }
+  .proposal-section p,
+  .proposal-section li {
+    font-size: 11pt !important;
+    line-height: 1.5 !important;
   }
 
-  /* Title page: number/date/version block anchored at the page foot.
-     vh maps to the full paper height; subtract the page margins to fit. */
-  .proposal-titleblock {
-    height: calc(100vh - 36mm);
-    display: flex;
-    flex-direction: column;
-  }
-  .proposal-titleblock .proposal-meta {
-    margin-top: auto;
-  }
-
-  /* Confidentiality: small bold note at the foot of an otherwise empty page */
-  .proposal-section[data-section='confidentiality-agreement'],
-  .proposal-section[data-section='confidentiality'] {
-    height: calc(100vh - 36mm);
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-end;
-    font-size: 10.5px !important;
-  }
-  .proposal-section[data-section='confidentiality-agreement'] h1,
-  .proposal-section[data-section='confidentiality'] h1 {
-    font-size: 1.1em !important;
-    font-weight: 600;
-    margin-bottom: 0.8em;
-  }
   /* Keep headings attached to their content; avoid splitting paragraphs/rows */
   .proposal-section h2,
   .proposal-section h3 {
@@ -109,18 +128,89 @@
     break-inside: avoid;
   }
 
-  /* Signatures stay on the Acceptance page, fields in one row */
+  /* ---- Title page ---- */
+  .proposal-titleblock {
+    height: calc(100vh - 53mm);
+    display: flex;
+    flex-direction: column;
+  }
+  .proposal-titleblock h1 {
+    margin-bottom: 10pt !important;
+  }
+  .proposal-titleblock > p:first-of-type {
+    font-size: 16pt !important;
+    font-weight: 500 !important;
+    color: #5b5b5f !important;
+    margin-bottom: 4pt !important;
+  }
+  .proposal-titleblock > p:nth-of-type(2) {
+    font-size: 16pt !important;
+    color: #999 !important;
+  }
+  .proposal-meta {
+    margin-top: auto;
+    font-size: 10pt !important;
+    line-height: 2 !important;
+    gap: 0 !important;
+  }
+
+  /* ---- Confidentiality: small note at the foot of an empty page ---- */
+  .proposal-section[data-section='confidentiality-agreement'],
+  .proposal-section[data-section='confidentiality'] {
+    height: calc(100vh - 53mm);
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+  }
+  .proposal-section[data-section='confidentiality-agreement'] h1,
+  .proposal-section[data-section='confidentiality'] h1 {
+    font-size: 11pt !important;
+    font-weight: 500 !important;
+    color: #000 !important;
+    margin-bottom: 4pt !important;
+  }
+  .proposal-section[data-section='confidentiality-agreement'] p,
+  .proposal-section[data-section='confidentiality'] p {
+    font-size: 10pt !important;
+    line-height: 1.4 !important;
+  }
+
+  /* ---- Pricing: compact columns, no dividers (matches the Word layout) ---- */
+  .proposal-pricing-row {
+    border-bottom: none !important;
+    padding: 4pt 0 !important;
+    gap: 0 !important;
+  }
+  .proposal-pricing-row input[type='checkbox'] {
+    margin-right: 8pt;
+  }
+  .proposal-pricing-name {
+    flex: 0 0 30% !important;
+    font-size: 11pt !important;
+  }
+  .proposal-pricing-price {
+    flex: 0 0 15% !important;
+    font-size: 11pt !important;
+    color: #000 !important;
+  }
+  .proposal-timeline {
+    display: inline !important;
+    width: auto !important;
+    text-align: left !important;
+    font-size: 11pt !important;
+    color: #000 !important;
+  }
+
+  /* ---- Signatures: stay with Acceptance, fields in one row ---- */
   .proposal-signatures {
     break-before: auto;
     padding-top: 0 !important;
   }
+  .proposal-signatures {
+    font-size: 11pt !important;
+  }
   .proposal-sig-row {
     flex-direction: row !important;
-  }
-
-  /* Neutralize responsive (max-md) variants that can match the print viewport */
-  .proposal-timeline {
-    display: inline !important;
   }
 
   input[type='checkbox'] {
