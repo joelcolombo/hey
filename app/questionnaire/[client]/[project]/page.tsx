@@ -19,5 +19,12 @@ export default async function QuestionnairePage({ params }: { params: Params }) 
   const { client, project } = await params
   const cfg = getProjectConfig(client, project)
   if (!cfg) notFound()
+  if (!cfg.notionDatabaseId) {
+    return (
+      <div className="max-w-3xl mx-auto px-6 min-h-dvh flex flex-col justify-center">
+        <p className="text-[1.2em] text-[var(--hover-color)]">This questionnaire isn&rsquo;t open yet.</p>
+      </div>
+    )
+  }
   return <QuestionnaireApp config={resolveConfig(cfg)} />
 }

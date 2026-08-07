@@ -68,12 +68,27 @@ describe('summarizeAnswer', () => {
     }
     expect(summarizeAnswer(sl, { type: 'scale', positions: { y: 6 } })).toBe('6/7 → Approachable')
   })
-  it('formats dual positions', () => {
+  it('formats dual positions with the trait label', () => {
     const sl: Question = {
       id: 'z', type: 'dual-slider', prompt: 'P',
       slider: { id: 'z', left: 'L', right: 'R' },
     }
     expect(summarizeAnswer(sl, { type: 'dual-scale', positions: { z: { today: 2, future: 6 } } }))
-      .toBe('Today: 2/7 · Future: 6/7')
+      .toBe('L / R: Today 2/7 · Future 6/7')
+  })
+  it('joins multiple dual-scale sliders one per line', () => {
+    const group: Question = {
+      id: 'traits', type: 'sliders-group', mode: 'dual', prompt: 'P',
+      sliders: [
+        { id: 'a', left: 'Academic', right: 'Accessible' },
+        { id: 'b', left: 'Serious', right: 'Approachable' },
+      ],
+    }
+    expect(
+      summarizeAnswer(group, {
+        type: 'dual-scale',
+        positions: { a: { today: 3, future: 5 }, b: { today: 6, future: 6 } },
+      })
+    ).toBe('Academic / Accessible: Today 3/7 · Future 5/7\nSerious / Approachable: Today 6/7 · Future 6/7')
   })
 })

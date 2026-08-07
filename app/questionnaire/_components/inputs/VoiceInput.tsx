@@ -122,18 +122,22 @@ export default function VoiceInput({ onTranscript }: { onTranscript: (text: stri
   if (state === 'denied')
     return <p className="text-[0.85em] text-[var(--hover-color)]">Microphone blocked — you can keep typing.</p>
 
+  // Pill styled after formform's PillAction: Geist Pixel label, thin border,
+  // rounded-full, hover inverts.
+  const pill =
+    'inline-flex items-center gap-2 border rounded-full px-2.5 py-0.5 label hover:bg-[var(--foreground)] hover:text-[var(--background)] transition-colors'
+
   return (
     <div className="flex items-center gap-4 text-[0.9em]">
       {state === 'recording' ? (
-        <button type="button" onClick={stop}
-          className="inline-flex items-center gap-2 border border-[var(--foreground)] rounded-full px-5 py-2 hover:bg-[var(--foreground)] hover:text-[var(--background)] transition-colors">
-          <span className="inline-block w-2.5 h-2.5 rounded-full bg-red-500 animate-pulse" />
+        <button type="button" onClick={stop} className={`${pill} border-[var(--foreground)]`}>
+          <span className="inline-block w-2 h-2 rounded-full bg-red-500 animate-pulse" />
           Stop · {fmt(elapsed)}
         </button>
       ) : (
         <button type="button" onClick={() => void start()} disabled={state === 'transcribing'}
-          className="inline-flex items-center gap-2 border border-[var(--hover-color)] rounded-full px-5 py-2 hover:border-[var(--foreground)] transition-colors disabled:opacity-40">
-          🎙 {state === 'transcribing' ? 'Transcribing…' : 'Answer with your voice'}
+          className={`${pill} border-[var(--hover-color)] hover:border-[var(--foreground)] disabled:opacity-40`}>
+          {state === 'transcribing' ? 'Transcribing…' : 'Answer with your voice'}
         </button>
       )}
       {state === 'error' && <span className="text-[var(--hover-color)]">Transcription failed — try again or type.</span>}

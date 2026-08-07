@@ -61,15 +61,26 @@ export default function QuestionnaireApp({ config }: { config: ProjectConfig }) 
               initial={q.answers[q.current.question.id] ?? null}
               onSubmit={(draft) => q.submitAnswer((q.current as { question: { id: string } }).question.id, draft)}
               onSkip={() => q.submitAnswer((q.current as { question: { id: string } }).question.id, null)}
+              onBackToReview={q.returnToReview ? q.toReview : undefined}
             />
           )}
 
           {q.phase === 'review' && <ReviewScreen config={config} q={q} />}
 
-          {q.phase === 'done' && <DoneScreen config={config} name={q.identity?.name ?? null} />}
+          {q.phase === 'done' && <DoneScreen config={config} name={q.identity?.name ?? null} onEdit={q.toReview} />}
         </motion.div>
       </AnimatePresence>
       {q.phase === 'flow' && <SaveIndicator state={q.saveState} />}
+      {/* Identity escape hatch for shared devices: clears local state and
+          returns to a fresh welcome. Mirrors SaveIndicator, bottom-right. */}
+      {q.identity && q.phase !== 'welcome' && (
+        <button
+          onClick={q.resetIdentity}
+          className="fixed bottom-4 right-5 text-[0.75em] text-[var(--hover-color)] hover:text-[var(--foreground)] transition-colors z-50"
+        >
+          Not {q.identity.name.split(' ')[0]}? Start over
+        </button>
+      )}
     </div>
   )
 }

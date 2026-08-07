@@ -16,12 +16,15 @@ async function callClaude(prompt: string): Promise<string> {
     },
     body: JSON.stringify({
       model: 'claude-sonnet-5',
-      max_tokens: 4096,
+      max_tokens: 16000,
       messages: [{ role: 'user', content: prompt }],
     }),
   })
   if (!res.ok) throw new Error(`Anthropic API ${res.status}: ${await res.text()}`)
-  const data = (await res.json()) as { content: { type: string; text?: string }[] }
+  const data = (await res.json()) as { content: { type: string; text?: string }[]; stop_reason?: string }
+  if (data.stop_reason === 'max_tokens') {
+    console.warn('Warning: synthesis hit max_tokens — the output below may be truncated.')
+  }
   return data.content.filter((b) => b.type === 'text').map((b) => b.text).join('\n')
 }
 

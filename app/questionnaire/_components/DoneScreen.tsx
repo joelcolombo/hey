@@ -2,7 +2,9 @@
 
 import type { ProjectConfig } from '@/lib/questionnaire/types'
 
-export default function DoneScreen({ config, name }: { config: ProjectConfig; name: string | null }) {
+export default function DoneScreen({
+  config, name, onEdit,
+}: { config: ProjectConfig; name: string | null; onEdit?: () => void }) {
   const first = name?.split(' ')[0]
   return (
     <div className="max-w-3xl mx-auto px-6 min-h-dvh flex flex-col justify-center">
@@ -13,6 +15,12 @@ export default function DoneScreen({ config, name }: { config: ProjectConfig; na
         Your answers are saved and will directly shape the direction of {config.clientName}&rsquo;s {config.projectTitle.toLowerCase()}.
         If anything else comes to mind, you can reopen this link and add to your answers anytime.
       </p>
+      {onEdit && (
+        <button onClick={onEdit}
+          className="self-start mt-10 text-[0.9em] text-[var(--hover-color)] hover:text-[var(--foreground)] transition-colors">
+          Review or add to your answers →
+        </button>
+      )}
     </div>
   )
 }

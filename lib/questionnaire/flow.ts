@@ -1,4 +1,4 @@
-import type { Answer, Question, Section, Template } from './types'
+import type { Answer, Question, Section, Template, TraitSliderDef } from './types'
 
 export type Screen =
   | { kind: 'interlude'; section: Section; sectionIndex: number }
@@ -44,6 +44,13 @@ export function formatDual(today: number, future: number): string {
   return `Today: ${today}/7 · Future: ${future}/7`
 }
 
+/** The trait slider(s) a question defines, regardless of single/group shape. */
+function slidersOf(question: Question): TraitSliderDef[] {
+  if (question.type === 'sliders-group') return question.sliders
+  if (question.type === 'trait-slider' || question.type === 'dual-slider') return [question.slider]
+  return []
+}
+
 /** Human-readable one-liner for the review screen and Notion summaries. */
 export function summarizeAnswer(question: Question, answer: Answer): string {
   switch (answer.type) {
@@ -51,17 +58,20 @@ export function summarizeAnswer(question: Question, answer: Answer): string {
       return answer.text
     case 'choice':
       return answer.selected.join(', ')
-    case 'scale': {
-      const sliders = question.type === 'sliders-group' ? question.sliders
-        : question.type === 'trait-slider' || question.type === 'dual-slider' ? [question.slider] : []
-      return sliders
+    case 'scale':
+      return slidersOf(question)
         .filter((s) => answer.positions[s.id] !== undefined)
         .map((s) => formatScale(answer.positions[s.id], s.left, s.right))
         .join(' · ')
-    }
-    case 'dual-scale': {
-      const entries = Object.values(answer.positions)
-      return entries.map((p) => formatDual(p.today, p.future)).join(' · ')
-    }
+    case 'dual-scale':
+      // One labeled line per trait so the review screen (whitespace-pre-wrap)
+      // renders a readable list instead of a run-on string of numbers.
+      return slidersOf(question)
+        .filter((s) => answer.positions[s.id] !== undefined)
+        .map((s) => {
+          const p = answer.positions[s.id]
+          return `${s.left} / ${s.right}: Today ${p.today}/7 · Future ${p.future}/7`
+        })
+        .join('\n')
   }
 }

@@ -23,6 +23,24 @@
     font-style: normal;
 }
 
+/* Geist Pixel (Line) — eyebrow/pill labels, same face as formform */
+@font-face {
+    font-family: 'Geist Pixel';
+    src: url('fonts/geist-pixel/GeistPixel-Line.woff2') format('woff2');
+    font-weight: 100 900;
+    font-style: normal;
+    font-display: swap;
+}
+
+/* Editorial pill label — Geist Pixel, uppercase, tracked (formform style) */
+.label {
+    font-family: 'Geist Pixel', 'PP Neue Montreal TT', sans-serif;
+    font-weight: 400;
+    font-size: 0.6875rem;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+}
+
 :root {
     --background: #ffffff;
     --foreground: #000000;

@@ -19,6 +19,25 @@ describe('listProjectConfigs', () => {
   })
 })
 
+describe('question id and slider-column uniqueness', () => {
+  it('has no duplicate question ids or sliders-group column keys within any config', () => {
+    for (const cfg of listProjectConfigs()) {
+      const keys: string[] = []
+      for (const section of cfg.template.sections) {
+        for (const q of section.questions) {
+          keys.push(q.id)
+          if (q.type === 'sliders-group') {
+            for (const s of q.sliders) keys.push(`${q.id}.${s.id}`)
+          }
+        }
+      }
+      const seen = new Set<string>()
+      const dupes = keys.filter((k) => (seen.has(k) ? true : (seen.add(k), false)))
+      expect(dupes).toEqual([])
+    }
+  })
+})
+
 describe('resolveConfig', () => {
   it('replaces {client} with the client name in intro and prompts', () => {
     const cfg = resolveConfig(getProjectConfig('pro', 'visual-identity')!)

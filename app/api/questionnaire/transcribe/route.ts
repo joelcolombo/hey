@@ -2,9 +2,44 @@ import { NextResponse } from 'next/server'
 
 export const maxDuration = 60
 
-const MAX_BYTES = 8 * 1024 * 1024 // ~180s of webm/opus is well under this
+const MAX_BYTES = 3.5 * 1024 * 1024 // Vercel body-limit headroom
+
+// Cross-site abuse guard: reject requests whose Origin/Referer names a
+// different host than the one being called (same-origin form posts pass
+// through; curl/script floods from other sites don't).
+function sameOrigin(req: Request): boolean {
+  const from = req.headers.get('origin') ?? req.headers.get('referer')
+  if (!from) return true
+  const host = req.headers.get('x-forwarded-host') ?? new URL(req.url).host
+  try {
+    return new URL(from).host === host
+  } catch {
+    return false
+  }
+}
+
+// Simple in-memory per-IP rate limit — good enough for a low-traffic route on
+// a single serverless instance; resets on cold start, pruned opportunistically.
+const RATE_WINDOW_MS = 10 * 60 * 1000
+const RATE_MAX = 30
+const hits = new Map<string, { count: number; reset: number }>()
+function rateLimited(ip: string): boolean {
+  const now = Date.now()
+  if (hits.size > 1000) for (const [k, v] of hits) if (v.reset < now) hits.delete(k)
+  const entry = hits.get(ip)
+  if (!entry || now > entry.reset) {
+    hits.set(ip, { count: 1, reset: now + RATE_WINDOW_MS })
+    return false
+  }
+  entry.count += 1
+  return entry.count > RATE_MAX
+}
 
 export async function POST(req: Request) {
+  if (!sameOrigin(req)) return NextResponse.json({ error: 'forbidden' }, { status: 403 })
+  const ip = req.headers.get('x-forwarded-for')?.split(',')[0]?.trim() ?? 'unknown'
+  if (rateLimited(ip)) return NextResponse.json({ error: 'too many requests' }, { status: 429 })
+
   const key = process.env.OPENAI_API_KEY
   if (!key) return NextResponse.json({ error: 'transcription not configured' }, { status: 503 })
 

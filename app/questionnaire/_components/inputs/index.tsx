@@ -29,7 +29,7 @@ function TextInput({ question, draft, setDraft, onSubmit }: InputProps) {
       ref={ref}
       type="text"
       value={value}
-      placeholder={question.type === 'text' ? question.placeholder ?? 'Type your answer…' : 'Type your answer…'}
+      placeholder={question.type === 'text' ? question.placeholder ?? 'Type your answer...' : 'Type your answer...'}
       onChange={(e) => setDraft(e.target.value ? { type: 'text', text: e.target.value } : null)}
       onKeyDown={(e) => e.key === 'Enter' && onSubmit()}
       className="w-full bg-transparent border-b border-[var(--foreground)] py-3 text-[1.5em] outline-none placeholder:text-[var(--hover-color)]"
@@ -54,7 +54,7 @@ export function LongTextInput({ question, draft, setDraft, onSubmit }: InputProp
         ref={ref}
         value={value}
         rows={2}
-        placeholder={question.type === 'longtext' ? question.placeholder ?? 'Type — or talk — your answer…' : ''}
+        placeholder={question.type === 'longtext' ? question.placeholder ?? 'Type your answer...' : ''}
         onChange={(e) => setDraft(e.target.value ? { type: 'text', text: e.target.value } : null)}
         onKeyDown={(e) => {
           if (e.key === 'Enter' && (e.metaKey || e.ctrlKey)) onSubmit()

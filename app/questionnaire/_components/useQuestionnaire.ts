@@ -30,6 +30,9 @@ export function useQuestionnaire(config: ProjectConfig) {
   const [saveState, setSaveState] = useState<SaveState>('idle')
   const [starting, setStarting] = useState(false)
   const [startError, setStartError] = useState<string | null>(null)
+  /** Set by goToQuestion (tapping a question from review) — while set, the
+   * next submit/skip on that question returns to review instead of advancing. */
+  const [returnToReview, setReturnToReview] = useState(false)
 
   const pendingRef = useRef<Map<string, Answer>>(new Map())
   /** In-flight flush run, shared so concurrent flush() calls coalesce onto it. */
@@ -181,18 +184,44 @@ export function useQuestionnaire(config: ProjectConfig) {
       pendingRef.current.set(questionId, answer)
       void flush()
     }
-    advance()
-  }, [advance, flush])
+    if (returnToReview) {
+      setReturnToReview(false)
+      setPhase('review')
+    } else {
+      advance()
+    }
+  }, [advance, flush, returnToReview])
 
   const goToQuestion = useCallback((questionId: string) => {
     const at = screens.findIndex((s) => s.kind === 'question' && s.question.id === questionId)
     if (at >= 0) {
       setScreenIndex(at)
       setPhase('flow')
+      setReturnToReview(true)
     }
   }, [screens])
 
-  const toReview = useCallback(() => setPhase('review'), [])
+  const toReview = useCallback(() => {
+    setReturnToReview(false)
+    setPhase('review')
+  }, [])
+
+  const resetIdentity = useCallback(() => {
+    try {
+      localStorage.removeItem(storageKey)
+    } catch {
+      /* storage full/blocked — reset in-memory state anyway */
+    }
+    pendingRef.current = new Map()
+    flushAgainRef.current = false
+    setIdentity(null)
+    setAnswers({})
+    setSeen(new Set())
+    setSaveState('idle')
+    setReturnToReview(false)
+    setScreenIndex(0)
+    setPhase('welcome')
+  }, [storageKey])
 
   // Retry answers left pending from a previous session (e.g. saves that
   // failed all 3 attempts before an unload) once identity is available.
@@ -208,17 +237,22 @@ export function useQuestionnaire(config: ProjectConfig) {
       // stuck — the row stays "In progress" server-side if this still fails.
       await flush()
     }
-    try {
-      await fetch('/api/questionnaire/answer', {
-        method: 'POST',
-        headers: { 'content-type': 'application/json' },
-        body: JSON.stringify({
-          client: config.clientSlug, project: config.projectSlug,
-          sessionId: identity?.sessionId, complete: true,
-        }),
-      })
-    } catch {
-      /* row stays In progress; answers are already saved */
+    // Only tell Notion the row is complete once every answer actually made
+    // it there — otherwise a still-pending answer would be silently lost
+    // from view once the row reads "Completed".
+    if (pendingRef.current.size === 0) {
+      try {
+        await fetch('/api/questionnaire/answer', {
+          method: 'POST',
+          headers: { 'content-type': 'application/json' },
+          body: JSON.stringify({
+            client: config.clientSlug, project: config.projectSlug,
+            sessionId: identity?.sessionId, complete: true,
+          }),
+        })
+      } catch {
+        /* row stays In progress; answers are already saved */
+      }
     }
     setPhase('done')
   }, [config, flush, identity])
@@ -226,9 +260,9 @@ export function useQuestionnaire(config: ProjectConfig) {
   return {
     phase, screens, screenIndex,
     current: phase === 'flow' ? screens[screenIndex] ?? null : null,
-    identity, answers, saveState, starting, startError,
+    identity, answers, saveState, starting, startError, returnToReview,
     progress: { answered: seen.size, total },
-    start, advance, goBack, submitAnswer, goToQuestion, toReview, complete,
+    start, advance, goBack, submitAnswer, goToQuestion, toReview, complete, resetIdentity,
   }
 }
 

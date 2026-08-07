@@ -2,7 +2,9 @@ import type { ProjectConfig } from '../types'
 import { proVi } from './pro-vi'
 import { testProject } from './test-project'
 
-const registry: ProjectConfig[] = [proVi, testProject]
+// The sandbox project points at a throwaway Notion DB and exists purely for
+// manual QA — never expose it in production.
+const registry: ProjectConfig[] = [proVi, ...(process.env.NODE_ENV !== 'production' ? [testProject] : [])]
 
 export function getProjectConfig(client: string, project: string): ProjectConfig | null {
   return registry.find((c) => c.clientSlug === client && c.projectSlug === project) ?? null
