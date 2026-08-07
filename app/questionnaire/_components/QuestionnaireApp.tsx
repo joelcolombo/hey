@@ -90,13 +90,15 @@ export default function QuestionnaireApp({ config }: { config: ProjectConfig }) 
         </motion.div>
       </AnimatePresence>
       {/* Question index: jump anywhere without walking the flow. Button
-          mirrors the voice pill (sans dot). */}
+          mirrors the voice pill (sans dot). The SAME button becomes Close
+          while the overlay is open: it lives outside the overlay's DOM, so
+          no scroll or animation in there can ever drag it along. */}
       {(q.phase === 'flow' || q.phase === 'review') && q.identity && (
         <button
-          onClick={() => setShowIndex(true)}
-          className="fixed top-4 left-5 border border-[var(--hairline)] rounded-full px-2.5 py-0.5 label text-[color-mix(in_srgb,var(--foreground)_80%,transparent)] hover:border-[var(--foreground)] hover:text-[var(--foreground)] transition-colors z-50"
+          onClick={() => setShowIndex(!showIndex)}
+          className="fixed top-4 left-5 border border-[var(--hairline)] rounded-full px-2.5 py-0.5 label text-[color-mix(in_srgb,var(--foreground)_80%,transparent)] hover:border-[var(--foreground)] hover:text-[var(--foreground)] transition-colors z-[70]"
         >
-          Index
+          {showIndex ? 'Close' : 'Index'}
         </button>
       )}
       <AnimatePresence>

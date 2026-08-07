@@ -82,13 +82,6 @@ export default function IndexOverlay({
       animate="show"
       exit="hidden"
     >
-      {/* Close sits exactly where the Index button was, same pill. */}
-      <button
-        onClick={onClose}
-        className="fixed top-4 left-5 border border-[var(--hairline)] rounded-full px-2.5 py-0.5 label text-[color-mix(in_srgb,var(--foreground)_80%,transparent)] hover:border-[var(--foreground)] hover:text-[var(--foreground)] transition-colors z-[70]"
-      >
-        Close
-      </button>
       <div ref={contentRef} className="max-w-3xl mx-auto px-6 py-16">
         <h2 className="text-[1.8em] mb-12">Index</h2>
 
