@@ -44,6 +44,11 @@
     border-top: 1px solid color-mix(in srgb, var(--hover-color) 30%, transparent);
     margin-bottom: 4rem;
   }
+
+  /* Project Agreement opens with the same air above its title */
+  .proposal-section[data-section='project-agreement'] {
+    padding-top: 8rem;
+  }
 }
 
 /* Confidentiality reads as a small note on screen too, mirroring the printed
