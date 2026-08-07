@@ -33,8 +33,8 @@ export default function ProposalApp({ meta, sections }: { meta: ProposalPublicMe
         </div>
       </div>
 
-      {sections.map((section) => (
-        <SectionRenderer key={section.title} section={section} />
+      {sections.map((section, i) => (
+        <SectionRenderer key={`${i}-${section.title}`} section={section} />
       ))}
 
       <SignatureBlocks clientName={meta.client} />

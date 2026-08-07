@@ -44,6 +44,16 @@ export default async function ProposalPage({ params }: { params: Params }) {
     return <EmailGate slug={slug} clientName={meta.client} number={meta.number} />
   }
 
-  const sections = await fetchProposalSections(meta.pageId)
+  let sections
+  try {
+    sections = await fetchProposalSections(meta.pageId)
+  } catch (err) {
+    console.error('[proposal/page]', err)
+    return (
+      <div className="max-w-3xl mx-auto px-6 min-h-dvh flex flex-col justify-center">
+        <p className="text-[1.2em] text-[var(--hover-color)]">This proposal is temporarily unavailable. Please try again in a minute.</p>
+      </div>
+    )
+  }
   return <ProposalApp meta={toPublicMeta(meta)} sections={sections} />
 }
