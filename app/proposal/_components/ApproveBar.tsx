@@ -1,7 +1,7 @@
 'use client'
 
 import { AnimatePresence, motion } from 'framer-motion'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import type { Milestone } from '@/lib/proposal/types'
 
 export default function ApproveBar({
@@ -18,6 +18,16 @@ export default function ApproveBar({
   const [open, setOpen] = useState(false)
   const [busy, setBusy] = useState(false)
   const [error, setError] = useState<string | null>(null)
+
+  // Lock the document scroll while the sheet is open.
+  useEffect(() => {
+    if (!open) return
+    const prev = document.body.style.overflow
+    document.body.style.overflow = 'hidden'
+    return () => {
+      document.body.style.overflow = prev
+    }
+  }, [open])
 
   const confirm = async () => {
     setBusy(true)
@@ -50,11 +60,14 @@ export default function ApproveBar({
             animate={{ y: 0 }}
             exit={{ y: '100%' }}
             transition={{ type: 'tween', duration: 0.45, ease: [0.32, 0.72, 0, 1] }}
-            className="proposal-approve-bar fixed inset-0 z-[80] bg-[var(--background)] overflow-y-auto"
+            data-lenis-prevent
+            onWheel={(e) => e.stopPropagation()}
+            onTouchMove={(e) => e.stopPropagation()}
+            className="proposal-approve-bar fixed inset-0 z-[80] bg-[var(--background)] overflow-y-auto overscroll-contain"
           >
             <div className="max-w-3xl mx-auto px-6 min-h-dvh flex flex-col justify-center py-16">
               <h1 className="font-light text-[3em] leading-[1.1] mb-10 max-md:text-[2em] text-balance">
-                Review your approval
+                Review Your Selection
               </h1>
 
               <div className="mb-2">
@@ -65,21 +78,22 @@ export default function ApproveBar({
                     <span className="text-[1.05em] text-[var(--hover-color)] max-md:hidden">{m.timeline}</span>
                   </div>
                 ))}
-                <div className="flex items-baseline gap-4 py-2.5 border-t border-[var(--hover-color)]/30 mt-2">
+                <div className="w-[calc(56%+1rem)] max-md:w-full border-t border-[var(--hover-color)]/30 mt-2" />
+                <div className="flex items-baseline gap-4 py-2.5">
                   <span className="flex-none basis-[38%] max-md:basis-auto max-md:flex-1 text-[1.05em] font-medium">Total</span>
                   <span className="text-[1.05em] font-medium">{totalLabel}</span>
                 </div>
               </div>
 
               <p className="text-[1.05em] leading-[1.6] text-[var(--hover-color)] mt-8 mb-12 max-w-xl">
-                Approving sends your selection to Joel. The formal agreement will follow
-                via DocuSign for signature — nothing is binding until you sign there.
+                Approving sends this to Joel. The formal agreement will follow via
+                DocuSign for signature. Nothing is binding until you sign there.
               </p>
 
               <div className="flex items-center gap-4">
                 <button onClick={() => void confirm()} disabled={busy}
                   className="border border-[var(--foreground)] rounded-full px-8 py-3 text-[1.05em] hover:bg-[var(--foreground)] hover:text-[var(--background)] transition-colors disabled:opacity-30">
-                  {busy ? 'Approving…' : error ? 'Retry' : 'Confirm approval →'}
+                  {busy ? 'Approving…' : error ? 'Retry' : 'Approve →'}
                 </button>
                 <button onClick={() => { setOpen(false); setError(null) }} disabled={busy}
                   className="px-4 py-3 text-[1.05em] text-[var(--hover-color)] hover:text-[var(--foreground)] transition-colors">

@@ -67,8 +67,9 @@ export default function ProposalApp({ meta, sections }: { meta: ProposalPublicMe
               <span>✦</span>
             </p>
             <p className="text-[var(--hover-color)]">
-              {approval.summaryLabel} — approved by {approval.approvedBy} on {formatDate(approval.approvedAt)}.
-              You&rsquo;ll receive the document via DocuSign shortly.
+              {namesFromSummaryLabel(approval.summaryLabel).join(' + ')} for{' '}
+              {approval.summaryLabel.split(' — ')[1]}, approved by {approval.approvedBy} on{' '}
+              {formatDate(approval.approvedAt)}. You&rsquo;ll receive the document via DocuSign shortly.
             </p>
           </div>
         </div>
