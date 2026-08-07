@@ -26,14 +26,19 @@
 
 /* Confidentiality reads as a small note on screen too, mirroring the printed
    hierarchy (small medium-weight title, compact body). */
+.proposal-section[data-section='confidentiality-agreement'],
+.proposal-section[data-section='confidentiality'] {
+  padding-top: 1rem;
+  padding-bottom: 2rem;
+}
 .proposal-section[data-section='confidentiality-agreement'] h1,
 .proposal-section[data-section='confidentiality'] h1 {
-  font-size: 1.05em;
+  font-size: 0.95em;
   font-weight: 500;
-  margin-bottom: 0.6em;
+  margin-bottom: 0.5em;
 }
 .proposal-section[data-section='confidentiality-agreement'] p,
 .proposal-section[data-section='confidentiality'] p {
-  font-size: 0.9em;
+  font-size: 0.8em;
   line-height: 1.5;
 }
