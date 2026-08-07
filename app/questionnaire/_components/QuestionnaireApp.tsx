@@ -3,8 +3,10 @@
 import { AnimatePresence, motion } from 'framer-motion'
 import { useEffect } from 'react'
 import type { ProjectConfig } from '@/lib/questionnaire/types'
+import DoneScreen from './DoneScreen'
 import ProgressBar from './ProgressBar'
 import QuestionScreen from './QuestionScreen'
+import ReviewScreen from './ReviewScreen'
 import SaveIndicator from './SaveIndicator'
 import SectionInterlude from './SectionInterlude'
 import WelcomeScreen from './WelcomeScreen'
@@ -62,21 +64,9 @@ export default function QuestionnaireApp({ config }: { config: ProjectConfig }) 
             />
           )}
 
-          {q.phase === 'review' && (
-            <div className="max-w-3xl mx-auto px-6 min-h-dvh flex flex-col justify-center">
-              <h2 className="text-[2.2em] mb-6">Review (full version in Task 12)</h2>
-              <button onClick={() => void q.complete()}
-                className="self-start border border-[var(--foreground)] rounded-full px-8 py-3">
-                Submit →
-              </button>
-            </div>
-          )}
+          {q.phase === 'review' && <ReviewScreen config={config} q={q} />}
 
-          {q.phase === 'done' && (
-            <div className="max-w-3xl mx-auto px-6 min-h-dvh flex flex-col justify-center">
-              <h2 className="text-[2.2em]">Thank you.</h2>
-            </div>
-          )}
+          {q.phase === 'done' && <DoneScreen config={config} name={q.identity?.name ?? null} />}
         </motion.div>
       </AnimatePresence>
       {q.phase === 'flow' && <SaveIndicator state={q.saveState} />}
