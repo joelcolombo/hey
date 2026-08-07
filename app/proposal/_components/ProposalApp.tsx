@@ -126,7 +126,7 @@ export default function ProposalApp({ meta, sections }: { meta: ProposalPublicMe
       {!approval && pricing && (
         <ApproveBar
           totalLabel={summary ? summary.label.split(' — ')[1] : '—'}
-          selectionLabel={summary ? summary.names.join(' + ') : ''}
+          selectedMilestones={pricing.milestones.filter((m) => selected.has(m.name))}
           disabled={!summary}
           onApprove={approve}
         />
