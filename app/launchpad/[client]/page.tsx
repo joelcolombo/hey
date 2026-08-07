@@ -3,7 +3,7 @@ import Link from 'next/link'
 import { cookies } from 'next/headers'
 import { notFound, redirect } from 'next/navigation'
 import { LAUNCHPAD_COOKIE, readLaunchpadSession } from '@/lib/launchpad/access'
-import { getAccount, getItems, type LaunchpadItem } from '@/lib/launchpad/notion'
+import { getAccount, getItems, itemPermits, type LaunchpadItem } from '@/lib/launchpad/notion'
 import { isEmailAllowed } from '@/lib/proposal/access'
 import { findProposalBySlug } from '@/lib/proposal/notion'
 
@@ -46,6 +46,7 @@ export default async function LaunchpadHubPage({ params }: { params: Params }) {
   const views = await Promise.all(
     items.map((item): Promise<ItemView> => {
       if (!item.enabled) return Promise.resolve({ state: null, permitted: true })
+      if (!itemPermits(item, session.email)) return Promise.resolve({ state: null, permitted: false })
       if (item.kind === 'proposal') return proposalView(item, session.email)
       if (item.kind === 'questionnaire') return Promise.resolve({ state: 'Pending', permitted: true })
       return Promise.resolve({ state: null, permitted: true })

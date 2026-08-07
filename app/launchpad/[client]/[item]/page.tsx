@@ -2,7 +2,7 @@ import type { Metadata } from 'next'
 import { cookies } from 'next/headers'
 import { notFound, redirect } from 'next/navigation'
 import { LAUNCHPAD_COOKIE, readLaunchpadSession } from '@/lib/launchpad/access'
-import { getItem } from '@/lib/launchpad/notion'
+import { getItem, itemPermits } from '@/lib/launchpad/notion'
 import { getProjectConfig, resolveConfig } from '@/lib/questionnaire/projects'
 import QuestionnaireApp from '../../../questionnaire/_components/QuestionnaireApp'
 import { ProposalPageBody, proposalMetadata } from '../../../proposal/proposal-page'
@@ -36,7 +36,7 @@ export default async function LaunchpadItemPage({ params }: { params: Params }) 
   if (!session || session.account !== client) redirect('/launchpad')
 
   const entry = await getItem(client, item)
-  if (!entry || !entry.enabled) notFound()
+  if (!entry || !entry.enabled || !itemPermits(entry, session.email)) notFound()
 
   if (entry.kind === 'proposal') {
     return <ProposalPageBody slug={entry.target} launchpadEmail={session.email} launchpadHref={`/launchpad/${client}`} />

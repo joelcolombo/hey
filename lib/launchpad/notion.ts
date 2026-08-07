@@ -26,6 +26,14 @@ export type LaunchpadItem = {
   target: string
   enabled: boolean
   order: number
+  /** Per-item permission list. Empty = every account member. */
+  allowedEmails: string[]
+}
+
+/** Empty item allowlist means the whole account may access it. */
+export function itemPermits(item: LaunchpadItem, email: string): boolean {
+  if (item.allowedEmails.length === 0) return true
+  return item.allowedEmails.includes(email.trim().toLowerCase())
 }
 
 const notion = () => new Client({ auth: process.env.NOTION_API_KEY })
@@ -113,6 +121,7 @@ export async function getItems(accountSlug: string): Promise<LaunchpadItem[]> {
       target: text(p, 'Target').trim(),
       enabled: p['Enabled']?.checkbox ?? false,
       order: p['Order']?.number ?? 99,
+      allowedEmails: parseEmails(text(p, 'Allowed emails')),
     })
   }
   return items.sort((a, b) => a.order - b.order)
