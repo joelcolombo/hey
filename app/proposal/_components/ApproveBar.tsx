@@ -26,8 +26,8 @@ export default function ApproveBar({
   }
 
   return (
-    <div className="proposal-approve-bar fixed bottom-0 inset-x-0 bg-[var(--background)] border-t border-[var(--hover-color)]/30 px-6 py-4">
-      <div className="max-w-3xl mx-auto flex items-center gap-6 max-md:flex-col max-md:items-start max-md:gap-3 max-md:pl-10">
+    <div className="proposal-approve-bar fixed bottom-0 inset-x-0 bg-[var(--background)] border-t border-[var(--hover-color)]/30 py-4">
+      <div className="max-w-3xl mx-auto px-6 flex items-center gap-6 max-md:flex-col max-md:items-start max-md:gap-3 max-md:pl-10">
         {confirming ? (
           <>
             <p className="flex-1 text-[1.05em] text-balance">
