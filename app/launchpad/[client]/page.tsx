@@ -4,6 +4,7 @@ import { cookies } from 'next/headers'
 import { notFound, redirect } from 'next/navigation'
 import { LAUNCHPAD_COOKIE, readLaunchpadSession } from '@/lib/launchpad/access'
 import { getAccount, getItems, type LaunchpadItem } from '@/lib/launchpad/notion'
+import { isEmailAllowed } from '@/lib/proposal/access'
 import { findProposalBySlug } from '@/lib/proposal/notion'
 
 export const dynamic = 'force-dynamic'
@@ -15,16 +16,19 @@ export async function generateMetadata({ params }: { params: Params }): Promise<
   return { title: `Launchpad ✦ ${client.toUpperCase()}`, robots: { index: false, follow: false } }
 }
 
-/** Client-facing state for a proposal item, read live from Notion. */
-async function proposalState(item: LaunchpadItem): Promise<string | null> {
+type ItemView = { state: string | null; permitted: boolean }
+
+/** Client-facing state for a proposal item, read live from Notion. Users whose
+ * email is not on the proposal's own allowlist see it locked, stateless. */
+async function proposalView(item: LaunchpadItem, email: string): Promise<ItemView> {
   try {
     const meta = await findProposalBySlug(item.target)
-    if (!meta) return null
-    if (meta.status === 'Signed') return 'Signed'
-    if (meta.status === 'Approved') return 'Approved'
-    return 'Reviewing'
+    if (!meta) return { state: null, permitted: true }
+    if (!isEmailAllowed(email, meta.allowedEmails)) return { state: null, permitted: false }
+    const state = meta.status === 'Signed' ? 'Signed' : meta.status === 'Approved' ? 'Approved' : 'Reviewing'
+    return { state, permitted: true }
   } catch {
-    return null
+    return { state: null, permitted: true }
   }
 }
 
@@ -39,12 +43,12 @@ export default async function LaunchpadHubPage({ params }: { params: Params }) {
   if (!account) notFound()
   const items = await getItems(client)
 
-  const states = await Promise.all(
-    items.map((item) => {
-      if (!item.enabled) return Promise.resolve(null)
-      if (item.kind === 'proposal') return proposalState(item)
-      if (item.kind === 'questionnaire') return Promise.resolve('Pending')
-      return Promise.resolve(null)
+  const views = await Promise.all(
+    items.map((item): Promise<ItemView> => {
+      if (!item.enabled) return Promise.resolve({ state: null, permitted: true })
+      if (item.kind === 'proposal') return proposalView(item, session.email)
+      if (item.kind === 'questionnaire') return Promise.resolve({ state: 'Pending', permitted: true })
+      return Promise.resolve({ state: null, permitted: true })
     })
   )
 
@@ -54,18 +58,19 @@ export default async function LaunchpadHubPage({ params }: { params: Params }) {
       <h1 className="font-light text-[3em] leading-[1.1] mb-12 max-md:text-[2em]">{account.name}</h1>
       <ul className="flex flex-col">
         {items.map((item, i) => {
-          const state = states[i]
+          const { state, permitted } = views[i]
+          const open = item.enabled && permitted
           const row = (
             <>
               <span className="flex-1">{item.label}</span>
-              {state && <span className="label text-[var(--hover-color)]">{state}</span>}
-              {!item.enabled && <span className="label text-[var(--hover-color)]">Locked</span>}
-              <span className={item.enabled ? 'transition-transform group-hover:translate-x-1' : 'text-[var(--hover-color)]'}>→</span>
+              {open && state && <span className="label text-[var(--hover-color)]">{state}</span>}
+              {!open && <span className="label text-[var(--hover-color)]">Locked</span>}
+              <span className={open ? 'transition-transform group-hover:translate-x-1' : 'text-[var(--hover-color)]'}>→</span>
             </>
           )
           return (
             <li key={item.slug} className="border-t border-[var(--hover-color)]/30 last:border-b">
-              {item.enabled ? (
+              {open ? (
                 <Link
                   href={`/launchpad/${client}/${item.slug}`}
                   className="group flex items-baseline gap-4 py-5 text-[1.2em] hover:text-[var(--hover-color)] transition-colors"
