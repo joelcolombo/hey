@@ -22,7 +22,7 @@ export async function notifyApproval(input: {
       headers: { Authorization: `Bearer ${key}`, 'Content-Type': 'application/json' },
       body: JSON.stringify({
         from: process.env.PROPOSAL_NOTIFY_FROM ?? 'Proposals <onboarding@resend.dev>',
-        to: ['hey@joelcolombo.co'],
+        to: [process.env.PROPOSAL_NOTIFY_TO ?? 'hey@joelcolombo.co'],
         subject: `Proposal approved ✦ ${input.client} — ${input.title}`,
         text: [
           `${input.number} — ${input.title}`,
