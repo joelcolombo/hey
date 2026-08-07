@@ -79,14 +79,15 @@ export default function IndexOverlay({
       animate="show"
       exit="hidden"
     >
+      {/* Close sits exactly where the Index button was, same pill. */}
+      <button
+        onClick={onClose}
+        className="fixed top-4 left-5 border border-[var(--hairline)] rounded-full px-2.5 py-0.5 label text-[color-mix(in_srgb,var(--foreground)_80%,transparent)] hover:border-[var(--foreground)] hover:text-[var(--foreground)] transition-colors z-[70]"
+      >
+        Close
+      </button>
       <div ref={contentRef} className="max-w-3xl mx-auto px-6 py-16">
-        <div className="flex items-center justify-between mb-12">
-          <h2 className="text-[1.8em]">Index</h2>
-          <button onClick={onClose}
-            className="label border border-[var(--hover-color)] rounded-full px-2.5 py-0.5 hover:bg-[var(--foreground)] hover:text-[var(--background)] hover:border-[var(--foreground)] transition-colors">
-            Close
-          </button>
-        </div>
+        <h2 className="text-[1.8em] mb-12">Index</h2>
 
         {config.template.sections.map((section, si) => (
           <motion.div key={section.id} variants={sectionVariants} className="mb-10">
