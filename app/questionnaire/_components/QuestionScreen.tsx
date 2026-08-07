@@ -58,7 +58,11 @@ export default function QuestionScreen({
           {number} / {total} · {section.title}
         </p>
         <h2 className="text-[2.2em] leading-[1.15] mb-3 max-md:text-[1.5em]">{question.prompt}</h2>
-        {question.hint && <p className="text-[1em] text-[var(--hover-color)] mb-6">{question.hint}</p>}
+        {question.hint && (
+          <p className="text-[1em] leading-[1.5] text-[var(--hover-color)] mb-6 max-w-xl first-letter:uppercase">
+            {question.hint}
+          </p>
+        )}
 
         <div className="mb-10 mt-4">{renderInput({ question, draft, setDraft, onSubmit: submit })}</div>
 
