@@ -22,7 +22,7 @@ export default function WelcomeScreen({
   return (
     <div className="max-w-3xl mx-auto px-6 min-h-dvh flex flex-col justify-center">
       <p className="text-[0.9em] text-[var(--hover-color)] mb-4">
-        {config.clientName} · ~{config.template.estimatedMinutes} min
+        Approximately {config.template.estimatedMinutes}&rsquo;
       </p>
       <h1 className="text-[3em] leading-[1.1] mb-6 max-md:text-[2em] text-balance">{config.template.title}</h1>
       <p className="text-[1.2em] leading-[1.4] text-[var(--hover-color)] mb-10">{config.template.intro}</p>
