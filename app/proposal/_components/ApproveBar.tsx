@@ -24,8 +24,13 @@ export default function ApproveBar({
     if (!open) return
     const prev = document.body.style.overflow
     document.body.style.overflow = 'hidden'
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') setOpen(false)
+    }
+    window.addEventListener('keydown', onKey)
     return () => {
       document.body.style.overflow = prev
+      window.removeEventListener('keydown', onKey)
     }
   }, [open])
 
@@ -55,7 +60,21 @@ export default function ApproveBar({
       {/* Review sheet — the bar expanded over the document */}
       <AnimatePresence>
         {open && (
+          <motion.button
+            key="close"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.2 }}
+            onClick={() => { setOpen(false); setError(null) }}
+            className="fixed top-4 left-5 border border-[var(--hairline)] rounded-full px-2.5 py-0.5 label text-[color-mix(in_srgb,var(--foreground)_80%,transparent)] hover:border-[var(--foreground)] hover:text-[var(--foreground)] transition-colors z-[90]"
+          >
+            Close
+          </motion.button>
+        )}
+        {open && (
           <motion.div
+            key="sheet"
             initial={{ y: '100%' }}
             animate={{ y: 0 }}
             exit={{ y: '100%' }}
@@ -94,10 +113,6 @@ export default function ApproveBar({
                 <button onClick={() => void confirm()} disabled={busy}
                   className="border border-[var(--foreground)] rounded-full px-8 py-3 text-[1.05em] hover:bg-[var(--foreground)] hover:text-[var(--background)] transition-colors disabled:opacity-30">
                   {busy ? 'Approving…' : error ? 'Retry' : 'Approve →'}
-                </button>
-                <button onClick={() => { setOpen(false); setError(null) }} disabled={busy}
-                  className="px-4 py-3 text-[1.05em] text-[var(--hover-color)] hover:text-[var(--foreground)] transition-colors">
-                  Back
                 </button>
               </div>
               {error && <p className="text-[0.95em] text-[var(--hover-color)] mt-4">{error}</p>}
