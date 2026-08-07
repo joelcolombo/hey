@@ -30,6 +30,7 @@ export default function VoiceInput({ onTranscript }: { onTranscript: (text: stri
   const onTranscriptRef = useRef(onTranscript)
   const startingRef = useRef(false)
   const abortRef = useRef<AbortController | null>(null)
+  const unmountedRef = useRef(false)
 
   useEffect(() => {
     onTranscriptRef.current = onTranscript
@@ -42,6 +43,7 @@ export default function VoiceInput({ onTranscript }: { onTranscript: (text: stri
 
   useEffect(
     () => () => {
+      unmountedRef.current = true
       if (recorderRef.current?.state !== 'inactive') recorderRef.current?.stop()
       stopTracks()
       window.clearInterval(tickRef.current)
@@ -56,14 +58,16 @@ export default function VoiceInput({ onTranscript }: { onTranscript: (text: stri
     if (startingRef.current) return
     startingRef.current = true
 
+    let stream: MediaStream | undefined
     try {
-      const stream = await navigator.mediaDevices.getUserMedia({ audio: true })
+      stream = await navigator.mediaDevices.getUserMedia({ audio: true })
       const mime = MIME_CANDIDATES.find((m) => MediaRecorder.isTypeSupported(m)) ?? ''
       const rec = new MediaRecorder(stream, mime ? { mimeType: mime } : undefined)
       recorderRef.current = rec
       chunksRef.current = []
       rec.ondataavailable = (e) => e.data.size && chunksRef.current.push(e.data)
       rec.onstop = () => {
+        if (unmountedRef.current) return
         stopTracks()
         window.clearInterval(tickRef.current)
         void transcribe(new Blob(chunksRef.current, { type: rec.mimeType || 'audio/webm' }))
@@ -78,6 +82,7 @@ export default function VoiceInput({ onTranscript }: { onTranscript: (text: stri
         if (s >= MAX_SECONDS && rec.state === 'recording') rec.stop()
       }, 250)
     } catch {
+      stream?.getTracks().forEach((t) => t.stop())
       setState('denied')
     } finally {
       startingRef.current = false
@@ -89,6 +94,7 @@ export default function VoiceInput({ onTranscript }: { onTranscript: (text: stri
   }
 
   const transcribe = async (blob: Blob) => {
+    if (unmountedRef.current) return
     setState('transcribing')
     const abort = new AbortController()
     abortRef.current = abort
@@ -104,10 +110,11 @@ export default function VoiceInput({ onTranscript }: { onTranscript: (text: stri
       })
       if (!res.ok) throw new Error(String(res.status))
       const data = (await res.json()) as { text: string }
+      if (unmountedRef.current) return
       if (data.text.trim()) onTranscriptRef.current(data.text.trim())
       setState('idle')
     } catch (err) {
-      if (abort.signal.aborted) return
+      if (unmountedRef.current || abort.signal.aborted) return
       setState('error')
     }
   }
