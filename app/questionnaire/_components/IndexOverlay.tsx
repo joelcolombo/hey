@@ -1,5 +1,6 @@
 'use client'
 
+import { motion } from 'framer-motion'
 import { useEffect } from 'react'
 import type { Answers, ProjectConfig } from '@/lib/questionnaire/types'
 
@@ -28,7 +29,17 @@ export default function IndexOverlay({
 
   let n = 0
   return (
-    <div id="q-index-overlay" className="fixed inset-0 z-[60] bg-[var(--background)] overflow-y-auto">
+    // data-lenis-prevent: the site-wide Lenis smooth-scroll hijacks wheel
+    // events for the page body — without it this fixed overlay can't scroll.
+    <motion.div
+      id="q-index-overlay"
+      data-lenis-prevent
+      className="fixed inset-0 z-[60] bg-[var(--background)] overflow-y-auto"
+      initial={{ opacity: 0, y: 12 }}
+      animate={{ opacity: 1, y: 0 }}
+      exit={{ opacity: 0, y: 12 }}
+      transition={{ duration: 0.22, ease: 'easeOut' }}
+    >
       <div className="max-w-3xl mx-auto px-6 py-16">
         <div className="flex items-center justify-between mb-12">
           <h2 className="text-[1.8em]">Index</h2>
@@ -70,6 +81,6 @@ export default function IndexOverlay({
           </div>
         ))}
       </div>
-    </div>
+    </motion.div>
   )
 }

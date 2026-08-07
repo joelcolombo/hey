@@ -85,28 +85,31 @@ export default function QuestionnaireApp({ config }: { config: ProjectConfig }) 
       </AnimatePresence>
       {q.phase === 'flow' && <SaveIndicator state={q.saveState} />}
 
-      {/* Question index: jump anywhere without walking the flow. */}
+      {/* Question index: jump anywhere without walking the flow. Button
+          mirrors the voice pill (sans dot). */}
       {(q.phase === 'flow' || q.phase === 'review') && q.identity && (
         <button
           onClick={() => setShowIndex(true)}
-          className="fixed top-4 left-5 label border border-[var(--hover-color)] rounded-full px-2.5 py-0.5 hover:bg-[var(--foreground)] hover:text-[var(--background)] hover:border-[var(--foreground)] transition-colors z-50"
+          className="fixed top-4 left-5 border border-[var(--hover-color)] rounded-full px-2.5 py-0.5 label text-[var(--foreground)] opacity-80 hover:opacity-100 hover:border-[var(--foreground)] transition-colors z-50"
         >
           Index
         </button>
       )}
-      {showIndex && (
-        <IndexOverlay
-          config={config}
-          answers={q.answers}
-          seen={q.seen}
-          currentId={q.current?.kind === 'question' ? q.current.question.id : null}
-          onNavigate={(id) => {
-            q.goToQuestion(id)
-            setShowIndex(false)
-          }}
-          onClose={() => setShowIndex(false)}
-        />
-      )}
+      <AnimatePresence>
+        {showIndex && (
+          <IndexOverlay
+            config={config}
+            answers={q.answers}
+            seen={q.seen}
+            currentId={q.current?.kind === 'question' ? q.current.question.id : null}
+            onNavigate={(id) => {
+              q.goToQuestion(id)
+              setShowIndex(false)
+            }}
+            onClose={() => setShowIndex(false)}
+          />
+        )}
+      </AnimatePresence>
 
       {/* Identity escape hatch for shared devices: clears local state and
           returns to a fresh welcome. Mirrors SaveIndicator, bottom-right. */}
