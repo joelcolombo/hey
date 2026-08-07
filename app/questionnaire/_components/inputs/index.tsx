@@ -79,7 +79,7 @@ export function LongTextInput({ question, draft, setDraft, onSubmit }: InputProp
                 key={s}
                 type="button"
                 onClick={() => addSuggestion(s)}
-                className={`inline-flex items-center gap-1.5 text-[0.95em] leading-[1.2] border rounded-full px-4 py-1.5 transition-colors ${
+                className={`inline-flex items-center gap-1.5 text-[0.95em] leading-none tracking-[0.02em] border rounded-full pl-[14px] pr-[17px] pt-[5px] pb-[7px] transition-colors ${
                   used
                     ? 'border-[var(--hover-color)] text-[var(--hover-color)] cursor-default'
                     : 'border-[var(--hover-color)] hover:bg-[var(--foreground)] hover:text-[var(--background)] hover:border-[var(--foreground)]'
