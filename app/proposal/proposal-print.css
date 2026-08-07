@@ -216,10 +216,24 @@
     flex-direction: row !important;
   }
 
+  /* Custom-drawn checkboxes: native (esp. disabled) controls print washed
+     out gray — draw a solid black box with a white check instead. */
   input[type='checkbox'] {
-    accent-color: #000 !important;
+    appearance: none !important;
+    -webkit-appearance: none !important;
+    width: 9pt !important;
+    height: 9pt !important;
+    border: 0.75pt solid #000 !important;
+    border-radius: 1.5pt !important;
+    background: #fff !important;
+    opacity: 1 !important;
     -webkit-print-color-adjust: exact;
     print-color-adjust: exact;
+  }
+  input[type='checkbox']:checked {
+    background: #000
+      url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 10 10'><path d='M2.2 5.4 4.2 7.4 7.8 3.2' fill='none' stroke='white' stroke-width='1.5'/></svg>")
+      center / 80% no-repeat !important;
   }
 
   a {
