@@ -70,8 +70,8 @@ export default function ProposalApp({ meta, sections }: { meta: ProposalPublicMe
         </div>
       )}
 
-      {/* Cover — always black, both themes */}
-      <div className="proposal-cover bg-black text-white min-h-dvh flex flex-col justify-between px-6 py-16 md:px-16">
+      {/* Cover — print only; on screen the document starts at the title block */}
+      <div className="proposal-cover bg-black text-white min-h-dvh hidden print:flex flex-col justify-between px-6 py-16 md:px-16">
         <h1 className="font-light text-[4em] leading-[1.1] max-md:text-[2.4em] max-w-4xl mt-24 text-balance">
           Services Proposal for {meta.client}
         </h1>
