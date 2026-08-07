@@ -1,40 +1,17 @@
 'use client'
 
-import { useEffect, useRef } from 'react'
 import type { InputProps } from './index'
 
-export default function ChoiceInput({ question, draft, setDraft, onSubmit }: InputProps) {
+export default function ChoiceInput({ question, draft, setDraft }: InputProps) {
   if (question.type !== 'select' && question.type !== 'multiselect') return null
   const multi = question.type === 'multiselect'
   const selected = draft?.type === 'choice' ? draft.selected : []
 
-  // Track pending timer to prevent race conditions on re-tap within 250ms
-  const timerRef = useRef<NodeJS.Timeout | null>(null)
-  // Guard to prevent stale timers from calling onSubmit after unmount/question change
-  const submittedRef = useRef(false)
-
-  // Clean up timer on unmount or question change
-  useEffect(() => {
-    return () => {
-      if (timerRef.current) clearTimeout(timerRef.current)
-    }
-  }, [question.id])
-
+  // Selecting only marks the choice — advancing is always an explicit
+  // "Next →" click (or Enter), so a mis-tap never skips the screen.
   const toggle = (option: string) => {
     if (!multi) {
-      const next = { type: 'choice' as const, selected: [option] }
-      setDraft(next)
-      // Clear any existing timer (re-tap replaces, never stacks)
-      if (timerRef.current) clearTimeout(timerRef.current)
-      // Single select: advance right away — one tap, done. Pass the value as
-      // an override: state won't have re-rendered inside this timeout's closure.
-      timerRef.current = setTimeout(() => {
-        // Guard against stale timers calling onSubmit on unmounted or changed component
-        if (!submittedRef.current) {
-          submittedRef.current = true
-          onSubmit(next)
-        }
-      }, 250)
+      setDraft({ type: 'choice', selected: [option] })
       return
     }
     const next = selected.includes(option) ? selected.filter((o) => o !== option) : [...selected, option]

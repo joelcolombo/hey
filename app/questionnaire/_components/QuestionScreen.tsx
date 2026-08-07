@@ -64,7 +64,7 @@ export default function QuestionScreen({
         <div className="flex items-center gap-6">
           <button onClick={() => submit()} disabled={!draft}
             className="border border-[var(--foreground)] rounded-full px-8 py-3 text-[1.1em] hover:bg-[var(--foreground)] hover:text-[var(--background)] transition-colors disabled:opacity-30 disabled:pointer-events-none">
-            OK →
+            Next →
           </button>
           <button onClick={onSkip} className="text-[0.9em] text-[var(--hover-color)] hover:text-[var(--foreground)] transition-colors">
             Skip

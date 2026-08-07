@@ -48,6 +48,15 @@ export function LongTextInput({ question, draft, setDraft, onSubmit }: InputProp
     el.style.height = 'auto'
     el.style.height = `${Math.min(el.scrollHeight, 320)}px`
   }, [value])
+
+  const suggestions = question.type === 'longtext' ? question.suggestions ?? [] : []
+  /** Append a suggestion to the answer (comma-separated); already-present ones dim. */
+  const addSuggestion = (s: string) => {
+    if (value.toLowerCase().includes(s.toLowerCase())) return
+    setDraft({ type: 'text', text: value.trim() ? `${value.trim().replace(/[,\s]+$/, '')}, ${s}` : s })
+    ref.current?.focus()
+  }
+
   return (
     <div>
       <textarea
@@ -61,6 +70,27 @@ export function LongTextInput({ question, draft, setDraft, onSubmit }: InputProp
         }}
         className="w-full resize-none bg-transparent border-b border-[var(--foreground)] py-3 text-[1.5em] leading-[1.3] outline-none placeholder:text-[var(--hover-color)]"
       />
+      {suggestions.length > 0 && (
+        <div className="mt-4 flex flex-wrap gap-2">
+          {suggestions.map((s) => {
+            const used = value.toLowerCase().includes(s.toLowerCase())
+            return (
+              <button
+                key={s}
+                type="button"
+                onClick={() => addSuggestion(s)}
+                className={`label border rounded-full px-2.5 py-0.5 transition-colors ${
+                  used
+                    ? 'border-[var(--hover-color)] text-[var(--hover-color)] cursor-default'
+                    : 'border-[var(--hover-color)] hover:bg-[var(--foreground)] hover:text-[var(--background)] hover:border-[var(--foreground)]'
+                }`}
+              >
+                {used ? `✓ ${s}` : `+ ${s}`}
+              </button>
+            )
+          })}
+        </div>
+      )}
       <div className="mt-4">
         <VoiceInput
           onTranscript={(text) =>

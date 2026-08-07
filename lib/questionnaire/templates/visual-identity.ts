@@ -30,7 +30,7 @@ export const visualIdentityTemplate: Template = {
       id: 'personality',
       title: 'Brand Personality',
       questions: [
-        { id: 'character', type: 'longtext', prompt: "If {client} were a person, how would you describe their character and demeanor?", hint: "e.g. insightful, pragmatic, visionary, approachable, rigorous, inspiring" },
+        { id: 'character', type: 'longtext', prompt: "If {client} were a person, how would you describe their character and demeanor?", hint: "e.g. insightful, pragmatic, visionary, approachable, rigorous, inspiring", suggestions: ['Insightful', 'Pragmatic', 'Visionary', 'Approachable', 'Rigorous', 'Inspiring'] },
         {
           id: 'traits',
           type: 'sliders-group',
@@ -58,9 +58,9 @@ export const visualIdentityTemplate: Template = {
       id: 'visual-tone',
       title: 'Visual Tone & Atmosphere',
       questions: [
-        { id: 'world', type: 'longtext', prompt: "Which world should the brand lean closer to?", hint: "e.g. evidence-based · innovation + design · collaboration + community" },
-        { id: 'visual-feel', type: 'longtext', prompt: "How should the overall visual language feel?", hint: "Minimalist or expressive · reserved or bold · formal or contemporary · neutral or vibrant" },
-        { id: 'imagery', type: 'longtext', prompt: "How important is photography or imagery to the brand? What should it feature?", hint: "People, data visualizations, abstract concepts, field-based imagery…" },
+        { id: 'world', type: 'longtext', prompt: "Which world should the brand lean closer to?", hint: "e.g. evidence-based · innovation + design · collaboration + community", suggestions: ['Evidence-based', 'Innovation + design', 'Collaboration + community'] },
+        { id: 'visual-feel', type: 'longtext', prompt: "How should the overall visual language feel?", hint: "Minimalist or expressive · reserved or bold · formal or contemporary · neutral or vibrant", suggestions: ['Minimalist', 'Expressive', 'Reserved', 'Bold', 'Formal', 'Contemporary', 'Neutral', 'Vibrant'] },
+        { id: 'imagery', type: 'longtext', prompt: "How important is photography or imagery to the brand? What should it feature?", hint: "People, data visualizations, abstract concepts, field-based imagery…", suggestions: ['People', 'Data visualizations', 'Abstract concepts', 'Field-based imagery'] },
         { id: 'system-flex', type: 'select', prompt: "Should the visual system feel unified and controlled, or flexible and modular?", options: ['Unified and controlled', 'Flexible and modular', 'Somewhere in between'] },
         { id: 'cliches', type: 'longtext', prompt: "Are there visual clichés in your sector you want to consciously avoid?" },
       ],
@@ -70,18 +70,18 @@ export const visualIdentityTemplate: Template = {
       title: 'Identity & Legacy',
       questions: [
         { id: 'legacy-relation', type: 'select', prompt: "How should the new identity relate to its origins?", options: ['Visually connected to our legacy', 'Fully independent and future-facing', 'Somewhere in between'] },
-        { id: 'metaphors', type: 'longtext', prompt: "Are there concepts, metaphors, or themes that feel meaningful to you?", hint: "e.g. bridges, pathways, momentum, evidence, growth, systems, scale" },
+        { id: 'metaphors', type: 'longtext', prompt: "Are there concepts, metaphors, or themes that feel meaningful to you?", hint: "e.g. bridges, pathways, momentum, evidence, growth, systems, scale", suggestions: ['Bridges', 'Pathways', 'Momentum', 'Evidence', 'Growth', 'Systems', 'Scale'] },
         { id: 'visual-equity', type: 'longtext', prompt: "Is there existing visual equity (colors, shapes, patterns) that holds meaning or recognition value?" },
-        { id: 'stakeholder-feel', type: 'longtext', prompt: "How should long-time stakeholders feel when they see the new identity?", hint: "Continuity? Evolution? Fresh start?" },
+        { id: 'stakeholder-feel', type: 'longtext', prompt: "How should long-time stakeholders feel when they see the new identity?", hint: "Continuity? Evolution? Fresh start?", suggestions: ['Continuity', 'Evolution', 'Fresh start'] },
         { id: 'legacy-constraints', type: 'longtext', prompt: "Are there legal, political, or practical constraints we should know about?" },
-        { id: 'transition-narrative', type: 'longtext', prompt: "What's the narrative you want to tell about this transition?", hint: "e.g. graduation, evolution, new chapter, independence" },
+        { id: 'transition-narrative', type: 'longtext', prompt: "What's the narrative you want to tell about this transition?", hint: "e.g. graduation, evolution, new chapter, independence", suggestions: ['Graduation', 'Evolution', 'New chapter', 'Independence'] },
       ],
     },
     {
       id: 'color-type',
       title: 'Color & Typography',
       questions: [
-        { id: 'palette-mood', type: 'longtext', prompt: "Are there tones, moods, or palettes that feel aligned with {client}'s mission?", hint: "e.g. grounded, optimistic, serious, hopeful, bold, restrained" },
+        { id: 'palette-mood', type: 'longtext', prompt: "Are there tones, moods, or palettes that feel aligned with {client}'s mission?", hint: "e.g. grounded, optimistic, serious, hopeful, bold, restrained", suggestions: ['Grounded', 'Optimistic', 'Serious', 'Hopeful', 'Bold', 'Restrained'] },
         { id: 'type-feel', type: 'select', prompt: "How should the typography feel?", options: ['Editorial / journalistic', 'Technical / scientific', 'Warm / humanistic', "A mix — I'll explain in the next question"] },
         { id: 'color-equity', type: 'longtext', prompt: "Any existing brand colors with equity or meaning worth preserving or referencing?" },
         { id: 'color-avoid', type: 'longtext', prompt: "Any colors strongly associated with competitors or peers that we should avoid?" },
@@ -110,7 +110,7 @@ export const visualIdentityTemplate: Template = {
       title: 'Verbal Identity & Messaging',
       questions: [
         { id: 'key-phrases', type: 'longtext', prompt: "Are there key phrases, terms, or vocabulary central to how {client} communicates?" },
-        { id: 'voice', type: 'longtext', prompt: "How would you describe {client}'s voice?", hint: "e.g. authoritative but warm, precise but inspiring" },
+        { id: 'voice', type: 'longtext', prompt: "How would you describe {client}'s voice?", hint: "e.g. authoritative but warm, precise but inspiring", suggestions: ['Authoritative', 'Warm', 'Precise', 'Inspiring'] },
       ],
     },
     {

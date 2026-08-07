@@ -16,7 +16,12 @@ interface QuestionBase {
 
 export type Question =
   | (QuestionBase & { type: 'text'; placeholder?: string })
-  | (QuestionBase & { type: 'longtext'; placeholder?: string })
+  | (QuestionBase & {
+      type: 'longtext'
+      placeholder?: string
+      /** Tappable helper pills that append to the answer (e.g. "Minimalist"). */
+      suggestions?: string[]
+    })
   | (QuestionBase & { type: 'select'; options: string[] })
   | (QuestionBase & { type: 'multiselect'; options: string[] })
   | (QuestionBase & { type: 'trait-slider'; slider: TraitSliderDef })
