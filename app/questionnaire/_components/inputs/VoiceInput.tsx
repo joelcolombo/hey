@@ -147,13 +147,14 @@ export default function VoiceInput({ onTranscript }: { onTranscript: (text: stri
   // Idle / transcribing: dot pill + helper line.
   return (
     <div className="flex flex-col items-start gap-3">
+      {/* formform's idle pill verbatim: border-hairline, text ink/80, dot ink/70 */}
       <button
         type="button"
         onClick={() => void start()}
         disabled={state === 'transcribing'}
-        className="inline-flex items-center gap-2 border border-[var(--hover-color)] rounded-full px-2.5 py-0.5 label text-[var(--foreground)] opacity-80 hover:opacity-100 hover:border-[var(--foreground)] transition-colors disabled:opacity-40"
+        className="inline-flex items-center gap-2 border border-[var(--hairline)] rounded-full px-2.5 py-0.5 label text-[color-mix(in_srgb,var(--foreground)_80%,transparent)] hover:border-[var(--foreground)] hover:text-[var(--foreground)] transition-colors disabled:opacity-40"
       >
-        <span className="inline-block h-1.5 w-1.5 rounded-full bg-[var(--foreground)] opacity-70" aria-hidden />
+        <span className="inline-block h-1.5 w-1.5 rounded-full bg-[color-mix(in_srgb,var(--foreground)_70%,transparent)]" aria-hidden />
         <span>{state === 'transcribing' ? 'Transcribing…' : 'Answer with your voice'}</span>
       </button>
       <p className="label text-[0.625rem] text-[var(--hover-color)]">

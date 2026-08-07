@@ -63,7 +63,14 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
     // Save to cookie with 1 year expiration
     Cookies.set(THEME_COOKIE_NAME, newTheme, { expires: COOKIE_MAX_AGE });
 
-    document.documentElement.setAttribute('data-theme', newTheme);
+    // One-shot crossfade, formform style: going dark eases in slowly
+    // (dimming the lights); going light stays snappy.
+    const root = document.documentElement;
+    const transitionClass = newTheme === 'dark' ? 'theme-transition-dark' : 'theme-transition';
+    const duration = newTheme === 'dark' ? 950 : 320;
+    root.classList.add(transitionClass);
+    root.setAttribute('data-theme', newTheme);
+    window.setTimeout(() => root.classList.remove(transitionClass), duration);
   };
 
   return (

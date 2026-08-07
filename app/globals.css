@@ -46,6 +46,7 @@
     --foreground: #000000;
     --hover-color: #a0a0a0;
     --selection-bg: #f1f1f1;
+    --hairline: #e6e5e1;
 }
 
 [data-theme="dark"] {
@@ -53,6 +54,26 @@
     --foreground: #f5f5f5;
     --hover-color: #666666;
     --selection-bg: #333333;
+    --hairline: #2a2a2a;
+}
+
+/* One-shot smooth crossfade applied only while toggling the theme.
+   Light direction (dark -> light) keeps the snappy 0.3s timing. */
+.theme-transition,
+.theme-transition *,
+.theme-transition *::before,
+.theme-transition *::after {
+    transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease,
+        fill 0.3s ease !important;
+}
+
+/* Dark direction (light -> dark) eases in slowly, like dimming the lights. */
+.theme-transition-dark,
+.theme-transition-dark *,
+.theme-transition-dark *::before,
+.theme-transition-dark *::after {
+    transition: background-color 0.9s ease-in, border-color 0.9s ease-in,
+        color 0.9s ease-in, fill 0.9s ease-in !important;
 }
 
 body {

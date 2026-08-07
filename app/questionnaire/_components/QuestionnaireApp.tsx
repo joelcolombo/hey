@@ -94,7 +94,7 @@ export default function QuestionnaireApp({ config }: { config: ProjectConfig }) 
       {(q.phase === 'flow' || q.phase === 'review') && q.identity && (
         <button
           onClick={() => setShowIndex(true)}
-          className="fixed top-4 left-5 border border-[var(--hover-color)] rounded-full px-2.5 py-0.5 label text-[var(--foreground)] opacity-80 hover:opacity-100 hover:border-[var(--foreground)] transition-colors z-50"
+          className="fixed top-4 left-5 border border-[var(--hairline)] rounded-full px-2.5 py-0.5 label text-[color-mix(in_srgb,var(--foreground)_80%,transparent)] hover:border-[var(--foreground)] hover:text-[var(--foreground)] transition-colors z-50"
         >
           Index
         </button>

@@ -10,7 +10,7 @@ export async function generateMetadata({ params }: { params: Params }): Promise<
   const cfg = getProjectConfig(client, project)
   if (!cfg) return { robots: { index: false, follow: false } }
   return {
-    title: `${cfg.projectTitle} · ${cfg.clientName}`,
+    title: `${cfg.template.title} • ${cfg.clientName}`,
     robots: { index: false, follow: false },
   }
 }
