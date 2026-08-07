@@ -62,7 +62,12 @@ export default function QuestionnaireApp({ config }: { config: ProjectConfig }) 
           {q.phase === 'welcome' && <WelcomeScreen config={config} q={q} />}
 
           {q.phase === 'flow' && q.current?.kind === 'interlude' && (
-            <SectionInterlude section={q.current.section} sectionIndex={q.current.sectionIndex} onContinue={q.advance} />
+            <SectionInterlude
+              section={q.current.section}
+              sectionIndex={q.current.sectionIndex}
+              totalSections={config.template.sections.length}
+              onContinue={q.advance}
+            />
           )}
 
           {q.phase === 'flow' && q.current?.kind === 'question' && (
