@@ -115,9 +115,9 @@ export default function IndexOverlay({
                     <span className="text-[0.8em] tabular-nums w-7 shrink-0">{number}</span>
                     <span className="text-[1em] leading-[1.35] flex-1">{question.prompt}</span>
                     {answered ? (
-                      <span className="label text-[0.75rem] shrink-0" aria-label="answered">✓</span>
+                      <span className="text-[0.8em] shrink-0" aria-label="answered">✓</span>
                     ) : skipped ? (
-                      <span className="label text-[0.75rem] shrink-0 text-[var(--hover-color)]" aria-label="skipped">–</span>
+                      <span className="text-[0.8em] shrink-0 text-[var(--hover-color)]" aria-label="skipped">–</span>
                     ) : null}
                   </button>
                 )
