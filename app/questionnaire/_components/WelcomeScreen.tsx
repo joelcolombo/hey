@@ -4,9 +4,18 @@ import { useState } from 'react'
 import type { ProjectConfig } from '@/lib/questionnaire/types'
 import type { Questionnaire } from './useQuestionnaire'
 
-export default function WelcomeScreen({ config, q }: { config: ProjectConfig; q: Questionnaire }) {
+export default function WelcomeScreen({
+  config,
+  q,
+  lockedEmail,
+}: {
+  config: ProjectConfig
+  q: Questionnaire
+  /** Verified email from the launchpad session: skip asking for it. */
+  lockedEmail?: string
+}) {
   const [name, setName] = useState('')
-  const [email, setEmail] = useState('')
+  const [email, setEmail] = useState(lockedEmail ?? '')
   const [website, setWebsite] = useState('') // honeypot
   const valid = name.trim().length > 1 && email.includes('@')
 
@@ -28,9 +37,11 @@ export default function WelcomeScreen({ config, q }: { config: ProjectConfig; q:
         <input type="text" value={name} onChange={(e) => setName(e.target.value)} placeholder="Your name"
           autoComplete="name"
           className="bg-transparent border-b border-[var(--foreground)] py-3 text-[1.2em] outline-none placeholder:text-[var(--hover-color)]" />
-        <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="Your email"
-          autoComplete="email"
-          className="bg-transparent border-b border-[var(--foreground)] py-3 text-[1.2em] outline-none placeholder:text-[var(--hover-color)]" />
+        {!lockedEmail && (
+          <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="Your email"
+            autoComplete="email"
+            className="bg-transparent border-b border-[var(--foreground)] py-3 text-[1.2em] outline-none placeholder:text-[var(--hover-color)]" />
+        )}
         {/* Honeypot — invisible to humans */}
         <input type="text" value={website} onChange={(e) => setWebsite(e.target.value)} name="website"
           tabIndex={-1} autoComplete="off" aria-hidden="true"
@@ -39,6 +50,9 @@ export default function WelcomeScreen({ config, q }: { config: ProjectConfig; q:
           className="self-start mt-4 border border-[var(--foreground)] rounded-full px-8 py-3 text-[1.1em] hover:bg-[var(--foreground)] hover:text-[var(--background)] transition-colors disabled:opacity-30 disabled:pointer-events-none">
           {q.starting ? 'Starting…' : 'Start →'}
         </button>
+        {lockedEmail && (
+          <p className="text-[0.8em] text-[var(--hover-color)]">Answering as {lockedEmail}</p>
+        )}
         {q.startError && <p className="text-[0.9em] text-[var(--hover-color)]">{q.startError}</p>}
       </form>
     </div>

@@ -57,5 +57,11 @@ export default async function LaunchpadItemPage({ params }: { params: Params }) 
       </div>
     )
   }
-  return <QuestionnaireApp config={resolveConfig(cfg)} launchpadHref={`/launchpad/${client}`} />
+  return (
+    <QuestionnaireApp
+      config={resolveConfig(cfg)}
+      launchpadHref={`/launchpad/${client}`}
+      launchpadEmail={session.email}
+    />
+  )
 }

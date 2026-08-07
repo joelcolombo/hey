@@ -20,9 +20,11 @@ const pill =
 export default function QuestionnaireApp({
   config,
   launchpadHref,
+  launchpadEmail,
 }: {
   config: ProjectConfig
   launchpadHref?: string
+  launchpadEmail?: string
 }) {
   const q = useQuestionnaire(config)
   const [showIndex, setShowIndex] = useState(false)
@@ -69,7 +71,7 @@ export default function QuestionnaireApp({
           exit={{ opacity: 0, y: -24 }}
           transition={{ duration: 0.3, ease: 'easeOut' }}
         >
-          {q.phase === 'welcome' && <WelcomeScreen config={config} q={q} />}
+          {q.phase === 'welcome' && <WelcomeScreen config={config} q={q} lockedEmail={launchpadEmail} />}
 
           {q.phase === 'flow' && q.current?.kind === 'interlude' && (
             <SectionInterlude
