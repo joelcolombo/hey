@@ -1,10 +1,36 @@
 import { config as loadEnv } from 'dotenv'
 loadEnv({ path: '.env.local' })
 
+import { readdirSync, readFileSync, writeFileSync } from 'node:fs'
+import { join } from 'node:path'
 import { Client } from '@notionhq/client'
 import type { CreateDataSourceParameters, UpdateDataSourceParameters } from '@notionhq/client'
 import { getProjectConfig, resolveConfig } from '../lib/questionnaire/projects'
 import { buildDatabaseProperties, columnsForQuestion, QUESTION_KEY_RE } from '../lib/questionnaire/notion-format'
+
+/**
+ * Write the freshly created database ID straight into the project's config
+ * file (replacing `notionDatabaseId: null`), so setup is one command with no
+ * manual paste. Finds the config by its slug pair; falls back to printing
+ * the ID if anything about the file is unexpected.
+ */
+function writeDatabaseId(clientSlug: string, projectSlug: string, dbId: string): boolean {
+  const dir = join(__dirname, '..', 'lib', 'questionnaire', 'projects')
+  for (const file of readdirSync(dir)) {
+    if (!file.endsWith('.ts') || file === 'index.ts' || file.endsWith('.test.ts')) continue
+    const path = join(dir, file)
+    const src = readFileSync(path, 'utf8')
+    if (!src.includes(`clientSlug: '${clientSlug}'`) || !src.includes(`projectSlug: '${projectSlug}'`)) continue
+    if (!/notionDatabaseId:\s*null/.test(src)) {
+      console.error(`Config ${file} already has a notionDatabaseId. Not overwriting it.`)
+      return false
+    }
+    writeFileSync(path, src.replace(/notionDatabaseId:\s*null,?[^\n]*/, `notionDatabaseId: '${dbId}',`))
+    console.log(`Wrote notionDatabaseId into lib/questionnaire/projects/${file}`)
+    return true
+  }
+  return false
+}
 
 /**
  * SDK v5 (Notion-Version 2025-09-03) is data-source-centric: a database's schema lives on
@@ -93,8 +119,12 @@ async function main() {
   })
   const count = cfg.template.sections.flatMap((s) => s.questions).flatMap(columnsForQuestion).length
   console.log(`\nCreated database with ${count} question columns.`)
-  console.log(`\n  notionDatabaseId: '${db.id}'\n`)
-  console.log(`Paste that into the notionDatabaseId of the ProjectConfig for ${slugPair} in lib/questionnaire/projects/.`)
+  if (!writeDatabaseId(client, project, db.id)) {
+    console.log(`\n  notionDatabaseId: '${db.id}'\n`)
+    console.log(`Couldn't update the config automatically. Paste that into the ProjectConfig for ${slugPair} in lib/questionnaire/projects/.`)
+  } else {
+    console.log(`\n${slugPair} is live. The questionnaire URL is /questionnaire/${client}/${project}`)
+  }
 }
 
 main().catch((err) => {

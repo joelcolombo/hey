@@ -21,7 +21,7 @@ export const proVi: ProjectConfig = {
   projectSlug: 'visual-identity',
   clientName: 'PRO',
   projectTitle: 'Visual Identity',
-  notionDatabaseId: null, // paste the ID printed by `npm run questionnaire:setup -- pro/visual-identity`
+  notionDatabaseId: 'b22b42b3-303f-4747-bb7c-655512d086a1',
   template: applyOverrides(visualIdentityTemplate, {
     removeQuestions: ['internal-buyin', 'audience-channels', 'world'],
     replaceQuestions: [
@@ -68,7 +68,7 @@ export const proVi: ProjectConfig = {
         id: 'legacy-relation',
         type: 'select',
         prompt: "PRO's current identity came together quickly to meet an urgent moment, and it has earned real recognition. How should the new identity relate to it?",
-        options: ['Keep its energy, refined', 'A clear evolution', 'A fresh start'],
+        options: ['Keep and refine its energy', 'A clear evolution', 'A fresh start'],
       },
       {
         id: 'transition-narrative',
@@ -81,7 +81,7 @@ export const proVi: ProjectConfig = {
         id: 'type-feel',
         type: 'select',
         prompt: 'Typography can tie PRO to The DIV Fund or set it apart. What feels right?',
-        options: ["Share The DIV Fund's typography", 'Same family, used differently', 'A complementary voice of its own'],
+        options: ["Share The DIV Fund's typography", 'Same family but used differently', 'A complementary voice of its own'],
       },
       {
         id: 'color-equity',
@@ -114,8 +114,8 @@ export const proVi: ProjectConfig = {
           hint: 'Think of it as a spectrum, from clearly part of the same family to quietly connected.',
           options: [
             'Clearly part of the same family',
-            'Related, with its own personality',
-            'Independent, with a subtle connection',
+            'Related but with its own personality',
+            'Independent with a subtle connection',
           ],
         },
       },

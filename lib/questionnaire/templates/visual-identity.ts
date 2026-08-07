@@ -82,7 +82,7 @@ export const visualIdentityTemplate: Template = {
       title: 'Color & Typography',
       questions: [
         { id: 'palette-mood', type: 'longtext', prompt: "Are there tones, moods, or palettes that feel aligned with {client}'s mission?", hint: "e.g. grounded, optimistic, serious, hopeful, bold, restrained", suggestions: ['Grounded', 'Optimistic', 'Serious', 'Hopeful', 'Bold', 'Restrained'] },
-        { id: 'type-feel', type: 'select', prompt: "How should the typography feel?", options: ['Editorial / journalistic', 'Technical / scientific', 'Warm / humanistic', "A mix, I'll explain in the next question"] },
+        { id: 'type-feel', type: 'select', prompt: "How should the typography feel?", options: ['Editorial / journalistic', 'Technical / scientific', 'Warm / humanistic', "A mix (details in the next question)"] },
         { id: 'color-equity', type: 'longtext', prompt: "Any existing brand colors with equity or meaning worth preserving or referencing?" },
         { id: 'color-avoid', type: 'longtext', prompt: "Any colors strongly associated with competitors or peers that we should avoid?" },
       ],
