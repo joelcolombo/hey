@@ -3,7 +3,6 @@
 import { useMemo, useState } from 'react'
 import { computeApprovalSummary, namesFromSummaryLabel } from '@/lib/proposal/parse'
 import type { PricingTable, ProposalPublicMeta, Section } from '@/lib/proposal/types'
-import ThemeToggle from '@/components/ThemeToggle'
 import ApproveBar from './ApproveBar'
 import PricingSection from './PricingSection'
 import SectionRenderer from './SectionRenderer'
@@ -72,7 +71,7 @@ export default function ProposalApp({
       {launchpadHref && (
         <a
           href={launchpadHref}
-          className="fixed top-4 left-5 z-[70] border border-[var(--hairline)] rounded-full px-2.5 py-0.5 label text-[color-mix(in_srgb,var(--foreground)_80%,transparent)] hover:border-[var(--foreground)] hover:text-[var(--foreground)] transition-colors print:hidden"
+          className="fixed top-4 left-5 z-[70] bg-[var(--background)] border border-[var(--hairline)] rounded-full px-2.5 py-0.5 label text-[color-mix(in_srgb,var(--foreground)_80%,transparent)] hover:border-[var(--foreground)] hover:text-[var(--foreground)] transition-colors print:hidden"
         >
           Launchpad
         </a>
@@ -136,11 +135,6 @@ export default function ProposalApp({
       ))}
 
       <SignatureBlocks clientName={meta.client} />
-
-      {/* Same theme control as the site footer, bottom-left. Defaults to the system scheme. */}
-      <div className="fixed bottom-4 left-5 z-[75] print:hidden">
-        <ThemeToggle />
-      </div>
 
       {!approval && pricing && (
         <ApproveBar

@@ -46,7 +46,7 @@ export default function ApproveBar({
     <>
       {/* Idle bar */}
       <div className="proposal-approve-bar fixed bottom-0 inset-x-0 bg-[var(--background)] border-t border-[var(--hairline)] py-4 z-[70]">
-        <div className="max-w-3xl mx-auto px-6 flex items-center gap-6 max-md:pl-14">
+        <div className="max-w-3xl mx-auto px-6 flex items-center gap-6">
           <p className="flex-1 text-[1.05em]">
             Total: <span className="font-medium">{totalLabel}</span>
           </p>
@@ -67,7 +67,7 @@ export default function ApproveBar({
             exit={{ opacity: 0 }}
             transition={{ duration: 0.2 }}
             onClick={() => { setOpen(false); setError(null) }}
-            className="fixed top-4 left-5 border border-[var(--hairline)] rounded-full px-2.5 py-0.5 label text-[color-mix(in_srgb,var(--foreground)_80%,transparent)] hover:border-[var(--foreground)] hover:text-[var(--foreground)] transition-colors z-[90]"
+            className="fixed top-4 left-5 bg-[var(--background)] border border-[var(--hairline)] rounded-full px-2.5 py-0.5 label text-[color-mix(in_srgb,var(--foreground)_80%,transparent)] hover:border-[var(--foreground)] hover:text-[var(--foreground)] transition-colors z-[90]"
           >
             Close
           </motion.button>

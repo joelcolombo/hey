@@ -2,7 +2,6 @@
 
 import { AnimatePresence, motion } from 'framer-motion'
 import { useEffect, useState } from 'react'
-import ThemeToggle from '@/components/ThemeToggle'
 import type { ProjectConfig } from '@/lib/questionnaire/types'
 import DoneScreen from './DoneScreen'
 import IndexOverlay from './IndexOverlay'
@@ -15,7 +14,7 @@ import WelcomeScreen from './WelcomeScreen'
 import { useQuestionnaire } from './useQuestionnaire'
 
 const pill =
-  'border border-[var(--hairline)] rounded-full px-2.5 py-0.5 label text-[color-mix(in_srgb,var(--foreground)_80%,transparent)] hover:border-[var(--foreground)] hover:text-[var(--foreground)] transition-colors'
+  'bg-[var(--background)] border border-[var(--hairline)] rounded-full px-2.5 py-0.5 label text-[color-mix(in_srgb,var(--foreground)_80%,transparent)] hover:border-[var(--foreground)] hover:text-[var(--foreground)] transition-colors'
 
 export default function QuestionnaireApp({
   config,
@@ -133,11 +132,6 @@ export default function QuestionnaireApp({
           />
         )}
       </AnimatePresence>
-
-      {/* Same theme control as the site footer, bottom-left. */}
-      <div className="fixed bottom-4 left-5 z-50">
-        <ThemeToggle />
-      </div>
 
       {/* Bottom-right cluster: autosave status + identity escape hatch for
           shared devices (clears local state, back to a fresh welcome). */}
