@@ -9,8 +9,17 @@
     color: #000 !important;
   }
 
+  :root,
+  [data-theme='dark'],
+  [data-theme='light'] {
+    --background: #fff !important;
+    --foreground: #000 !important;
+    --hover-color: #666 !important;
+  }
+
   /* Chrome that must not print */
-  .proposal-approve-bar {
+  .proposal-approve-bar,
+  .proposal-approved-banner {
     display: none !important;
   }
 

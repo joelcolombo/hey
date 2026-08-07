@@ -15,6 +15,8 @@ type PropertyConfig = CreateDataSourceParameters['properties'][string]
  *   heading_2  → subsections ("Pricing & Timelines" hosts the pricing table)
  *   heading_3, paragraphs, bullet/numbered lists, dividers
  *   table      → under the Pricing heading: columns Milestone | Price | Timeline
+ *   Milestone names must be unique and must not contain " — " or " + "
+ *   (they round-trip through the approval summary label). Header row optional.
  */
 async function main() {
   if (!process.env.NOTION_API_KEY) {

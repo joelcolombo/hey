@@ -55,7 +55,7 @@ export default function ProposalApp({ meta, sections }: { meta: ProposalPublicMe
   return (
     <main className={approval ? '' : 'pb-28'}>
       {approval && (
-        <div className="max-w-3xl mx-auto px-6 pt-10">
+        <div className="proposal-approved-banner max-w-3xl mx-auto px-6 pt-10">
           <div className="border border-[var(--foreground)] rounded-2xl px-6 py-5 text-[1.05em] leading-[1.5]">
             <p className="font-medium mb-1">Proposal approved ✦</p>
             <p className="text-[var(--hover-color)]">
