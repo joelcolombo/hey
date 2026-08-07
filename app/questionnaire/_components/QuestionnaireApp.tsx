@@ -1,9 +1,10 @@
 'use client'
 
 import { AnimatePresence, motion } from 'framer-motion'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import type { ProjectConfig } from '@/lib/questionnaire/types'
 import DoneScreen from './DoneScreen'
+import IndexOverlay from './IndexOverlay'
 import ProgressBar from './ProgressBar'
 import QuestionScreen from './QuestionScreen'
 import ReviewScreen from './ReviewScreen'
@@ -14,13 +15,16 @@ import { useQuestionnaire } from './useQuestionnaire'
 
 export default function QuestionnaireApp({ config }: { config: ProjectConfig }) {
   const q = useQuestionnaire(config)
+  const [showIndex, setShowIndex] = useState(false)
 
   // Arrow-key navigation between screens. Ignored while focus is inside a
   // text field — otherwise moving the cursor in a multi-line answer would
-  // navigate away and discard the un-submitted draft.
+  // navigate away and discard the un-submitted draft — and while the index
+  // overlay is open.
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
       if (q.phase !== 'flow') return
+      if (document.getElementById('q-index-overlay')) return
       const t = e.target as HTMLElement | null
       if (t && (t.tagName === 'INPUT' || t.tagName === 'TEXTAREA' || t.isContentEditable)) return
       if (e.key === 'ArrowUp') q.goBack()
@@ -35,9 +39,18 @@ export default function QuestionnaireApp({ config }: { config: ProjectConfig }) 
       ? `flow-${q.screenIndex}`
       : q.phase
 
+  // Position-based hairline: how far into the questionnaire the current
+  // screen sits (review/done = full).
+  const fraction =
+    q.phase === 'review' || q.phase === 'done'
+      ? 1
+      : q.current?.kind === 'question'
+        ? (q.current.number - 1) / Math.max(q.progress.total, 1)
+        : q.screenIndex / Math.max(q.screens.length, 1)
+
   return (
     <div className="w-full">
-      {q.phase === 'flow' && <ProgressBar answered={q.progress.answered} total={q.progress.total} />}
+      {q.phase === 'flow' && <ProgressBar fraction={fraction} />}
       <AnimatePresence mode="wait">
         <motion.div
           key={key}
@@ -71,6 +84,30 @@ export default function QuestionnaireApp({ config }: { config: ProjectConfig }) 
         </motion.div>
       </AnimatePresence>
       {q.phase === 'flow' && <SaveIndicator state={q.saveState} />}
+
+      {/* Question index: jump anywhere without walking the flow. */}
+      {(q.phase === 'flow' || q.phase === 'review') && q.identity && (
+        <button
+          onClick={() => setShowIndex(true)}
+          className="fixed top-4 left-5 label border border-[var(--hover-color)] rounded-full px-2.5 py-0.5 hover:bg-[var(--foreground)] hover:text-[var(--background)] hover:border-[var(--foreground)] transition-colors z-50"
+        >
+          Index
+        </button>
+      )}
+      {showIndex && (
+        <IndexOverlay
+          config={config}
+          answers={q.answers}
+          seen={q.seen}
+          currentId={q.current?.kind === 'question' ? q.current.question.id : null}
+          onNavigate={(id) => {
+            q.goToQuestion(id)
+            setShowIndex(false)
+          }}
+          onClose={() => setShowIndex(false)}
+        />
+      )}
+
       {/* Identity escape hatch for shared devices: clears local state and
           returns to a fresh welcome. Mirrors SaveIndicator, bottom-right. */}
       {q.identity && q.phase !== 'welcome' && (

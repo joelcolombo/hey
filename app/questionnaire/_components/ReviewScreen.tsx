@@ -23,7 +23,7 @@ export default function ReviewScreen({ config, q }: { config: ProjectConfig; q: 
               {section.questions.map((question) => {
                 const answer = q.answers[question.id]
                 return (
-                  <button key={question.id} onClick={() => q.goToQuestion(question.id)}
+                  <button key={question.id} onClick={() => q.goToQuestion(question.id, { fromReview: true })}
                     className="text-left group">
                     <p className="text-[1em] mb-1 group-hover:text-[var(--hover-color)] transition-colors">{question.prompt}</p>
                     <p className="text-[0.95em] text-[var(--hover-color)] whitespace-pre-wrap">

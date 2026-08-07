@@ -62,7 +62,7 @@ export function LongTextInput({ question, draft, setDraft, onSubmit }: InputProp
       <textarea
         ref={ref}
         value={value}
-        rows={2}
+        rows={1}
         placeholder={question.type === 'longtext' ? question.placeholder ?? 'Type your answer...' : ''}
         onChange={(e) => setDraft(e.target.value ? { type: 'text', text: e.target.value } : null)}
         onKeyDown={(e) => {

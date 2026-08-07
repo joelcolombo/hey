@@ -11,6 +11,7 @@ export default function SectionInterlude({
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
       if (e.key !== 'Enter') return
+      if (document.getElementById('q-index-overlay')) return
       const t = e.target as HTMLElement
       if (t.tagName === 'BUTTON' || t.tagName === 'INPUT' || t.tagName === 'TEXTAREA') return
       onContinue()

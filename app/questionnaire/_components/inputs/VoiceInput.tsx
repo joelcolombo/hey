@@ -122,25 +122,48 @@ export default function VoiceInput({ onTranscript }: { onTranscript: (text: stri
   if (state === 'denied')
     return <p className="text-[0.85em] text-[var(--hover-color)]">Microphone blocked — you can keep typing.</p>
 
-  // Pill styled after formform's PillAction: Geist Pixel label, thin border,
-  // rounded-full, hover inverts.
-  const pill =
-    'inline-flex items-center gap-2 border rounded-full px-2.5 py-0.5 label hover:bg-[var(--foreground)] hover:text-[var(--background)] transition-colors'
+  // Styled after formform's VoiceNoteRecorder states verbatim (ink→foreground,
+  // paper→background, hairline→hover-color).
 
+  // Recording: inverted pill, pinging dot, live timer against the cap.
+  if (state === 'recording')
+    return (
+      <button
+        type="button"
+        onClick={stop}
+        className="inline-flex items-center gap-2 rounded-full bg-[var(--foreground)] text-[var(--background)] border border-[var(--foreground)] px-2.5 py-0.5 label"
+      >
+        <span className="relative flex h-1.5 w-1.5" aria-hidden>
+          <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[var(--background)] opacity-60" />
+          <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-[var(--background)]" />
+        </span>
+        <span className="tabular-nums">
+          {fmt(elapsed)} / {fmt(MAX_SECONDS)}
+        </span>
+        <span>· Stop recording</span>
+      </button>
+    )
+
+  // Idle / transcribing: dot pill + helper line.
   return (
-    <div className="flex items-center gap-4 text-[0.9em]">
-      {state === 'recording' ? (
-        <button type="button" onClick={stop} className={`${pill} border-[var(--foreground)]`}>
-          <span className="inline-block w-2 h-2 rounded-full bg-red-500 animate-pulse" />
-          Stop · {fmt(elapsed)}
-        </button>
-      ) : (
-        <button type="button" onClick={() => void start()} disabled={state === 'transcribing'}
-          className={`${pill} border-[var(--hover-color)] hover:border-[var(--foreground)] disabled:opacity-40`}>
-          {state === 'transcribing' ? 'Transcribing…' : 'Answer with your voice'}
-        </button>
+    <div className="flex flex-col items-start gap-3">
+      <button
+        type="button"
+        onClick={() => void start()}
+        disabled={state === 'transcribing'}
+        className="inline-flex items-center gap-2 border border-[var(--hover-color)] rounded-full px-2.5 py-0.5 label text-[var(--foreground)] opacity-80 hover:opacity-100 hover:border-[var(--foreground)] transition-colors disabled:opacity-40"
+      >
+        <span className="inline-block h-1.5 w-1.5 rounded-full bg-[var(--foreground)] opacity-70" aria-hidden />
+        <span>{state === 'transcribing' ? 'Transcribing…' : 'Answer with your voice'}</span>
+      </button>
+      <p className="label text-[0.625rem] text-[var(--hover-color)]">
+        Prefer talking? Skip the typing and answer with a voice note of up to 3&rsquo;
+      </p>
+      {state === 'error' && (
+        <p className="label text-[0.625rem] text-[var(--hover-color)]" role="alert">
+          Transcription failed — try again or type.
+        </p>
       )}
-      {state === 'error' && <span className="text-[var(--hover-color)]">Transcription failed — try again or type.</span>}
     </div>
   )
 }

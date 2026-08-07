@@ -32,6 +32,7 @@ export default function QuestionScreen({
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
       if (e.key !== 'Enter') return
+      if (document.getElementById('q-index-overlay')) return
       const t = e.target as HTMLElement
       if (t.tagName === 'INPUT' || t.tagName === 'TEXTAREA' || t.tagName === 'BUTTON' || t.isContentEditable) return
       submitRef.current()

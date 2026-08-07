@@ -192,12 +192,14 @@ export function useQuestionnaire(config: ProjectConfig) {
     }
   }, [advance, flush, returnToReview])
 
-  const goToQuestion = useCallback((questionId: string) => {
+  const goToQuestion = useCallback((questionId: string, opts?: { fromReview?: boolean }) => {
     const at = screens.findIndex((s) => s.kind === 'question' && s.question.id === questionId)
     if (at >= 0) {
       setScreenIndex(at)
       setPhase('flow')
-      setReturnToReview(true)
+      // Only review-originated jumps bounce back to review after submitting;
+      // index jumps continue the flow from the chosen question.
+      setReturnToReview(!!opts?.fromReview)
     }
   }, [screens])
 
@@ -260,7 +262,7 @@ export function useQuestionnaire(config: ProjectConfig) {
   return {
     phase, screens, screenIndex,
     current: phase === 'flow' ? screens[screenIndex] ?? null : null,
-    identity, answers, saveState, starting, startError, returnToReview,
+    identity, answers, seen, saveState, starting, startError, returnToReview,
     progress: { answered: seen.size, total },
     start, advance, goBack, submitAnswer, goToQuestion, toReview, complete, resetIdentity,
   }
