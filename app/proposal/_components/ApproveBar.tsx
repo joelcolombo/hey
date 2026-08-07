@@ -45,7 +45,7 @@ export default function ApproveBar({
   return (
     <>
       {/* Idle bar */}
-      <div className="proposal-approve-bar fixed bottom-0 inset-x-0 bg-[var(--background)] border-t border-[var(--hover-color)]/30 py-4 z-[70]">
+      <div className="proposal-approve-bar fixed bottom-0 inset-x-0 bg-[var(--background)] border-t border-[var(--hairline)] py-4 z-[70]">
         <div className="max-w-3xl mx-auto px-6 flex items-center gap-6 max-md:pl-14">
           <p className="flex-1 text-[1.05em]">
             Total: <span className="font-medium">{totalLabel}</span>
@@ -99,7 +99,7 @@ export default function ApproveBar({
                     <span className="py-2.5 text-[1.05em] text-[var(--hover-color)] max-md:hidden">{m.timeline}</span>
                   </Fragment>
                 ))}
-                <div className="col-span-3 max-md:col-span-2 border-t border-[var(--hover-color)]/30 mt-2" />
+                <div className="col-span-3 max-md:col-span-2 border-t border-[var(--hairline)] mt-2" />
                 <span className="py-2.5 text-[1.05em] font-medium">Total</span>
                 <span className="py-2.5 text-[1.05em] font-medium">{totalLabel}</span>
                 <span className="max-md:hidden" />

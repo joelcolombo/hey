@@ -71,7 +71,7 @@ export default async function LaunchpadHubPage({ params }: { params: Params }) {
             </>
           )
           return (
-            <li key={item.slug} className="border-t border-[var(--hover-color)]/30 last:border-b">
+            <li key={item.slug} className="border-t border-[var(--hairline)] last:border-b">
               {open ? (
                 <Link
                   href={`/launchpad/${client}/${item.slug}`}

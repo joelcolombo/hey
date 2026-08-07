@@ -8,7 +8,7 @@ function PlainTable({ rows }: { rows: string[][] }) {
       <table className="w-full text-left text-[1em]">
         <tbody>
           {rows.map((row, i) => (
-            <tr key={i} className="border-b border-[var(--hover-color)]/30">
+            <tr key={i} className="border-b border-[var(--hairline)]">
               {row.map((cell, j) => (
                 <td key={j} className="py-3 pr-6 align-top">{cell}</td>
               ))}
@@ -58,7 +58,7 @@ export default function SectionRenderer({
               </ol>
             )
           case 'divider':
-            return <hr key={i} className="border-[var(--hover-color)]/30 my-10" />
+            return <hr key={i} className="border-[var(--hairline)] my-10" />
           case 'table':
             return <PlainTable key={i} rows={block.rows} />
           case 'pricing':
