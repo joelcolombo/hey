@@ -106,7 +106,7 @@ export default function ApproveBar({
               </div>
 
               <p className="text-[1.05em] leading-[1.6] text-[var(--hover-color)] mt-8 mb-12 max-w-xl">
-                If you approve, I&rsquo;ll send you the formal agreement via DocuSign
+                Once you approve, I&rsquo;ll send you the formal agreement via DocuSign
                 for signature. Nothing is binding until you sign there.
               </p>
 
