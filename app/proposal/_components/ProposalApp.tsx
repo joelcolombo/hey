@@ -62,7 +62,10 @@ export default function ProposalApp({ meta, sections }: { meta: ProposalPublicMe
       {approval && (
         <div className="proposal-approved-banner max-w-3xl mx-auto px-6 pt-10">
           <div className="border border-[var(--foreground)] rounded-2xl px-6 py-5 text-[1.05em] leading-[1.5]">
-            <p className="font-medium mb-1">Proposal approved ✦</p>
+            <p className="mb-2 flex items-baseline gap-2">
+              <span className="label">Proposal approved</span>
+              <span>✦</span>
+            </p>
             <p className="text-[var(--hover-color)]">
               {approval.summaryLabel} — approved by {approval.approvedBy} on {formatDate(approval.approvedAt)}.
               You&rsquo;ll receive the document via DocuSign shortly.
