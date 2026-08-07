@@ -4,6 +4,7 @@ import { notFound } from 'next/navigation'
 import { SESSION_COOKIE, verifySessionToken } from '@/lib/proposal/access'
 import { fetchProposalSections, findProposalBySlug } from '@/lib/proposal/notion'
 import { toPublicMeta } from '@/lib/proposal/parse'
+import '../proposal-print.css'
 import EmailGate from '../_components/EmailGate'
 import ProposalApp from '../_components/ProposalApp'
 

@@ -1,0 +1,48 @@
+@media print {
+  @page {
+    size: A4 landscape;
+    margin: 14mm 18mm;
+  }
+
+  body {
+    background: #fff !important;
+    color: #000 !important;
+  }
+
+  /* Chrome that must not print */
+  .proposal-approve-bar {
+    display: none !important;
+  }
+
+  /* Black cover page, like the PDFs */
+  .proposal-cover {
+    background: #000 !important;
+    color: #fff !important;
+    min-height: auto;
+    height: 90vh;
+    break-after: page;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+
+  /* One section per page */
+  .proposal-section {
+    break-before: page;
+    padding-top: 0;
+    padding-bottom: 0;
+  }
+  .proposal-cover + .proposal-section {
+    break-before: auto;
+  }
+
+  /* Keep checkbox marks visible in print */
+  input[type='checkbox'] {
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+
+  a {
+    text-decoration: none;
+    color: inherit;
+  }
+}
