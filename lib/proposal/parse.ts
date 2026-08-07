@@ -103,3 +103,8 @@ export function computeApprovalSummary(
   const names = selected.map((m) => m.name)
   return { names, total, label: `${names.join(' + ')} — ${formatTotal(selected, total)}` }
 }
+
+/** Recover approved milestone names from a stored summary label ("A + B — USD $7,500"). */
+export function namesFromSummaryLabel(label: string): string[] {
+  return (label.split(' — ')[0] ?? '').split(' + ').map((s) => s.trim()).filter(Boolean)
+}

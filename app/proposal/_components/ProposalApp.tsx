@@ -1,6 +1,10 @@
 'use client'
 
-import type { ProposalPublicMeta, Section } from '@/lib/proposal/types'
+import { useMemo, useState } from 'react'
+import { computeApprovalSummary, namesFromSummaryLabel } from '@/lib/proposal/parse'
+import type { PricingTable, ProposalPublicMeta, Section } from '@/lib/proposal/types'
+import ApproveBar from './ApproveBar'
+import PricingSection from './PricingSection'
 import SectionRenderer from './SectionRenderer'
 import SignatureBlocks from './SignatureBlocks'
 
@@ -10,9 +14,58 @@ export function formatDate(iso: string): string {
   return isNaN(d.getTime()) ? iso : d.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })
 }
 
+type Approval = { approvedBy: string; approvedAt: string; summaryLabel: string }
+
 export default function ProposalApp({ meta, sections }: { meta: ProposalPublicMeta; sections: Section[] }) {
+  const pricing: PricingTable | null = useMemo(() => {
+    const block = sections.flatMap((s) => s.blocks).find((b) => b.kind === 'pricing')
+    return block?.kind === 'pricing' ? block.pricing : null
+  }, [sections])
+
+  const [approval, setApproval] = useState<Approval | null>(
+    meta.status === 'Approved' && meta.approvedBy && meta.approvedAt && meta.approvedMilestones
+      ? { approvedBy: meta.approvedBy, approvedAt: meta.approvedAt, summaryLabel: meta.approvedMilestones }
+      : null
+  )
+  const [selected, setSelected] = useState<Set<string>>(() => {
+    if (approval) return new Set(namesFromSummaryLabel(approval.summaryLabel))
+    return new Set(pricing?.milestones.map((m) => m.name) ?? []) // all preselected
+  })
+
+  const summary = pricing ? computeApprovalSummary(pricing, [...selected]) : null
+
+  const approve = async (): Promise<string | null> => {
+    try {
+      const res = await fetch('/api/proposal/approve', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ slug: meta.slug, selected: [...selected] }),
+      })
+      const data = await res.json().catch(() => null)
+      if (!res.ok || !data?.ok) return 'Could not save your approval. Please try again.'
+      setApproval({ approvedBy: data.approvedBy, approvedAt: data.approvedAt, summaryLabel: data.summaryLabel })
+      if (data.alreadyApproved) setSelected(new Set(namesFromSummaryLabel(data.summaryLabel ?? '')))
+      window.scrollTo({ top: 0, behavior: 'smooth' })
+      return null
+    } catch {
+      return 'Could not save your approval. Please try again.'
+    }
+  }
+
   return (
-    <main>
+    <main className={approval ? '' : 'pb-28'}>
+      {approval && (
+        <div className="max-w-3xl mx-auto px-6 pt-10">
+          <div className="border border-[var(--foreground)] rounded-2xl px-6 py-5 text-[1.05em] leading-[1.5]">
+            <p className="font-medium mb-1">Proposal approved ✦</p>
+            <p className="text-[var(--hover-color)]">
+              {approval.summaryLabel} — approved by {approval.approvedBy} on {formatDate(approval.approvedAt)}.
+              You&rsquo;ll receive the document via DocuSign shortly.
+            </p>
+          </div>
+        </div>
+      )}
+
       {/* Cover — always black, both themes */}
       <div className="proposal-cover bg-black text-white min-h-dvh flex flex-col justify-between px-6 py-16 md:px-16">
         <h1 className="text-[4em] leading-[1.1] max-md:text-[2.4em] max-w-4xl mt-24 text-balance">
@@ -34,10 +87,37 @@ export default function ProposalApp({ meta, sections }: { meta: ProposalPublicMe
       </div>
 
       {sections.map((section, i) => (
-        <SectionRenderer key={`${i}-${section.title}`} section={section} />
+        <SectionRenderer
+          key={`${i}-${section.title}`}
+          section={section}
+          pricingSlot={(p) => (
+            <PricingSection
+              pricing={p}
+              selected={selected}
+              locked={approval !== null}
+              onToggle={(name) =>
+                setSelected((prev) => {
+                  const next = new Set(prev)
+                  if (next.has(name)) next.delete(name)
+                  else next.add(name)
+                  return next
+                })
+              }
+            />
+          )}
+        />
       ))}
 
       <SignatureBlocks clientName={meta.client} />
+
+      {!approval && pricing && (
+        <ApproveBar
+          totalLabel={summary ? summary.label.split(' — ')[1] : '—'}
+          selectionLabel={summary ? summary.names.join(' + ') : ''}
+          disabled={!summary}
+          onApprove={approve}
+        />
+      )}
     </main>
   )
 }

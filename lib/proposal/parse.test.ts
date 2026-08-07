@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { computeApprovalSummary, parsePriceCell, parseSections, toPublicMeta } from './parse'
+import { computeApprovalSummary, namesFromSummaryLabel, parsePriceCell, parseSections, toPublicMeta } from './parse'
 import type { NotionBlock, PricingTable, ProposalMeta } from './types'
 
 const h1 = (text: string): NotionBlock => ({ type: 'heading_1', text })
@@ -121,6 +121,22 @@ describe('computeApprovalSummary', () => {
     const s = computeApprovalSummary(pricing, ['Visual Assets', 'Extra'])
     expect(s?.total).toBe(1500)
     expect(s?.label).toBe('Visual Assets + Extra — USD $1,500')
+  })
+})
+
+describe('namesFromSummaryLabel', () => {
+  it('round-trips with computeApprovalSummary labels', () => {
+    const pricing: PricingTable = {
+      milestones: [
+        { name: 'Visual Assets', amount: 1500, priceLabel: 'USD $1,500', timeline: '1 week' },
+        { name: 'Website Redesign', amount: 6000, priceLabel: 'USD $6,000', timeline: '6-7 weeks' },
+      ],
+    }
+    const s = computeApprovalSummary(pricing, ['Visual Assets', 'Website Redesign'])
+    expect(namesFromSummaryLabel(s!.label)).toEqual(['Visual Assets', 'Website Redesign'])
+  })
+  it('returns empty for empty/garbage labels', () => {
+    expect(namesFromSummaryLabel('')).toEqual([])
   })
 })
 
