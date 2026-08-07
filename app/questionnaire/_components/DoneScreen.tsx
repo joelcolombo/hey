@@ -8,7 +8,7 @@ export default function DoneScreen({
   const first = name?.split(' ')[0]
   return (
     <div className="max-w-3xl mx-auto px-6 min-h-dvh flex flex-col justify-center">
-      <h2 className="text-[3em] leading-[1.1] mb-6 max-md:text-[2em]">
+      <h2 className="text-[3em] leading-[1.1] mb-6 max-md:text-[2em] text-balance">
         Thank you{first ? `, ${first}` : ''}.
       </h2>
       <p className="text-[1.2em] leading-[1.5] text-[var(--hover-color)] max-w-xl">

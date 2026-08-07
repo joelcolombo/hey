@@ -15,7 +15,7 @@ export default function WelcomeScreen({ config, q }: { config: ProjectConfig; q:
       <p className="text-[0.9em] text-[var(--hover-color)] mb-4">
         {config.clientName} · ~{config.template.estimatedMinutes} min
       </p>
-      <h1 className="text-[3em] leading-[1.1] mb-6 max-md:text-[2em]">{config.template.title}</h1>
+      <h1 className="text-[3em] leading-[1.1] mb-6 max-md:text-[2em] text-balance">{config.template.title}</h1>
       <p className="text-[1.2em] leading-[1.4] text-[var(--hover-color)] mb-10">{config.template.intro}</p>
 
       <form

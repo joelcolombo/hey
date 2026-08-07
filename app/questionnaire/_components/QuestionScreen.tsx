@@ -57,7 +57,7 @@ export default function QuestionScreen({
         <p className="text-[0.85em] text-[var(--hover-color)] mb-3">
           {number} / {total} · {section.title}
         </p>
-        <h2 className="text-[2.2em] leading-[1.15] mb-3 max-md:text-[1.5em]">{question.prompt}</h2>
+        <h2 className="text-[2.2em] leading-[1.15] mb-3 max-md:text-[1.5em] text-balance">{question.prompt}</h2>
         {question.hint && (
           <p className="text-[1em] leading-[1.5] text-[var(--hover-color)] mb-6 max-w-xl first-letter:uppercase">
             {question.hint}

@@ -78,6 +78,14 @@ export const visualIdentityTemplate: Template = {
       ],
     },
     {
+      id: 'verbal',
+      title: 'Verbal Identity & Messaging',
+      questions: [
+        { id: 'key-phrases', type: 'longtext', prompt: "Are there key phrases, terms, or vocabulary central to how {client} communicates?" },
+        { id: 'voice', type: 'longtext', prompt: "How would you describe {client}'s voice?", hint: "e.g. authoritative but warm, precise but inspiring", suggestions: ['Authoritative', 'Warm', 'Precise', 'Inspiring'] },
+      ],
+    },
+    {
       id: 'color-type',
       title: 'Color & Typography',
       questions: [
@@ -103,14 +111,6 @@ export const visualIdentityTemplate: Template = {
         { id: 'first-impression', type: 'longtext', prompt: "When someone encounters the new identity for the first time, how should they feel?" },
         { id: 'practical-success', type: 'longtext', prompt: "What would make this project a success in practical terms?", hint: "e.g. increased applications, media recognition, easier partnerships, internal pride" },
         { id: 'year-later', type: 'longtext', prompt: "A year from now, how will you know the new identity is working?" },
-      ],
-    },
-    {
-      id: 'verbal',
-      title: 'Verbal Identity & Messaging',
-      questions: [
-        { id: 'key-phrases', type: 'longtext', prompt: "Are there key phrases, terms, or vocabulary central to how {client} communicates?" },
-        { id: 'voice', type: 'longtext', prompt: "How would you describe {client}'s voice?", hint: "e.g. authoritative but warm, precise but inspiring", suggestions: ['Authoritative', 'Warm', 'Precise', 'Inspiring'] },
       ],
     },
     {
