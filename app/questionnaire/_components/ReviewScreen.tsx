@@ -12,7 +12,7 @@ export default function ReviewScreen({ config, q }: { config: ProjectConfig; q: 
     <div className="max-w-3xl mx-auto px-6 py-24">
       <h2 className="text-[2.6em] leading-[1.1] mb-3 max-md:text-[1.8em]">Almost done.</h2>
       <p className="text-[1.1em] text-[var(--hover-color)] mb-12">
-        Review your answers — tap any to edit. Everything is already saved.
+        Review your answers. Tap any to edit. Everything is already saved.
       </p>
 
       <div className="flex flex-col gap-8 mb-16">
@@ -27,7 +27,7 @@ export default function ReviewScreen({ config, q }: { config: ProjectConfig; q: 
                     className="text-left group">
                     <p className="text-[1em] mb-1 group-hover:text-[var(--hover-color)] transition-colors">{question.prompt}</p>
                     <p className="text-[0.95em] text-[var(--hover-color)] whitespace-pre-wrap">
-                      {answer ? summarizeAnswer(question, answer) : '— skipped'}
+                      {answer ? summarizeAnswer(question, answer) : 'Skipped'}
                     </p>
                   </button>
                 )

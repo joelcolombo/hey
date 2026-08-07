@@ -1,7 +1,8 @@
 'use client'
 
+import Lenis from '@studio-freight/lenis'
 import { motion } from 'framer-motion'
-import { useEffect } from 'react'
+import { useEffect, useRef } from 'react'
 import type { Answers, ProjectConfig } from '@/lib/questionnaire/types'
 
 /**
@@ -27,6 +28,31 @@ export default function IndexOverlay({
     return () => window.removeEventListener('keydown', onKey)
   }, [onClose])
 
+  // The overlay gets its own scoped Lenis so scrolling here feels like the
+  // rest of the site — but tuned subtler than the landing's lerp .03 / dur 3.
+  const wrapperRef = useRef<HTMLDivElement>(null)
+  const contentRef = useRef<HTMLDivElement>(null)
+  useEffect(() => {
+    if (!wrapperRef.current || !contentRef.current) return
+    const lenis = new Lenis({
+      wrapper: wrapperRef.current,
+      content: contentRef.current,
+      lerp: 0.09,
+      duration: 1.4,
+      smoothWheel: true,
+    })
+    let raf = 0
+    const loop = (time: number) => {
+      lenis.raf(time)
+      raf = requestAnimationFrame(loop)
+    }
+    raf = requestAnimationFrame(loop)
+    return () => {
+      cancelAnimationFrame(raf)
+      lenis.destroy()
+    }
+  }, [])
+
   const overlayVariants = {
     hidden: { opacity: 0, y: 12, transition: { duration: 0.18, ease: 'easeIn' as const, staggerChildren: 0.015, staggerDirection: -1 } },
     show: { opacity: 1, y: 0, transition: { duration: 0.22, ease: 'easeOut' as const, staggerChildren: 0.045, delayChildren: 0.05 } },
@@ -43,6 +69,7 @@ export default function IndexOverlay({
     // events from bubbling out of the overlay and let it scroll natively.
     <motion.div
       id="q-index-overlay"
+      ref={wrapperRef}
       data-lenis-prevent
       onWheel={(e) => e.stopPropagation()}
       onTouchMove={(e) => e.stopPropagation()}
@@ -52,7 +79,7 @@ export default function IndexOverlay({
       animate="show"
       exit="hidden"
     >
-      <div className="max-w-3xl mx-auto px-6 py-16">
+      <div ref={contentRef} className="max-w-3xl mx-auto px-6 py-16">
         <div className="flex items-center justify-between mb-12">
           <h2 className="text-[1.8em]">Index</h2>
           <button onClick={onClose}
@@ -84,7 +111,7 @@ export default function IndexOverlay({
                     <span className="text-[0.8em] tabular-nums w-7 shrink-0">{number}</span>
                     <span className="text-[1em] leading-[1.35] flex-1">{question.prompt}</span>
                     <span className="text-[0.8em] shrink-0" aria-label={answered ? 'answered' : skipped ? 'skipped' : 'unanswered'}>
-                      {answered ? '✓' : skipped ? '—' : '·'}
+                      {answered ? '✓' : skipped ? '○' : '·'}
                     </span>
                   </button>
                 )

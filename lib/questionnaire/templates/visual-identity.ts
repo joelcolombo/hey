@@ -4,7 +4,7 @@ export const visualIdentityTemplate: Template = {
   id: 'visual-identity',
   title: 'Visual Identity Questionnaire',
   intro:
-    'This questionnaire will help us align on the strategic and visual direction for the new visual identity of {client}. Answer freely — there are no right or wrong responses. The more context you share, the better we can shape a meaningful and distinctive identity.',
+    'This questionnaire will help us align on the strategic and visual direction for the new visual identity of {client}. Answer freely, there are no right or wrong responses. The more context you share, the better we can shape a meaningful and distinctive identity.',
   estimatedMinutes: 25,
   sections: [
     {
@@ -35,7 +35,7 @@ export const visualIdentityTemplate: Template = {
           id: 'traits',
           type: 'sliders-group',
           mode: 'dual',
-          prompt: "Where is {client} today — and where should the new identity take it?",
+          prompt: "Where is {client} today, and where should the new identity take it?",
           hint: "For each trait, set two markers: where you are now, and where you want to be.",
           sliders: [
             { id: 'academic-accessible', left: 'Academic', right: 'Accessible' },
@@ -82,7 +82,7 @@ export const visualIdentityTemplate: Template = {
       title: 'Color & Typography',
       questions: [
         { id: 'palette-mood', type: 'longtext', prompt: "Are there tones, moods, or palettes that feel aligned with {client}'s mission?", hint: "e.g. grounded, optimistic, serious, hopeful, bold, restrained", suggestions: ['Grounded', 'Optimistic', 'Serious', 'Hopeful', 'Bold', 'Restrained'] },
-        { id: 'type-feel', type: 'select', prompt: "How should the typography feel?", options: ['Editorial / journalistic', 'Technical / scientific', 'Warm / humanistic', "A mix — I'll explain in the next question"] },
+        { id: 'type-feel', type: 'select', prompt: "How should the typography feel?", options: ['Editorial / journalistic', 'Technical / scientific', 'Warm / humanistic', "A mix, I'll explain in the next question"] },
         { id: 'color-equity', type: 'longtext', prompt: "Any existing brand colors with equity or meaning worth preserving or referencing?" },
         { id: 'color-avoid', type: 'longtext', prompt: "Any colors strongly associated with competitors or peers that we should avoid?" },
       ],
@@ -91,7 +91,7 @@ export const visualIdentityTemplate: Template = {
       id: 'references',
       title: 'References & Inspiration',
       questions: [
-        { id: 'references', type: 'longtext', prompt: "Share 2 or 3 visual references that resonate with the direction you envision.", hint: "Websites, identities, graphic systems — paste links if you have them." },
+        { id: 'references', type: 'longtext', prompt: "Share 2 or 3 visual references that resonate with the direction you envision.", hint: "Websites, identities, graphic systems. Paste links if you have them." },
         { id: 'references-like', type: 'longtext', prompt: "What specifically do you like about them?" },
         { id: 'references-avoid', type: 'longtext', prompt: "Are there identities you actively dislike or don't want to resemble? What doesn't work?" },
       ],

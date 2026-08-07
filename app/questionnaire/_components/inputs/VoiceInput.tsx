@@ -120,7 +120,7 @@ export default function VoiceInput({ onTranscript }: { onTranscript: (text: stri
   }
 
   if (state === 'denied')
-    return <p className="text-[0.85em] text-[var(--hover-color)]">Microphone blocked — you can keep typing.</p>
+    return <p className="text-[0.85em] text-[var(--hover-color)]">Microphone blocked. You can keep typing.</p>
 
   // Styled after formform's VoiceNoteRecorder states verbatim (ink→foreground,
   // paper→background, hairline→hover-color).
@@ -161,7 +161,7 @@ export default function VoiceInput({ onTranscript }: { onTranscript: (text: stri
       </p>
       {state === 'error' && (
         <p className="label text-[0.625rem] text-[var(--hover-color)]" role="alert">
-          Transcription failed — try again or type.
+          Transcription failed. Try again or type.
         </p>
       )}
     </div>
