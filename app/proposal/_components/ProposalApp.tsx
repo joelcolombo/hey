@@ -120,7 +120,7 @@ export default function ProposalApp({ meta, sections }: { meta: ProposalPublicMe
       <SignatureBlocks clientName={meta.client} />
 
       {/* Same theme control as the site footer, bottom-left. Defaults to the system scheme. */}
-      <div className="fixed bottom-4 left-5 z-[60] print:hidden">
+      <div className="fixed bottom-4 left-5 z-[75] print:hidden">
         <ThemeToggle />
       </div>
 
