@@ -21,7 +21,7 @@ export async function POST(req: Request) {
     if (!meta || meta.status === 'Draft') return NextResponse.json({ error: 'not found' }, { status: 404 })
 
     const cookie = req.headers.get('cookie') ?? ''
-    const token = cookie.match(new RegExp(`${SESSION_COOKIE}=([^;]+)`))?.[1]
+    const token = cookie.match(new RegExp(`(?:^|;\\s*)${SESSION_COOKIE}=([^;]+)`))?.[1]
     const session = token ? verifySessionToken(decodeURIComponent(token), meta.pageId, secret) : null
     if (!session) return NextResponse.json({ error: 'unauthorized' }, { status: 401 })
 
