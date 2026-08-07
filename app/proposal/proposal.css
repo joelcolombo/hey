@@ -51,6 +51,11 @@
   .proposal-section[data-section='project-details'] {
     padding-top: 2rem;
   }
+
+  /* Tighter transition into Project Agreement */
+  .proposal-section[data-section='project-agreement'] {
+    padding-top: 1rem;
+  }
 }
 
 /* Confidentiality reads as a small note on screen too, mirroring the printed
