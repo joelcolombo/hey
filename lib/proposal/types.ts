@@ -1,4 +1,4 @@
-export type ProposalStatus = 'Draft' | 'Sent' | 'Viewed' | 'Approved'
+export type ProposalStatus = 'Draft' | 'Sent' | 'Viewed' | 'Approved' | 'Signed'
 
 /** Full metadata from the Notion row. Server-side only — contains the allowlist. */
 export type ProposalMeta = {

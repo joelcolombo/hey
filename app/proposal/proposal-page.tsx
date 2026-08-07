@@ -1,8 +1,8 @@
 import type { Metadata } from 'next'
 import { cookies } from 'next/headers'
 import { notFound } from 'next/navigation'
-import { SESSION_COOKIE, verifySessionToken } from '@/lib/proposal/access'
-import { fetchProposalSections, findProposalBySlug } from '@/lib/proposal/notion'
+import { isEmailAllowed, SESSION_COOKIE, verifySessionToken } from '@/lib/proposal/access'
+import { fetchProposalSections, findProposalBySlug, markViewed } from '@/lib/proposal/notion'
 import { toPublicMeta } from '@/lib/proposal/parse'
 import './proposal.css'
 import './proposal-print.css'
@@ -31,7 +31,7 @@ function Unavailable() {
   )
 }
 
-export async function ProposalPageBody({ slug }: { slug: string }) {
+export async function ProposalPageBody({ slug, launchpadEmail }: { slug: string; launchpadEmail?: string }) {
   let meta
   try {
     meta = await findProposalBySlug(slug)
@@ -43,7 +43,15 @@ export async function ProposalPageBody({ slug }: { slug: string }) {
 
   const secret = process.env.PROPOSAL_SESSION_SECRET
   const token = (await cookies()).get(SESSION_COOKIE)?.value
-  const session = secret && token ? verifySessionToken(token, meta.pageId, secret) : null
+  let session = secret && token ? verifySessionToken(token, meta.pageId, secret) : null
+  // A launchpad session whose email is on this proposal's allowlist passes
+  // the gate without re-entering the email.
+  if (!session && launchpadEmail && isEmailAllowed(launchpadEmail, meta.allowedEmails)) {
+    session = { email: launchpadEmail.trim().toLowerCase() }
+    if (meta.status === 'Sent') {
+      markViewed(meta.pageId).catch((err) => console.error('[proposal/page] markViewed', err))
+    }
+  }
   if (!session) {
     return <EmailGate slug={slug} clientName={meta.client} number={meta.number} />
   }

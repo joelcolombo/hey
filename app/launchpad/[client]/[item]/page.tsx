@@ -1,6 +1,8 @@
 import type { Metadata } from 'next'
-import { notFound } from 'next/navigation'
-import { getItem } from '@/lib/launchpad/config'
+import { cookies } from 'next/headers'
+import { notFound, redirect } from 'next/navigation'
+import { LAUNCHPAD_COOKIE, readLaunchpadSession } from '@/lib/launchpad/access'
+import { getItem } from '@/lib/launchpad/notion'
 import { getProjectConfig, resolveConfig } from '@/lib/questionnaire/projects'
 import QuestionnaireApp from '../../../questionnaire/_components/QuestionnaireApp'
 import { ProposalPageBody, proposalMetadata } from '../../../proposal/proposal-page'
@@ -11,27 +13,42 @@ type Params = Promise<{ client: string; item: string }>
 
 export async function generateMetadata({ params }: { params: Params }): Promise<Metadata> {
   const { client, item } = await params
-  const entry = getItem(client, item)
-  if (!entry) return { robots: { index: false, follow: false } }
-  if (entry.kind === 'proposal') return proposalMetadata(entry.slug)
-  const cfg = getProjectConfig(entry.client, entry.project)
-  if (!cfg) return { robots: { index: false, follow: false } }
-  return {
-    title: `${cfg.template.title} ✦ ${cfg.clientName}`,
-    robots: { index: false, follow: false },
+  try {
+    const entry = await getItem(client, item)
+    if (!entry || !entry.enabled) return { robots: { index: false, follow: false } }
+    if (entry.kind === 'proposal') return proposalMetadata(entry.target)
+    if (entry.kind === 'questionnaire') {
+      const [qClient, qProject] = entry.target.split('/')
+      const cfg = getProjectConfig(qClient, qProject)
+      if (cfg) return { title: `${cfg.template.title} ✦ ${cfg.clientName}`, robots: { index: false, follow: false } }
+    }
+  } catch {
+    // fall through
   }
+  return { robots: { index: false, follow: false } }
 }
 
 export default async function LaunchpadItemPage({ params }: { params: Params }) {
   const { client, item } = await params
-  const entry = getItem(client, item)
-  if (!entry) notFound()
+  const secret = process.env.PROPOSAL_SESSION_SECRET
+  const token = (await cookies()).get(LAUNCHPAD_COOKIE)?.value
+  const session = secret && token ? readLaunchpadSession(token, secret) : null
+  if (!session || session.account !== client) redirect('/launchpad')
+
+  const entry = await getItem(client, item)
+  if (!entry || !entry.enabled) notFound()
 
   if (entry.kind === 'proposal') {
-    return <ProposalPageBody slug={entry.slug} />
+    return <ProposalPageBody slug={entry.target} launchpadEmail={session.email} />
   }
 
-  const cfg = getProjectConfig(entry.client, entry.project)
+  if (entry.kind === 'link') {
+    if (!entry.target) notFound()
+    redirect(entry.target)
+  }
+
+  const [qClient, qProject] = entry.target.split('/')
+  const cfg = getProjectConfig(qClient, qProject)
   if (!cfg) notFound()
   if (!cfg.notionDatabaseId) {
     return (

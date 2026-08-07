@@ -28,7 +28,7 @@ export default function ProposalApp({ meta, sections }: { meta: ProposalPublicMe
   }, [sections])
 
   const [approval, setApproval] = useState<Approval | null>(
-    meta.status === 'Approved' && meta.approvedBy && meta.approvedAt && meta.approvedMilestones
+    (meta.status === 'Approved' || meta.status === 'Signed') && meta.approvedBy && meta.approvedAt && meta.approvedMilestones
       ? { approvedBy: meta.approvedBy, approvedAt: meta.approvedAt, summaryLabel: meta.approvedMilestones }
       : null
   )

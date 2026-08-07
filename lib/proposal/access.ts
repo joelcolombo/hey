@@ -24,12 +24,12 @@ export function createSessionToken(pageId: string, email: string, secret: string
   return `${payload}.${sign(payload, secret)}`
 }
 
-export function verifySessionToken(
+/** Verify signature and expiry, returning the token's subject id and email. */
+export function parseSessionToken(
   token: string,
-  pageId: string,
   secret: string,
   nowMs = Date.now()
-): { email: string } | null {
+): { id: string; email: string } | null {
   const [payload, sig] = token.split('.')
   if (!payload || !sig) return null
   const expected = sign(payload, secret)
@@ -38,10 +38,21 @@ export function verifySessionToken(
   if (a.length !== b.length || !timingSafeEqual(a, b)) return null
   try {
     const data = JSON.parse(Buffer.from(payload, 'base64url').toString()) as { p?: string; e?: string; x?: number }
-    if (data.p !== pageId || typeof data.e !== 'string' || typeof data.x !== 'number') return null
+    if (typeof data.p !== 'string' || typeof data.e !== 'string' || typeof data.x !== 'number') return null
     if (nowMs > data.x) return null
-    return { email: data.e }
+    return { id: data.p, email: data.e }
   } catch {
     return null
   }
+}
+
+export function verifySessionToken(
+  token: string,
+  pageId: string,
+  secret: string,
+  nowMs = Date.now()
+): { email: string } | null {
+  const parsed = parseSessionToken(token, secret, nowMs)
+  if (!parsed || parsed.id !== pageId) return null
+  return { email: parsed.email }
 }

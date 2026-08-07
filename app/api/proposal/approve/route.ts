@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server'
-import { SESSION_COOKIE, verifySessionToken } from '@/lib/proposal/access'
+import { LAUNCHPAD_COOKIE, readLaunchpadSession } from '@/lib/launchpad/access'
+import { isEmailAllowed, SESSION_COOKIE, verifySessionToken } from '@/lib/proposal/access'
 import { computeApprovalSummary } from '@/lib/proposal/parse'
 import { fetchProposalSections, findProposalBySlug, recordApproval } from '@/lib/proposal/notion'
 import { notifyApproval } from '@/lib/proposal/notify'
@@ -22,11 +23,17 @@ export async function POST(req: Request) {
 
     const cookie = req.headers.get('cookie') ?? ''
     const token = cookie.match(new RegExp(`(?:^|;\\s*)${SESSION_COOKIE}=([^;]+)`))?.[1]
-    const session = token ? verifySessionToken(decodeURIComponent(token), meta.pageId, secret) : null
+    let session = token ? verifySessionToken(decodeURIComponent(token), meta.pageId, secret) : null
+    if (!session) {
+      // Launchpad sessions with an allowlisted email may approve too.
+      const lpToken = cookie.match(new RegExp(`(?:^|;\\s*)${LAUNCHPAD_COOKIE}=([^;]+)`))?.[1]
+      const lp = lpToken ? readLaunchpadSession(decodeURIComponent(lpToken), secret) : null
+      if (lp && isEmailAllowed(lp.email, meta.allowedEmails)) session = { email: lp.email.trim().toLowerCase() }
+    }
     if (!session) return NextResponse.json({ error: 'unauthorized' }, { status: 401 })
 
     // Idempotent: first approval wins; repeats return the existing record.
-    if (meta.status === 'Approved') {
+    if (meta.status === 'Approved' || meta.status === 'Signed') {
       return NextResponse.json({
         ok: true,
         alreadyApproved: true,
