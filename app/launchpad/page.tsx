@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import { cookies } from 'next/headers'
 import { redirect } from 'next/navigation'
+import ThemeToggle from '@/components/ThemeToggle'
 import { LAUNCHPAD_COOKIE, readLaunchpadSession } from '@/lib/launchpad/access'
 import LoginForm from './_components/LoginForm'
 
@@ -16,5 +17,12 @@ export default async function LaunchpadLoginPage() {
   const token = (await cookies()).get(LAUNCHPAD_COOKIE)?.value
   const session = secret && token ? readLaunchpadSession(token, secret) : null
   if (session) redirect(`/launchpad/${session.account}`)
-  return <LoginForm />
+  return (
+    <>
+      <LoginForm />
+      <div className="fixed bottom-4 left-5 z-50">
+        <ThemeToggle />
+      </div>
+    </>
+  )
 }

@@ -2,6 +2,7 @@ import type { Metadata } from 'next'
 import Link from 'next/link'
 import { cookies } from 'next/headers'
 import { notFound, redirect } from 'next/navigation'
+import ThemeToggle from '@/components/ThemeToggle'
 import { LAUNCHPAD_COOKIE, readLaunchpadSession } from '@/lib/launchpad/access'
 import { getAccount, getItems, itemPermits, type LaunchpadItem } from '@/lib/launchpad/notion'
 import { isEmailAllowed } from '@/lib/proposal/access'
@@ -87,6 +88,9 @@ export default async function LaunchpadHubPage({ params }: { params: Params }) {
           )
         })}
       </ul>
+      <div className="fixed bottom-4 left-5 z-50">
+        <ThemeToggle />
+      </div>
     </main>
   )
 }

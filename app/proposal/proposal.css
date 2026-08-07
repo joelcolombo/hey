@@ -41,7 +41,7 @@
     position: relative;
     left: 50%;
     transform: translateX(-50%);
-    border-top: 1px solid color-mix(in srgb, var(--hover-color) 30%, transparent);
+    border-top: 1px solid var(--hairline);
     margin-bottom: 6rem;
   }
 
