@@ -42,14 +42,14 @@
     left: 50%;
     transform: translateX(-50%);
     border-top: 1px solid color-mix(in srgb, var(--hover-color) 30%, transparent);
-    margin-bottom: 4rem;
+    margin-bottom: 6rem;
   }
 
   /* Balance: last paragraph → line == line → Project Details title.
      Confidentiality above contributes 2rem; 2rem here makes 4rem, matching
      the 4rem below the line. */
   .proposal-section[data-section='project-details'] {
-    padding-top: 2rem;
+    padding-top: 4rem;
   }
 
   /* Tighter transition into Project Agreement */
