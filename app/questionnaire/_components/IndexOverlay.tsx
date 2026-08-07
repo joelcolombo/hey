@@ -117,7 +117,7 @@ export default function IndexOverlay({
                     {answered ? (
                       <span className="text-[0.8em] shrink-0" aria-label="answered">✓</span>
                     ) : skipped ? (
-                      <span className="label text-[0.625rem] shrink-0 text-[var(--hover-color)]" aria-label="skipped">Skipped</span>
+                      <span className="text-[0.8em] shrink-0 text-[var(--hover-color)]" aria-label="skipped">–</span>
                     ) : null}
                   </button>
                 )
