@@ -32,6 +32,20 @@
   }
 }
 
+/* Full-bleed hairline separating the title-page area from the document body. */
+@media not print {
+  .proposal-section[data-section='project-details']::before {
+    content: '';
+    display: block;
+    width: 100vw;
+    position: relative;
+    left: 50%;
+    transform: translateX(-50%);
+    border-top: 1px solid color-mix(in srgb, var(--hover-color) 30%, transparent);
+    margin-bottom: 4rem;
+  }
+}
+
 /* Confidentiality reads as a small note on screen too, mirroring the printed
    hierarchy (small medium-weight title, compact body). */
 .proposal-section[data-section='confidentiality-agreement'],
