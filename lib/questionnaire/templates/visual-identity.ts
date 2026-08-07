@@ -2,7 +2,7 @@ import type { Template } from '../types'
 
 export const visualIdentityTemplate: Template = {
   id: 'visual-identity',
-  title: 'Visual Identity Questionnaire',
+  title: 'Brand Discovery',
   intro:
     'This questionnaire will help us align on the strategic and visual direction for the new visual identity of {client}. Answer freely, there are no right or wrong responses. The more context you share, the better we can shape a meaningful and distinctive identity.',
   estimatedMinutes: 25,
