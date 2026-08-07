@@ -9,7 +9,7 @@ function Field({ label, grow }: { label: string; grow: number }) {
 
 function SignatureRow({ party }: { party: string }) {
   return (
-    <div className="mb-12">
+    <div className="proposal-sig-block mb-12">
       <p className="font-medium mb-8">{party}</p>
       <div className="proposal-sig-row flex gap-8 max-md:flex-col max-md:gap-6 text-[0.95em] text-[var(--hover-color)]">
         <Field label="Signature" grow={3.4} />
@@ -22,7 +22,7 @@ function SignatureRow({ party }: { party: string }) {
 
 export default function SignatureBlocks({ clientName }: { clientName: string }) {
   return (
-    <div className="proposal-section proposal-signatures max-w-3xl mx-auto px-6 pb-24">
+    <div className="proposal-section proposal-signatures hidden print:block max-w-3xl mx-auto px-6 pb-24">
       <SignatureRow party="Joel Colombo" />
       <SignatureRow party={clientName} />
     </div>

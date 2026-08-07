@@ -24,6 +24,14 @@
   background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 10 10'><path d='M2.2 5.4 4.2 7.4 7.8 3.2' fill='none' stroke='black' stroke-width='1.5'/></svg>");
 }
 
+/* Acceptance (and its signature blocks) belongs to the signed document —
+   on screen the approve flow is the acceptance mechanism. Print-only. */
+@media not print {
+  .proposal-section[data-section='acceptance'] {
+    display: none;
+  }
+}
+
 /* Confidentiality reads as a small note on screen too, mirroring the printed
    hierarchy (small medium-weight title, compact body). */
 .proposal-section[data-section='confidentiality-agreement'],

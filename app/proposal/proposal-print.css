@@ -204,13 +204,18 @@
     color: #000 !important;
   }
 
-  /* ---- Signatures: stay with Acceptance, fields in one row ---- */
+  /* ---- Signatures: stay with Acceptance, fields in one row.
+          Generous air below the section intro, as in the Word template. ---- */
   .proposal-signatures {
     break-before: auto;
-    padding-top: 0 !important;
-  }
-  .proposal-signatures {
+    padding-top: 14mm !important;
     font-size: 11pt !important;
+  }
+  .proposal-sig-block {
+    margin-bottom: 14mm !important;
+  }
+  .proposal-sig-block > p {
+    margin-bottom: 7mm !important;
   }
   .proposal-sig-row {
     flex-direction: row !important;
