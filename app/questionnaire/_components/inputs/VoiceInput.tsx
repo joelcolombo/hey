@@ -41,16 +41,16 @@ export default function VoiceInput({ onTranscript }: { onTranscript: (text: stri
     s?.getTracks().forEach((t) => t.stop())
   }
 
-  useEffect(
-    () => () => {
+  useEffect(() => {
+    unmountedRef.current = false
+    return () => {
       unmountedRef.current = true
       if (recorderRef.current?.state !== 'inactive') recorderRef.current?.stop()
       stopTracks()
       window.clearInterval(tickRef.current)
       abortRef.current?.abort()
-    },
-    []
-  )
+    }
+  }, [])
 
   if (!available) return null
 
