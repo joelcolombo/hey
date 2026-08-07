@@ -2,6 +2,7 @@
 
 import { AnimatePresence, motion } from 'framer-motion'
 import { useEffect, useState } from 'react'
+import ThemeToggle from '@/components/ThemeToggle'
 import type { ProjectConfig } from '@/lib/questionnaire/types'
 import DoneScreen from './DoneScreen'
 import IndexOverlay from './IndexOverlay'
@@ -88,8 +89,6 @@ export default function QuestionnaireApp({ config }: { config: ProjectConfig }) 
           {q.phase === 'done' && <DoneScreen config={config} name={q.identity?.name ?? null} onEdit={q.toReview} />}
         </motion.div>
       </AnimatePresence>
-      {q.phase === 'flow' && <SaveIndicator state={q.saveState} />}
-
       {/* Question index: jump anywhere without walking the flow. Button
           mirrors the voice pill (sans dot). */}
       {(q.phase === 'flow' || q.phase === 'review') && q.identity && (
@@ -116,16 +115,24 @@ export default function QuestionnaireApp({ config }: { config: ProjectConfig }) 
         )}
       </AnimatePresence>
 
-      {/* Identity escape hatch for shared devices: clears local state and
-          returns to a fresh welcome. Mirrors SaveIndicator, bottom-right. */}
-      {q.identity && q.phase !== 'welcome' && (
-        <button
-          onClick={q.resetIdentity}
-          className="fixed bottom-4 right-5 text-[0.75em] text-[var(--hover-color)] hover:text-[var(--foreground)] transition-colors z-50"
-        >
-          Not {q.identity.name.split(' ')[0]}? Start over
-        </button>
-      )}
+      {/* Same theme control as the site footer, bottom-left. */}
+      <div className="fixed bottom-4 left-5 z-50">
+        <ThemeToggle />
+      </div>
+
+      {/* Bottom-right cluster: autosave status + identity escape hatch for
+          shared devices (clears local state, back to a fresh welcome). */}
+      <div className="fixed bottom-4 right-5 z-50 flex items-center gap-4">
+        {q.phase === 'flow' && <SaveIndicator state={q.saveState} />}
+        {q.identity && q.phase !== 'welcome' && (
+          <button
+            onClick={q.resetIdentity}
+            className="text-[0.75em] text-[var(--hover-color)] hover:text-[var(--foreground)] transition-colors"
+          >
+            Not {q.identity.name.split(' ')[0]}? Start over
+          </button>
+        )}
+      </div>
     </div>
   )
 }
