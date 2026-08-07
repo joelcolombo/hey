@@ -18,14 +18,17 @@
     margin: 25.4mm 24.1mm;
 
     @bottom-center {
-      content: counter(page) '\A\2502';
-      white-space: pre;
+      content: counter(page);
       text-align: center;
       font-family: 'PP Neue Montreal TT', sans-serif;
       font-weight: 300;
       font-size: 11pt;
-      line-height: 1.5;
       color: #bbb9b9;
+      /* vertical rule below the number, running to the sheet edge */
+      background: linear-gradient(#bfbfbf, #bfbfbf) bottom center / 0.75pt 9mm
+        no-repeat;
+      -webkit-print-color-adjust: exact;
+      print-color-adjust: exact;
     }
   }
   /* The cover is the only full-bleed page */
@@ -223,4 +226,5 @@
     text-decoration: none;
     color: inherit;
   }
+
 }
