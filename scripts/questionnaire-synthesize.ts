@@ -43,6 +43,12 @@ function mdToBlocks(md: string): object[] {
       if (line.startsWith('- ')) return { bulleted_list_item: { rich_text: rt(line.slice(2)) } }
       return { paragraph: { rich_text: rt(line) } }
     })
+    // A bare "## " or "- " line strips down to empty content — drop it rather than emit a
+    // block with no text.
+    .filter((block) => {
+      const richText = Object.values(block)[0] as { rich_text: object[] }
+      return richText.rich_text.length > 0
+    })
 }
 
 async function main() {
@@ -76,6 +82,13 @@ async function main() {
     process.exit(1)
   }
   const pages = await notion.dataSources.query({ data_source_id: dataSourceId, page_size: 100 })
+  // Real projects run ~5 stakeholders, so full pagination is YAGNI — but silently dropping
+  // responses past the first page would be worse than a loud warning.
+  if (pages.has_more) {
+    console.warn(
+      `Warning: database has more than ${pages.results.length} rows; only the first ${pages.results.length} were included (pagination not implemented).`
+    )
+  }
 
   type Row = { name: string; email: string; completed: boolean }
   const rows: { row: Row; transcript: string }[] = []
