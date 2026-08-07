@@ -72,7 +72,7 @@ export default function ProposalApp({ meta, sections }: { meta: ProposalPublicMe
 
       {/* Cover — always black, both themes */}
       <div className="proposal-cover bg-black text-white min-h-dvh flex flex-col justify-between px-6 py-16 md:px-16">
-        <h1 className="text-[4em] leading-[1.1] max-md:text-[2.4em] max-w-4xl mt-24 text-balance">
+        <h1 className="font-light text-[4em] leading-[1.1] max-md:text-[2.4em] max-w-4xl mt-24 text-balance">
           Services Proposal for {meta.client}
         </h1>
         <p className="text-[1.1em]">Joel Colombo ✦ Creative Director &amp; Design Consultant</p>
@@ -80,7 +80,7 @@ export default function ProposalApp({ meta, sections }: { meta: ProposalPublicMe
 
       {/* Title block */}
       <div className="proposal-section proposal-titleblock max-w-3xl mx-auto px-6 py-24">
-        <h1 className="text-[3em] leading-[1.1] mb-4 max-md:text-[2em]">Services Proposal</h1>
+        <h1 className="font-light text-[3em] leading-[1.1] mb-4 max-md:text-[2em]">Services Proposal</h1>
         <p className="text-[1.2em] mb-2">{meta.title}</p>
         <p className="text-[1.2em] text-[var(--hover-color)] mb-16">{meta.number}</p>
         <div className="proposal-meta text-[0.95em] text-[var(--hover-color)] flex flex-col gap-1">
