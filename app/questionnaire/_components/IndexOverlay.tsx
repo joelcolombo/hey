@@ -27,18 +27,30 @@ export default function IndexOverlay({
     return () => window.removeEventListener('keydown', onKey)
   }, [onClose])
 
+  const overlayVariants = {
+    hidden: { opacity: 0, y: 12, transition: { duration: 0.18, ease: 'easeIn' as const, staggerChildren: 0.015, staggerDirection: -1 } },
+    show: { opacity: 1, y: 0, transition: { duration: 0.22, ease: 'easeOut' as const, staggerChildren: 0.045, delayChildren: 0.05 } },
+  }
+  const sectionVariants = {
+    hidden: { opacity: 0, y: 8, transition: { duration: 0.12 } },
+    show: { opacity: 1, y: 0, transition: { duration: 0.28, ease: 'easeOut' as const } },
+  }
+
   let n = 0
   return (
-    // data-lenis-prevent: the site-wide Lenis smooth-scroll hijacks wheel
-    // events for the page body — without it this fixed overlay can't scroll.
+    // The site-wide Lenis smooth-scroll (root mode) hijacks wheel/touch on
+    // window — this old version ignores data-lenis-prevent, so stop the
+    // events from bubbling out of the overlay and let it scroll natively.
     <motion.div
       id="q-index-overlay"
       data-lenis-prevent
-      className="fixed inset-0 z-[60] bg-[var(--background)] overflow-y-auto"
-      initial={{ opacity: 0, y: 12 }}
-      animate={{ opacity: 1, y: 0 }}
-      exit={{ opacity: 0, y: 12 }}
-      transition={{ duration: 0.22, ease: 'easeOut' }}
+      onWheel={(e) => e.stopPropagation()}
+      onTouchMove={(e) => e.stopPropagation()}
+      className="fixed inset-0 z-[60] bg-[var(--background)] overflow-y-auto overscroll-contain"
+      variants={overlayVariants}
+      initial="hidden"
+      animate="show"
+      exit="hidden"
     >
       <div className="max-w-3xl mx-auto px-6 py-16">
         <div className="flex items-center justify-between mb-12">
@@ -50,7 +62,7 @@ export default function IndexOverlay({
         </div>
 
         {config.template.sections.map((section, si) => (
-          <div key={section.id} className="mb-10">
+          <motion.div key={section.id} variants={sectionVariants} className="mb-10">
             <p className="label text-[var(--hover-color)] mb-4">
               Section {si + 1} · {section.title}
             </p>
@@ -78,7 +90,7 @@ export default function IndexOverlay({
                 )
               })}
             </div>
-          </div>
+          </motion.div>
         ))}
       </div>
     </motion.div>
