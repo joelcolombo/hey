@@ -1,7 +1,7 @@
 'use client'
 
 import { AnimatePresence, motion } from 'framer-motion'
-import { useEffect, useState } from 'react'
+import { Fragment, useEffect, useState } from 'react'
 import type { Milestone } from '@/lib/proposal/types'
 
 export default function ApproveBar({
@@ -89,24 +89,25 @@ export default function ApproveBar({
                 Review Your Selection
               </h1>
 
-              <div className="mb-2">
+              {/* Content-fit grid: the divider ends exactly where the widest
+                  column content (e.g. "6-7 weeks") ends. */}
+              <div className="mb-2 grid w-fit max-md:w-full grid-cols-[auto_auto_auto] max-md:grid-cols-[1fr_auto] gap-x-16 max-md:gap-x-6 items-baseline">
                 {selectedMilestones.map((m) => (
-                  <div key={m.name} className="flex items-baseline gap-4 py-2.5">
-                    <span className="flex-none basis-[38%] max-md:basis-auto max-md:flex-1 text-[1.05em]">{m.name}</span>
-                    <span className="flex-none basis-[18%] max-md:basis-auto text-[1.05em]">{m.priceLabel}</span>
-                    <span className="text-[1.05em] text-[var(--hover-color)] max-md:hidden">{m.timeline}</span>
-                  </div>
+                  <Fragment key={m.name}>
+                    <span className="py-2.5 text-[1.05em]">{m.name}</span>
+                    <span className="py-2.5 text-[1.05em]">{m.priceLabel}</span>
+                    <span className="py-2.5 text-[1.05em] text-[var(--hover-color)] max-md:hidden">{m.timeline}</span>
+                  </Fragment>
                 ))}
-                <div className="w-[calc(56%+1rem)] max-md:w-full border-t border-[var(--hover-color)]/30 mt-2" />
-                <div className="flex items-baseline gap-4 py-2.5">
-                  <span className="flex-none basis-[38%] max-md:basis-auto max-md:flex-1 text-[1.05em] font-medium">Total</span>
-                  <span className="text-[1.05em] font-medium">{totalLabel}</span>
-                </div>
+                <div className="col-span-3 max-md:col-span-2 border-t border-[var(--hover-color)]/30 mt-2" />
+                <span className="py-2.5 text-[1.05em] font-medium">Total</span>
+                <span className="py-2.5 text-[1.05em] font-medium">{totalLabel}</span>
+                <span className="max-md:hidden" />
               </div>
 
               <p className="text-[1.05em] leading-[1.6] text-[var(--hover-color)] mt-8 mb-12 max-w-xl">
-                Approving sends this to Joel. The formal agreement will follow via
-                DocuSign for signature. Nothing is binding until you sign there.
+                If you approve, I&rsquo;ll send you the formal agreement via DocuSign
+                for signature. Nothing is binding until you sign there.
               </p>
 
               <div className="flex items-center gap-4">
