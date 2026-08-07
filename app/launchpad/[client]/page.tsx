@@ -40,7 +40,12 @@ export default async function LaunchpadHubPage({ params }: { params: Params }) {
   const items = await getItems(client)
 
   const states = await Promise.all(
-    items.map((item) => (item.kind === 'proposal' && item.enabled ? proposalState(item) : Promise.resolve(null)))
+    items.map((item) => {
+      if (!item.enabled) return Promise.resolve(null)
+      if (item.kind === 'proposal') return proposalState(item)
+      if (item.kind === 'questionnaire') return Promise.resolve('Pending')
+      return Promise.resolve(null)
+    })
   )
 
   return (
@@ -55,7 +60,7 @@ export default async function LaunchpadHubPage({ params }: { params: Params }) {
               <span className="flex-1">{item.label}</span>
               {state && <span className="label text-[var(--hover-color)]">{state}</span>}
               {!item.enabled && <span className="label text-[var(--hover-color)]">Locked</span>}
-              <span className={item.enabled ? 'transition-transform group-hover:translate-x-1' : 'opacity-0'}>→</span>
+              <span className={item.enabled ? 'transition-transform group-hover:translate-x-1' : 'text-[var(--hover-color)]'}>→</span>
             </>
           )
           return (
