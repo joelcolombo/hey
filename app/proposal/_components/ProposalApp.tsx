@@ -3,6 +3,7 @@
 import { useMemo, useState } from 'react'
 import { computeApprovalSummary, namesFromSummaryLabel } from '@/lib/proposal/parse'
 import type { PricingTable, ProposalPublicMeta, Section } from '@/lib/proposal/types'
+import ThemeToggle from '@/components/ThemeToggle'
 import ApproveBar from './ApproveBar'
 import PricingSection from './PricingSection'
 import SectionRenderer from './SectionRenderer'
@@ -113,6 +114,11 @@ export default function ProposalApp({ meta, sections }: { meta: ProposalPublicMe
       ))}
 
       <SignatureBlocks clientName={meta.client} />
+
+      {/* Same theme control as the site footer, bottom-left. Defaults to the system scheme. */}
+      <div className="fixed bottom-4 left-5 z-[60] print:hidden">
+        <ThemeToggle />
+      </div>
 
       {!approval && pricing && (
         <ApproveBar

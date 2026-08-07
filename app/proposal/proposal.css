@@ -1,0 +1,25 @@
+/* Screen styles for the proposal document (print styles live in proposal-print.css) */
+
+/* Custom checkboxes matching the printed document: solid box, drawn check.
+   Colors follow the theme: filled with the foreground, check in the background color. */
+.proposal-checkbox {
+  appearance: none;
+  -webkit-appearance: none;
+  width: 1.05em;
+  height: 1.05em;
+  border: 1px solid var(--foreground);
+  border-radius: 3px;
+  background: transparent;
+  flex: none;
+  transform: translateY(2px);
+  cursor: inherit;
+  transition: background-color 0.15s ease;
+}
+.proposal-checkbox:checked {
+  background: var(--foreground)
+    url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 10 10'><path d='M2.2 5.4 4.2 7.4 7.8 3.2' fill='none' stroke='white' stroke-width='1.5'/></svg>")
+    center / 80% no-repeat;
+}
+[data-theme='dark'] .proposal-checkbox:checked {
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 10 10'><path d='M2.2 5.4 4.2 7.4 7.8 3.2' fill='none' stroke='black' stroke-width='1.5'/></svg>");
+}

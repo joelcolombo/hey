@@ -20,18 +20,18 @@ export default function PricingSection({
         return (
           <label
             key={m.name}
-            className={`proposal-pricing-row flex items-baseline gap-4 py-4 border-b border-[var(--hover-color)]/30 ${locked ? '' : 'cursor-pointer'}`}
+            className={`proposal-pricing-row flex items-baseline gap-4 py-2.5 ${locked ? '' : 'cursor-pointer'}`}
           >
             <input
               type="checkbox"
               checked={checked}
               disabled={locked}
               onChange={() => onToggle(m.name)}
-              className="accent-[var(--foreground)] w-4 h-4 translate-y-[2px]"
+              className="proposal-checkbox"
             />
-            <span className={`proposal-pricing-name flex-1 text-[1.05em] transition-opacity ${checked ? '' : 'opacity-40'}`}>{m.name}</span>
-            <span className={`proposal-pricing-price text-[1.05em] transition-opacity ${checked ? '' : 'opacity-40'}`}>{m.priceLabel}</span>
-            <span className={`proposal-timeline text-[0.95em] text-[var(--hover-color)] w-24 text-right max-md:hidden transition-opacity ${checked ? '' : 'opacity-40'}`}>{m.timeline}</span>
+            <span className={`proposal-pricing-name flex-none basis-[38%] max-md:basis-auto max-md:flex-1 text-[1.05em] transition-opacity ${checked ? '' : 'opacity-40'}`}>{m.name}</span>
+            <span className={`proposal-pricing-price flex-none basis-[18%] max-md:basis-auto text-[1.05em] transition-opacity ${checked ? '' : 'opacity-40'}`}>{m.priceLabel}</span>
+            <span className={`proposal-timeline text-[1.05em] text-[var(--hover-color)] max-md:hidden transition-opacity ${checked ? '' : 'opacity-40'}`}>{m.timeline}</span>
           </label>
         )
       })}
