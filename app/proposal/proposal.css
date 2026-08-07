@@ -45,9 +45,11 @@
     margin-bottom: 4rem;
   }
 
-  /* Project Agreement opens with the same air above its title */
-  .proposal-section[data-section='project-agreement'] {
-    padding-top: 8rem;
+  /* Balance: last paragraph → line == line → Project Details title.
+     Confidentiality above contributes 2rem; 2rem here makes 4rem, matching
+     the 4rem below the line. */
+  .proposal-section[data-section='project-details'] {
+    padding-top: 2rem;
   }
 }
 
