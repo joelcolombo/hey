@@ -31,7 +31,7 @@ export default function PricingSection({
             />
             <span className={`flex-1 text-[1.05em] transition-opacity ${checked ? '' : 'opacity-40'}`}>{m.name}</span>
             <span className={`text-[1.05em] transition-opacity ${checked ? '' : 'opacity-40'}`}>{m.priceLabel}</span>
-            <span className={`text-[0.95em] text-[var(--hover-color)] w-24 text-right max-md:hidden transition-opacity ${checked ? '' : 'opacity-40'}`}>{m.timeline}</span>
+            <span className={`proposal-timeline text-[0.95em] text-[var(--hover-color)] w-24 text-right max-md:hidden transition-opacity ${checked ? '' : 'opacity-40'}`}>{m.timeline}</span>
           </label>
         )
       })}

@@ -10,7 +10,11 @@ import SignatureBlocks from './SignatureBlocks'
 
 export function formatDate(iso: string): string {
   if (!iso) return ''
-  const d = new Date(iso)
+  // Date-only strings (2026-03-10) must not shift with the viewer's timezone.
+  const dateOnly = iso.match(/^(\d{4})-(\d{2})-(\d{2})$/)
+  const d = dateOnly
+    ? new Date(Number(dateOnly[1]), Number(dateOnly[2]) - 1, Number(dateOnly[3]))
+    : new Date(iso)
   return isNaN(d.getTime()) ? iso : d.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })
 }
 
