@@ -30,7 +30,7 @@ export default function PricingSection({
               className="proposal-checkbox"
             />
             <span className={`proposal-pricing-name flex-none basis-[38%] max-md:basis-auto max-md:flex-1 text-[1.05em] transition-opacity ${checked ? '' : 'opacity-40'}`}>{m.name}</span>
-            <span className={`proposal-pricing-price flex-none basis-[18%] max-md:basis-auto text-[1.05em] transition-opacity ${checked ? '' : 'opacity-40'}`}>{m.priceLabel}</span>
+            <span className={`proposal-pricing-price flex-none basis-[24%] max-md:basis-auto text-[1.05em] transition-opacity ${checked ? '' : 'opacity-40'}`}>{m.priceLabel}</span>
             <span className={`proposal-timeline text-[1.05em] text-[var(--hover-color)] max-md:hidden transition-opacity ${checked ? '' : 'opacity-40'}`}>{m.timeline}</span>
           </label>
         )
