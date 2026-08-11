@@ -116,7 +116,9 @@
   .proposal-section p,
   .proposal-section li {
     font-size: 11pt !important;
-    line-height: 1.5 !important;
+    /* Word "1.5 lines" (w:line=360, lineRule=auto) multiplies single spacing
+       (~1.15), so the reference reads ~1.7 in CSS terms, not 1.5. */
+    line-height: 1.7 !important;
   }
 
   /* Keep headings attached to their content; avoid splitting paragraphs/rows */
@@ -148,6 +150,7 @@
   }
   .proposal-titleblock > p:nth-of-type(2) {
     font-size: 16pt !important;
+    font-weight: 500 !important;
     color: #999 !important;
   }
   .proposal-meta {
@@ -192,7 +195,10 @@
     font-size: 11pt !important;
   }
   .proposal-pricing-price {
-    flex: 0 0 15% !important;
+    /* Wide enough for price ranges ("USD $4,800 - $5,280") plus a gap
+       before the timeline column. */
+    flex: 0 0 22% !important;
+    padding-right: 10pt !important;
     font-size: 11pt !important;
     color: #000 !important;
   }
