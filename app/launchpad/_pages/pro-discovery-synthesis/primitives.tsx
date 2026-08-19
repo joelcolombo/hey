@@ -1,4 +1,4 @@
-import type { ReactNode } from 'react'
+import type { CSSProperties, ReactNode } from 'react'
 import InView from './InView'
 
 /* Shared building blocks for the synthesis page. Monochrome, editorial,
@@ -45,11 +45,11 @@ export function Muted({ children }: { children: ReactNode }) {
 }
 
 /** Big quotation, attributed. */
-export function Quote({ text, who, compact }: { text: string; who: string; compact?: boolean }) {
+export function Quote({ text, who, compact }: { text: string; who?: string; compact?: boolean }) {
   return (
     <figure className={`syn-quote border-l border-[var(--foreground)] pl-5 ${compact ? 'py-1' : 'py-2'}`}>
       <blockquote className={`${compact ? 'text-[1.05em]' : 'text-[1.25em]'} leading-[1.5] text-pretty`}>{text}</blockquote>
-      <figcaption className="label text-[var(--hover-color)] mt-3">{who}</figcaption>
+      {who && <figcaption className="label text-[var(--hover-color)] mt-3">{who}</figcaption>}
     </figure>
   )
 }
@@ -57,10 +57,9 @@ export function Quote({ text, who, compact }: { text: string; who: string; compa
 /** Vote tally as a dot row: filled for votes, hollow for the rest of the team. */
 export function Tally({ rows, total }: { rows: ReadonlyArray<{ option: string; count: number; who: string }>; total: number }) {
   return (
-    <InView>
     <ul className="flex flex-col">
       {rows.map((r) => (
-        <li key={r.option} className="border-t border-[var(--hairline)] last:border-b py-4">
+        <InView as="li" key={r.option} className="border-t border-[var(--hairline)] last:border-b py-4">
           <div className="flex items-baseline justify-between gap-4">
             <span className={`text-[1.05em] leading-[1.35] ${r.count === 0 ? 'text-[var(--hover-color)]' : ''}`}>{r.option}</span>
             <span className="label text-[var(--hover-color)] flex-none">{r.count}<span className="opacity-60">/{total}</span></span>
@@ -73,20 +72,18 @@ export function Tally({ rows, total }: { rows: ReadonlyArray<{ option: string; c
             </span>
             {r.who && <span className="label text-[var(--hover-color)] text-right">{r.who}</span>}
           </div>
-        </li>
+        </InView>
       ))}
     </ul>
-    </InView>
   )
 }
 
 /** Horizontal frequency bars in units of respondents. */
 export function Bars({ rows, total }: { rows: ReadonlyArray<{ word: string; count: number; who?: string; detail?: string }>; total: number }) {
   return (
-    <InView>
     <ul className="flex flex-col gap-5">
       {rows.map((r, i) => (
-        <li key={r.word} className="grid grid-cols-[8rem_1fr] md:grid-cols-[11rem_1fr] gap-x-5 items-start" style={{ ['--i' as string]: i }}>
+        <InView as="li" key={r.word} className="grid grid-cols-[8rem_1fr] md:grid-cols-[11rem_1fr] gap-x-5 items-start" style={{ ['--i' as string]: i } as CSSProperties}>
           <span className="text-[1.05em] leading-[1.3] pt-0.5">{r.word}</span>
           <div>
             <div className="syn-bar" style={{ ['--w' as string]: `${(r.count / total) * 100}%` }}>
@@ -94,10 +91,9 @@ export function Bars({ rows, total }: { rows: ReadonlyArray<{ word: string; coun
             </div>
             {(r.who || r.detail) && <p className="text-[0.9em] syn-muted mt-1.5 leading-[1.45]">{r.who ?? r.detail}</p>}
           </div>
-        </li>
+        </InView>
       ))}
     </ul>
-    </InView>
   )
 }
 
@@ -108,7 +104,7 @@ export function Slider({ left, right, n, today, future, range, read }: { left: s
   const a = pct(today), b = pct(future)
   const lo = Math.min(a, b), hi = Math.max(a, b)
   return (
-    <li className="syn-slider grid md:grid-cols-12 gap-x-10 gap-y-4 border-t border-[var(--hairline)] last:border-b py-8">
+    <InView as="li" className="syn-slider grid md:grid-cols-12 gap-x-10 gap-y-4 border-t border-[var(--hairline)] last:border-b py-8">
       <div className="md:col-span-7">
         <div className="flex items-baseline justify-between gap-4 text-[1.05em]">
           <span>{left}</span>
@@ -127,17 +123,13 @@ export function Slider({ left, right, n, today, future, range, read }: { left: s
         </div>
       </div>
       <p className="md:col-span-5 text-[0.95em] leading-[1.5] syn-muted md:self-center text-pretty">{read}</p>
-    </li>
+    </InView>
   )
 }
 
-/** The slider list: one InView wrapper so the axes animate in together. */
+/** The slider list. Each axis observes its own viewport entry. */
 export function Sliders({ children }: { children: ReactNode }) {
-  return (
-    <InView>
-      <ul className="flex flex-col">{children}</ul>
-    </InView>
-  )
+  return <ul className="flex flex-col">{children}</ul>
 }
 
 export function Chips({ items, tone = 'default' }: { items: ReadonlyArray<string>; tone?: 'default' | 'muted' | 'strike' }) {

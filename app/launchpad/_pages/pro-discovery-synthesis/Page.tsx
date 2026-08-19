@@ -81,7 +81,7 @@ export default function ProDiscoverySynthesisPage({ launchpadHref }: { launchpad
           All seven descriptions share one skeleton: <strong className="font-medium">cost-effective, proven, life-saving, urgent funding gap, connect implementers with philanthropy</strong>. PRO is a market intermediary, a broker, a bridge. Not a funder, not a pure evaluator.
         </Lede>
         <div className="grid md:grid-cols-3 gap-8">
-          {d.purposeQuotes.map((q) => <Quote key={q.who} text={q.text} who={q.who} compact />)}
+          {d.purposeQuotes.map((q) => <Quote key={q.text} text={q.text} compact />)}
         </div>
         <Note>Implication: the visual metaphor should lean on connection and conduit more than on the "charity" or "think tank" archetypes.</Note>
 
@@ -117,8 +117,7 @@ export default function ProDiscoverySynthesisPage({ launchpadHref }: { launchpad
                 <p className="label text-[var(--hover-color)] mb-3">They think</p>
                 <p className="text-[1.05em] leading-[1.4] mb-4 line-through decoration-[var(--hover-color)] decoration-1">{m.myth}</p>
                 <p className="label text-[var(--hover-color)] mb-3">Actually</p>
-                <p className="text-[1.05em] leading-[1.4] mb-3">{m.reality}</p>
-                <p className="text-[0.85em] text-[var(--hover-color)]">{m.who}</p>
+                <p className="text-[1.05em] leading-[1.4]">{m.reality}</p>
               </Card>
             </li>
           ))}
@@ -139,14 +138,14 @@ export default function ProDiscoverySynthesisPage({ launchpadHref }: { launchpad
       <Section id="personality" n="03" title="Personality and voice" intro="Who PRO is as a person, how it speaks, and where the team wants it to move.">
         <Sub>Character words, by how many people used them</Sub>
         <Bars rows={d.characterWords} total={d.TOTAL} />
-        <Note>Read: the centre of gravity is the rigorous pragmatist, a competent, honest expert who moves fast and doesn’t moralise. "Inspiring" is an aspiration more than a current trait.</Note>
+        <Note>Read: the center of gravity is the rigorous pragmatist, a competent, honest expert who moves fast and doesn’t moralize. "Inspiring" is an aspiration more than a current trait.</Note>
 
         <Sub>Voice</Sub>
         <ul className="flex flex-col">
           {d.voiceWords.map((v) => (
             <li key={v.word} className="grid md:grid-cols-12 gap-x-6 border-t border-[var(--hairline)] last:border-b py-3">
-              <span className="md:col-span-6 text-[1.05em]">{v.word}</span>
-              <span className="md:col-span-6 text-[0.95em] text-[var(--hover-color)]">{v.who}</span>
+              <span className="md:col-span-5 text-[1.05em]">{v.word}</span>
+              <span className="md:col-span-7 text-[0.95em] syn-muted">{v.note}</span>
             </li>
           ))}
         </ul>
@@ -216,9 +215,8 @@ export default function ProDiscoverySynthesisPage({ launchpadHref }: { launchpad
         <Sub>The story the new identity should tell</Sub>
         <ul className="flex flex-col">
           {d.storyLines.map((s) => (
-            <li key={s.line} className="grid md:grid-cols-12 gap-x-6 border-t border-[var(--hairline)] last:border-b py-4">
-              <span className="md:col-span-9 text-[1.2em] leading-[1.35] font-light">“{s.line}”</span>
-              <span className="md:col-span-3 label text-[var(--hover-color)] md:text-right">{s.who}</span>
+            <li key={s} className="border-t border-[var(--hairline)] last:border-b py-4">
+              <span className="text-[1.2em] leading-[1.35] font-light">“{s}”</span>
             </li>
           ))}
         </ul>
@@ -231,20 +229,19 @@ export default function ProDiscoverySynthesisPage({ launchpadHref }: { launchpad
         <Sub>How the visual language should feel</Sub>
         <Bars rows={d.visualFeel} total={d.TOTAL} />
         <div className="grid md:grid-cols-2 gap-8 mt-10">
-          {d.vibrancyQuotes.map((q) => <Quote key={q.who} text={q.text} who={q.who} compact />)}
+          {d.vibrancyQuotes.map((q) => <Quote key={q.text} text={q.text} compact />)}
         </div>
 
         <Sub>Palette mood</Sub>
         <WordScale rows={d.paletteMood} max={4} />
-        <Note>Colours to avoid: anything that looks like GiveWell (Sasha, Grace, Rogers), Coefficient Giving or Founders Pledge (Sasha), Charity Navigator (Rogers). Nobody named a specific hue.</Note>
+        <Note>Colors to avoid: anything that looks like GiveWell (Sasha, Grace, Rogers), Coefficient Giving or Founders Pledge (Sasha), Charity Navigator (Rogers). Nobody named a specific hue.</Note>
 
         <Sub>Imagery</Sub>
         <ul className="flex flex-col">
           {d.imagery.map((im) => (
             <li key={im.theme} className="grid md:grid-cols-12 gap-x-6 gap-y-1 border-t border-[var(--hairline)] last:border-b py-4">
-              <span className="md:col-span-4 text-[1.05em] font-medium leading-[1.35]">{im.theme}</span>
-              <span className="md:col-span-5 text-[0.95em] leading-[1.5] syn-muted">{im.detail}</span>
-              <span className="md:col-span-3 label text-[var(--hover-color)] md:text-right">{im.who}</span>
+              <span className="md:col-span-5 text-[1.05em] font-medium leading-[1.35]">{im.theme}</span>
+              <span className="md:col-span-7 text-[0.95em] leading-[1.5] syn-muted">{im.detail}</span>
             </li>
           ))}
         </ul>
@@ -257,29 +254,33 @@ export default function ProDiscoverySynthesisPage({ launchpadHref }: { launchpad
           <div>
             <Sub>System: unified or modular</Sub>
             <Tally rows={d.systemVotes} total={d.TOTAL} />
-            <Note>Read: a tight core (type, colour, list component) with a small set of controlled variations. Not a sprawling modular toolkit.</Note>
+            <Note>Read: a tight core (type, color, list component) with a small set of controlled variations. Not a sprawling modular toolkit.</Note>
           </div>
         </div>
 
         <Sub>Clichés and identities to avoid</Sub>
         <ul className="flex flex-col">
           {d.cliches.map((c) => (
-            <li key={c.item} className="grid md:grid-cols-12 gap-x-6 border-t border-[var(--hairline)] last:border-b py-3">
-              <span className="md:col-span-8 text-[1.05em] leading-[1.4]">{c.item}</span>
-              <span className="md:col-span-4 label text-[var(--hover-color)] md:text-right">{c.who}</span>
+            <li key={c} className="border-t border-[var(--hairline)] last:border-b py-3">
+              <span className="text-[1.05em] leading-[1.4]">{c}</span>
             </li>
           ))}
         </ul>
 
-        <Sub>References and admired organisations</Sub>
+        <Sub>References and admired organizations</Sub>
         <ul className="grid md:grid-cols-3 gap-5">
           {d.references.map((r) => (
             <li key={r.name}>
               <Card className="h-full">
-                <p className="text-[1.1em] font-medium leading-[1.3] mb-1">
-                  {'url' in r && r.url ? <a href={r.url} target="_blank" rel="noopener noreferrer" className="underline underline-offset-4 decoration-[var(--foreground)] hover:decoration-[var(--hover-color)] hover:text-[var(--hover-color)] transition-colors">{r.name}</a> : r.name}
+                <p className="text-[1.1em] font-medium leading-[1.3] mb-3">
+                  {'url' in r && r.url ? (
+                    <a href={r.url} target="_blank" rel="noopener noreferrer" className="hover:text-[var(--hover-color)] transition-colors">
+                      {r.name} <span className="label text-[var(--hover-color)]" aria-hidden>↗</span>
+                      <span className="sr-only">(external link)</span>
+                    </a>
+                  ) : r.name}
+                  {r.mentions && <span className="label text-[var(--hover-color)] ml-2 align-middle">{r.mentions}</span>}
                 </p>
-                <p className="label text-[var(--hover-color)] mb-3">{r.who}</p>
                 <p className="text-[0.95em] leading-[1.5] syn-muted">{r.why}</p>
               </Card>
             </li>
@@ -346,7 +347,7 @@ export default function ProDiscoverySynthesisPage({ launchpadHref }: { launchpad
       </Section>
 
       {/* 10 Brief */}
-      <Section id="brief" n="10" title="Moodboard brief" intro="Directional inputs for the boards. Colour swatches are illustrative, not proposals.">
+      <Section id="brief" n="10" title="Moodboard brief" intro="Directional inputs for the boards. Color swatches are illustrative, not proposals.">
         <Sub>Brand in a sentence</Sub>
         <p className="font-light text-[1.9em] leading-[1.25] max-md:text-[1.4em] text-balance mb-4">{d.brandSentence}</p>
 
@@ -370,7 +371,7 @@ export default function ProDiscoverySynthesisPage({ launchpadHref }: { launchpad
             </Card>
           ))}
         </div>
-        <Note>In both: a data-viz-ready palette with 5 or 6 distinguishable categorical colours; nothing that reads as alarm or charity pink.</Note>
+        <Note>In both: a data-viz-ready palette with 5 or 6 distinguishable categorical colors; nothing that reads as alarm or charity pink.</Note>
 
         <div className="grid md:grid-cols-2 gap-x-10 gap-y-10 mt-6">
           <div>

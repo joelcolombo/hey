@@ -1,10 +1,24 @@
 'use client'
 
-import { useEffect, useRef, type ReactNode } from 'react'
+import { createElement, useEffect, useRef, type CSSProperties, type ElementType, type ReactNode } from 'react'
 
-/** Marks its wrapper with data-in once it scrolls into view; CSS does the rest. */
-export default function InView({ children, className = '' }: { children: ReactNode; className?: string }) {
-  const ref = useRef<HTMLDivElement>(null)
+/**
+ * Marks itself with data-in once it scrolls into view; CSS does the rest.
+ * Renders as `as` (default div) so rows and list items can each observe
+ * their own entry instead of animating as one block.
+ */
+export default function InView({
+  as = 'div',
+  children,
+  className = '',
+  style,
+}: {
+  as?: ElementType
+  children: ReactNode
+  className?: string
+  style?: CSSProperties
+}) {
+  const ref = useRef<HTMLElement>(null)
   useEffect(() => {
     const el = ref.current
     if (!el) return
@@ -21,14 +35,10 @@ export default function InView({ children, className = '' }: { children: ReactNo
           }
         }
       },
-      { threshold: 0.15, rootMargin: '0px 0px -8% 0px' }
+      { threshold: 0.3, rootMargin: '0px 0px -6% 0px' }
     )
     io.observe(el)
     return () => io.disconnect()
   }, [])
-  return (
-    <div ref={ref} className={className}>
-      {children}
-    </div>
-  )
+  return createElement(as, { ref, className, style }, children)
 }
