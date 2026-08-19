@@ -1,6 +1,6 @@
 import './synthesis.css'
 import * as d from './data'
-import { Bars, Body, Card, Chips, Lede, Muted, Quote, Rule, Section, Slider, Sub, Tally, WordScale } from './primitives'
+import { Bars, Body, Card, Chips, Lede, Muted, Note, Quote, Rule, Section, Slider, Sliders, Sub, Tally, WordScale } from './primitives'
 
 export const meta = {
   title: 'Brand Discovery: Synthesis',
@@ -39,21 +39,16 @@ export default function ProDiscoverySynthesisPage({ launchpadHref }: { launchpad
         <h1 className="font-light text-[4.2em] leading-[1.02] max-md:text-[2.4em] max-w-4xl text-balance">
           What the team told us, and what it means for the identity.
         </h1>
-        <div className="grid md:grid-cols-12 gap-x-10 gap-y-8 mt-12">
-          <p className="md:col-span-7 text-[1.25em] leading-[1.5] text-pretty">
-            Seven people answered the questionnaire between August 10 and 17, 2026. This page digests their answers: where they agree, where they don’t, and what a moodboard should test. The numbers are counts of people, out of seven; the quotes are theirs.
-          </p>
-          <div className="md:col-span-5 md:col-start-8">
-            <p className="label text-[var(--hover-color)] mb-3">Respondents</p>
-            <ul className="flex flex-col">
-              {d.respondents.map((r) => (
-                <li key={r.name} className="flex items-baseline justify-between gap-4 border-t border-[var(--hairline)] last:border-b py-2 text-[0.95em]">
-                  <span>{r.name}</span>
-                  <span className="label text-[var(--hover-color)]">{r.date}</span>
-                </li>
-              ))}
-            </ul>
-          </div>
+        <div className="mt-14 max-w-3xl">
+          <p className="label text-[var(--hover-color)] mb-4">Respondents</p>
+          <ul className="grid md:grid-cols-2 gap-x-10">
+            {d.respondents.map((r) => (
+              <li key={r.name} className="flex items-baseline justify-between gap-4 border-t border-[var(--foreground)] py-2.5 text-[0.95em]">
+                <span>{r.name}</span>
+                <span className="label text-[var(--hover-color)]">{r.date}</span>
+              </li>
+            ))}
+          </ul>
         </div>
         <nav aria-label="Sections" className="mt-14 flex flex-wrap gap-x-5 gap-y-2">
           {nav.map(([id, label]) => (
@@ -66,12 +61,12 @@ export default function ProDiscoverySynthesisPage({ launchpadHref }: { launchpad
 
       {/* 01 Ten things */}
       <Section id="ten" n="01" title="Ten things that matter" intro="The whole questionnaire in one screen. Everything below is detail on these.">
-        <ol className="grid md:grid-cols-2 gap-x-10 gap-y-10">
+        <ol className="grid md:grid-cols-2 gap-x-10 gap-y-12">
           {d.tenThings.map((t, i) => (
             <li key={i} className="flex gap-5">
               <span className="syn-num w-12 flex-none">{String(i + 1).padStart(2, '0')}</span>
               <div>
-                <p className="text-[1.15em] leading-[1.35] font-medium mb-2 text-pretty">{t.lede}</p>
+                <p className="text-[1.15em] leading-[1.35] font-medium mb-3 text-pretty">{t.lede}</p>
                 <p className="text-[1em] leading-[1.55] syn-muted text-pretty">{t.body}</p>
               </div>
             </li>
@@ -85,16 +80,16 @@ export default function ProDiscoverySynthesisPage({ launchpadHref }: { launchpad
         <Lede>
           All seven descriptions share one skeleton: <strong className="font-medium">cost-effective, proven, life-saving, urgent funding gap, connect implementers with philanthropy</strong>. PRO is a market intermediary, a broker, a bridge. Not a funder, not a pure evaluator.
         </Lede>
-        <div className="grid md:grid-cols-3 gap-8 mb-6">
+        <div className="grid md:grid-cols-3 gap-8">
           {d.purposeQuotes.map((q) => <Quote key={q.who} text={q.text} who={q.who} compact />)}
         </div>
-        <Body><Muted>Implication: the visual metaphor should lean on connection and conduit more than on the "charity" or "think tank" archetypes.</Muted></Body>
+        <Note>Implication: the visual metaphor should lean on connection and conduit more than on the "charity" or "think tank" archetypes.</Note>
 
         <Sub>What people must understand</Sub>
-        <ul className="grid md:grid-cols-2 gap-x-10 gap-y-5">
+        <ul className="grid md:grid-cols-2 gap-x-10 gap-y-8">
           {d.keyMessages.map((m) => (
-            <li key={m.lede} className="border-t border-[var(--hairline)] pt-3">
-              <p className="font-medium text-[1.05em] mb-1">{m.lede}</p>
+            <li key={m.lede} className="border-t border-[var(--hairline)] pt-5">
+              <p className="font-medium text-[1.05em] mb-3">{m.lede}</p>
               <p className="text-[0.95em] leading-[1.5] syn-muted">{m.body}</p>
             </li>
           ))}
@@ -119,9 +114,9 @@ export default function ProDiscoverySynthesisPage({ launchpadHref }: { launchpad
           {d.misreadings.map((m) => (
             <li key={m.myth}>
               <Card className="h-full">
-                <p className="label text-[var(--hover-color)] mb-2">They think</p>
+                <p className="label text-[var(--hover-color)] mb-3">They think</p>
                 <p className="text-[1.05em] leading-[1.4] mb-4 line-through decoration-[var(--hover-color)] decoration-1">{m.myth}</p>
-                <p className="label text-[var(--hover-color)] mb-2">Actually</p>
+                <p className="label text-[var(--hover-color)] mb-3">Actually</p>
                 <p className="text-[1.05em] leading-[1.4] mb-3">{m.reality}</p>
                 <p className="text-[0.85em] text-[var(--hover-color)]">{m.who}</p>
               </Card>
@@ -130,10 +125,10 @@ export default function ProDiscoverySynthesisPage({ launchpadHref }: { launchpad
         </ul>
 
         <Sub>Constraints to respect</Sub>
-        <ul className="grid md:grid-cols-2 gap-x-10 gap-y-5">
+        <ul className="grid md:grid-cols-2 gap-x-10 gap-y-8">
           {d.constraints.map((c) => (
-            <li key={c.lede} className="border-t border-[var(--hairline)] pt-3">
-              <p className="font-medium text-[1.05em] mb-1">{c.lede}</p>
+            <li key={c.lede} className="border-t border-[var(--hairline)] pt-5">
+              <p className="font-medium text-[1.05em] mb-3">{c.lede}</p>
               <p className="text-[0.95em] leading-[1.5] syn-muted">{c.body}</p>
             </li>
           ))}
@@ -144,7 +139,7 @@ export default function ProDiscoverySynthesisPage({ launchpadHref }: { launchpad
       <Section id="personality" n="03" title="Personality and voice" intro="Who PRO is as a person, how it speaks, and where the team wants it to move.">
         <Sub>Character words, by how many people used them</Sub>
         <Bars rows={d.characterWords} total={d.TOTAL} />
-        <Body><Muted>Read: the centre of gravity is the rigorous pragmatist, a competent, honest expert who moves fast and doesn’t moralise. "Inspiring" is an aspiration more than a current trait.</Muted></Body>
+        <Note>Read: the centre of gravity is the rigorous pragmatist, a competent, honest expert who moves fast and doesn’t moralise. "Inspiring" is an aspiration more than a current trait.</Note>
 
         <Sub>Voice</Sub>
         <ul className="flex flex-col">
@@ -155,20 +150,20 @@ export default function ProDiscoverySynthesisPage({ launchpadHref }: { launchpad
             </li>
           ))}
         </ul>
-        <Body><Muted>Today the voice is precise and caveated. The shared wish is to add warmth and inspiration without losing precision: room for one expressive, human element inside a disciplined system.</Muted></Body>
+        <Note>Today the voice is precise and caveated. The shared wish is to add warmth and inspiration without losing precision: room for one expressive, human element inside a disciplined system.</Note>
 
         <Sub>Personality sliders: today and future</Sub>
-        <p className="syn-legend text-[0.9em] text-[var(--hover-color)] mb-2">
+        <p className="syn-legend text-[0.9em] syn-muted mb-4">
           <span><i /> Today (average)</span>
           <span><i className="on" /> Future (average)</span>
           <span><i className="range" /> Range of future answers</span>
         </p>
-        <ul className="flex flex-col">
+        <Sliders>
           {d.sliders.map((s) => <Slider key={s.left} {...s} />)}
-        </ul>
-        <Body>
+        </Sliders>
+        <p className="text-[1.05em] leading-[1.6] mt-10 max-w-2xl text-pretty">
           <strong className="font-medium">The moves the team wants:</strong> more established, closer to DIV, more thought-leader, a slightly calmer urgency. While staying data-driven, global and progressive.
-        </Body>
+        </p>
 
         <Sub>Traits to avoid</Sub>
         <Chips items={d.avoidTraits} tone="strike" />
@@ -216,7 +211,7 @@ export default function ProDiscoverySynthesisPage({ launchpadHref }: { launchpad
             </Card>
           ))}
         </div>
-        <div className="mt-6"><Body><Muted>Ellie adds that the green is already used in donor comms and Word docs as a low-effort visual cue. Grace notes that what people may actually remember is the website and clicking through the list, not the logo.</Muted></Body></div>
+        <Note>Ellie adds that the green is already used in donor comms and Word docs as a low-effort visual cue. Grace notes that what people may actually remember is the website and clicking through the list, not the logo.</Note>
 
         <Sub>The story the new identity should tell</Sub>
         <ul className="flex flex-col">
@@ -241,7 +236,7 @@ export default function ProDiscoverySynthesisPage({ launchpadHref }: { launchpad
 
         <Sub>Palette mood</Sub>
         <WordScale rows={d.paletteMood} max={4} />
-        <Body><Muted>Colours to avoid: anything that looks like GiveWell (Sasha, Grace, Rogers), Coefficient Giving or Founders Pledge (Sasha), Charity Navigator (Rogers). Nobody named a specific hue.</Muted></Body>
+        <Note>Colours to avoid: anything that looks like GiveWell (Sasha, Grace, Rogers), Coefficient Giving or Founders Pledge (Sasha), Charity Navigator (Rogers). Nobody named a specific hue.</Note>
 
         <Sub>Imagery</Sub>
         <ul className="flex flex-col">
@@ -262,7 +257,7 @@ export default function ProDiscoverySynthesisPage({ launchpadHref }: { launchpad
           <div>
             <Sub>System: unified or modular</Sub>
             <Tally rows={d.systemVotes} total={d.TOTAL} />
-            <Body><Muted>Read: a tight core (type, colour, list component) with a small set of controlled variations. Not a sprawling modular toolkit.</Muted></Body>
+            <Note>Read: a tight core (type, colour, list component) with a small set of controlled variations. Not a sprawling modular toolkit.</Note>
           </div>
         </div>
 
@@ -282,7 +277,7 @@ export default function ProDiscoverySynthesisPage({ launchpadHref }: { launchpad
             <li key={r.name}>
               <Card className="h-full">
                 <p className="text-[1.1em] font-medium leading-[1.3] mb-1">
-                  {'url' in r && r.url ? <a href={r.url} target="_blank" rel="noopener noreferrer" className="underline underline-offset-4 decoration-[var(--hover-color)] hover:decoration-[var(--foreground)]">{r.name}</a> : r.name}
+                  {'url' in r && r.url ? <a href={r.url} target="_blank" rel="noopener noreferrer" className="underline underline-offset-4 decoration-[var(--foreground)] hover:decoration-[var(--hover-color)] hover:text-[var(--hover-color)] transition-colors">{r.name}</a> : r.name}
                 </p>
                 <p className="label text-[var(--hover-color)] mb-3">{r.who}</p>
                 <p className="text-[0.95em] leading-[1.5] syn-muted">{r.why}</p>
@@ -290,21 +285,21 @@ export default function ProDiscoverySynthesisPage({ launchpadHref }: { launchpad
             </li>
           ))}
         </ul>
-        <div className="mt-6"><Body><Muted>Pattern: the admired set is clear, honest, understated, values-led, transparency-first. Nobody cites a flashy or highly illustrated brand.</Muted></Body></div>
+        <Note>Pattern: the admired set is clear, honest, understated, values-led, transparency-first. Nobody cites a flashy or highly illustrated brand.</Note>
 
         <Sub>Key vocabulary</Sub>
         <WordScale rows={d.vocabulary} max={7} />
-        <ul className="mt-8 flex flex-col gap-2">
+        <ul className="mt-10 flex flex-col gap-3">
           {d.vocabularyNotes.map((n) => <li key={n} className="text-[0.95em] leading-[1.5] syn-muted pl-6 relative before:content-['–'] before:absolute before:left-0">{n}</li>)}
         </ul>
       </Section>
 
       {/* 07 Success */}
       <Section id="success" n="07" title="What success looks like">
-        <ul className="grid md:grid-cols-2 gap-x-10 gap-y-5">
+        <ul className="grid md:grid-cols-2 gap-x-10 gap-y-8">
           {d.success.map((s) => (
-            <li key={s.lede} className="border-t border-[var(--hairline)] pt-3">
-              <p className="font-medium text-[1.05em] mb-1">{s.lede}</p>
+            <li key={s.lede} className="border-t border-[var(--hairline)] pt-5">
+              <p className="font-medium text-[1.05em] mb-3">{s.lede}</p>
               <p className="text-[0.95em] leading-[1.5] syn-muted">{s.body}</p>
             </li>
           ))}
@@ -342,7 +337,7 @@ export default function ProDiscoverySynthesisPage({ launchpadHref }: { launchpad
             <li key={t.title}>
               <Card className="h-full">
                 <span className="syn-num block mb-4">{String(i + 1).padStart(2, '0')}</span>
-                <p className="text-[1.15em] font-medium leading-[1.3] mb-2">{t.title}</p>
+                <p className="text-[1.15em] font-medium leading-[1.3] mb-3">{t.title}</p>
                 <p className="text-[0.95em] leading-[1.55] syn-muted text-pretty">{t.body}</p>
               </Card>
             </li>
@@ -375,7 +370,7 @@ export default function ProDiscoverySynthesisPage({ launchpadHref }: { launchpad
             </Card>
           ))}
         </div>
-        <div className="mt-6"><Body><Muted>In both: a data-viz-ready palette with 5 or 6 distinguishable categorical colours; nothing that reads as alarm or charity pink.</Muted></Body></div>
+        <Note>In both: a data-viz-ready palette with 5 or 6 distinguishable categorical colours; nothing that reads as alarm or charity pink.</Note>
 
         <div className="grid md:grid-cols-2 gap-x-10 gap-y-10 mt-6">
           <div>

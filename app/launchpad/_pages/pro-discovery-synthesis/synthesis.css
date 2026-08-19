@@ -20,6 +20,14 @@
 .syn-dots i.on {
   background: var(--foreground);
   border-color: var(--foreground);
+  transform: scale(0.2);
+  opacity: 0;
+  transition: transform 0.45s cubic-bezier(0.2, 0.8, 0.2, 1.2), opacity 0.3s ease;
+  transition-delay: calc(var(--i, 0) * 55ms + 0.1s);
+}
+[data-in] .syn-dots i.on {
+  transform: scale(1);
+  opacity: 1;
 }
 
 .syn-bar {
@@ -37,16 +45,25 @@
   width: var(--w);
   background: var(--foreground);
   transform-origin: left;
-  animation: syn-grow 0.7s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+  transform: scaleX(0);
+  transition: transform 0.9s cubic-bezier(0.2, 0.7, 0.2, 1);
+  transition-delay: calc(var(--i, 0) * 70ms);
+}
+[data-in] .syn-bar::before {
+  transform: scaleX(1);
+}
+.syn-bar > span {
+  opacity: 0;
+  transition: opacity 0.5s ease;
+  transition-delay: calc(var(--i, 0) * 70ms + 0.5s);
+}
+[data-in] .syn-bar > span {
+  opacity: 1;
 }
 .syn-bar > span {
   position: relative;
   margin-left: calc(var(--w) + 0.6rem);
   white-space: nowrap;
-}
-@keyframes syn-grow {
-  from { transform: scaleX(0); }
-  to { transform: scaleX(1); }
 }
 
 .syn-track {
@@ -67,12 +84,23 @@
   top: calc(50% - 3px);
   height: 6px;
   background: var(--hairline);
+  opacity: 0;
+  transition: opacity 0.6s ease 0.2s;
 }
+[data-in] .syn-range { opacity: 1; }
+/* The shift line grows out of the today marker toward the future marker. */
 .syn-shift {
   position: absolute;
   top: calc(50% - 0.5px);
   height: 1px;
   background: var(--foreground);
+  left: var(--a);
+  width: 0;
+  transition: left 1s cubic-bezier(0.3, 0.7, 0.2, 1) 0.35s, width 1s cubic-bezier(0.3, 0.7, 0.2, 1) 0.35s;
+}
+[data-in] .syn-shift {
+  left: var(--lo);
+  width: var(--w);
 }
 .syn-today,
 .syn-future {
@@ -85,9 +113,19 @@
   background: var(--background);
   border: 1px solid var(--foreground);
 }
+.syn-today { left: var(--a); }
+/* The future marker starts on today and travels to its value. */
 .syn-future {
   background: var(--foreground);
+  left: var(--a);
+  transition: left 1s cubic-bezier(0.3, 0.7, 0.2, 1) 0.35s;
 }
+[data-in] .syn-future { left: var(--b); }
+.syn-future b {
+  opacity: 0;
+  transition: opacity 0.4s ease 1.2s;
+}
+[data-in] .syn-future b { opacity: 1; }
 .syn-today b,
 .syn-future b {
   position: absolute;
@@ -150,4 +188,21 @@
 
 @media print {
   .syn-details { open: true; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .syn-bar::before,
+  .syn-bar > span,
+  .syn-dots i.on,
+  .syn-range,
+  .syn-shift,
+  .syn-future,
+  .syn-future b {
+    transition: none !important;
+  }
+  .syn-bar::before { transform: scaleX(1); }
+  .syn-bar > span, .syn-dots i.on, .syn-range, .syn-future b { opacity: 1; }
+  .syn-dots i.on { transform: scale(1); }
+  .syn-shift { left: var(--lo); width: var(--w); }
+  .syn-future { left: var(--b); }
 }
