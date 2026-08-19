@@ -210,7 +210,7 @@ export default function ProDiscoverySynthesisPage({ launchpadHref }: { launchpad
             </Card>
           ))}
         </div>
-        <Note>Ellie adds that the green is already used in donor comms and Word docs as a low-effort visual cue. Grace notes that what people may actually remember is the website and clicking through the list, not the logo.</Note>
+        <Note>The green is already used in donor comms and Word docs as a low-effort visual cue. And what people may actually remember is the website and clicking through the list, not the logo.</Note>
 
         <Sub>The story the new identity should tell</Sub>
         <ul className="flex flex-col">
@@ -234,7 +234,7 @@ export default function ProDiscoverySynthesisPage({ launchpadHref }: { launchpad
 
         <Sub>Palette mood</Sub>
         <WordScale rows={d.paletteMood} max={4} />
-        <Note>Colors to avoid: anything that looks like GiveWell (Sasha, Grace, Rogers), Coefficient Giving or Founders Pledge (Sasha), Charity Navigator (Rogers). Nobody named a specific hue.</Note>
+        <Note>Colors to avoid: anything that looks like GiveWell (3 mentions), Coefficient Giving, Founders Pledge or Charity Navigator. Nobody named a specific hue.</Note>
 
         <Sub>Imagery</Sub>
         <ul className="flex flex-col">
