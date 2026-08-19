@@ -1,0 +1,156 @@
+/* PRO discovery synthesis: data-ink visual primitives. */
+
+/* Secondary body text: readable, still clearly subordinate. */
+.syn-muted {
+  color: color-mix(in srgb, var(--foreground) 64%, var(--background));
+}
+
+.syn-dots {
+  display: inline-flex;
+  gap: 5px;
+  align-items: center;
+}
+.syn-dots i {
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  border: 1px solid var(--hover-color);
+}
+.syn-dots i.on {
+  background: var(--foreground);
+  border-color: var(--foreground);
+}
+
+.syn-bar {
+  position: relative;
+  height: 1.55rem;
+  display: flex;
+  align-items: center;
+}
+.syn-bar::before {
+  content: '';
+  position: absolute;
+  top: calc(50% - 4px);
+  left: 0;
+  height: 8px;
+  width: var(--w);
+  background: var(--foreground);
+  border-radius: 2px;
+  transform-origin: left;
+  animation: syn-grow 0.7s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+}
+.syn-bar > span {
+  position: relative;
+  margin-left: calc(var(--w) + 0.6rem);
+  white-space: nowrap;
+}
+@keyframes syn-grow {
+  from { transform: scaleX(0); }
+  to { transform: scaleX(1); }
+}
+
+.syn-track {
+  position: relative;
+  height: 2.6rem;
+  margin-top: 0.9rem;
+}
+.syn-track::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 50%;
+  border-top: 1px solid var(--hairline);
+}
+.syn-range {
+  position: absolute;
+  top: calc(50% - 3px);
+  height: 6px;
+  background: var(--hairline);
+  border-radius: 3px;
+}
+.syn-shift {
+  position: absolute;
+  top: calc(50% - 0.5px);
+  height: 1px;
+  background: var(--foreground);
+}
+.syn-today,
+.syn-future {
+  position: absolute;
+  top: 50%;
+  width: 13px;
+  height: 13px;
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  background: var(--background);
+  border: 1px solid var(--foreground);
+}
+.syn-future {
+  background: var(--foreground);
+}
+.syn-today b,
+.syn-future b {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  font-family: 'Geist Pixel', 'PP Neue Montreal TT', sans-serif;
+  font-weight: 400;
+  font-size: 0.7rem;
+  letter-spacing: 0.04em;
+  color: var(--hover-color);
+  white-space: nowrap;
+}
+.syn-today b { bottom: 100%; margin-bottom: 6px; }
+.syn-future b { top: 100%; margin-top: 6px; color: var(--foreground); }
+
+.syn-legend {
+  display: inline-flex;
+  gap: 1.25rem;
+  align-items: center;
+}
+.syn-legend i {
+  display: inline-block;
+  width: 11px;
+  height: 11px;
+  border-radius: 50%;
+  border: 1px solid var(--foreground);
+  margin-right: 6px;
+  vertical-align: -1px;
+}
+.syn-legend i.on { background: var(--foreground); }
+.syn-legend i.range { background: var(--hairline); border-color: var(--hairline); border-radius: 3px; width: 16px; height: 6px; }
+
+.syn-swatches {
+  display: flex;
+  gap: 6px;
+}
+.syn-swatches i {
+  flex: 1;
+  height: 2.75rem;
+  border-radius: 6px;
+  border: 1px solid color-mix(in srgb, var(--foreground) 12%, transparent);
+}
+
+/* Appendix toggles */
+.syn-details summary {
+  list-style: none;
+  cursor: pointer;
+}
+.syn-details summary::-webkit-details-marker { display: none; }
+.syn-details summary .arrow { transition: transform 0.2s ease; display: inline-block; }
+.syn-details[open] summary .arrow { transform: rotate(90deg); }
+
+/* Big numerals on the ten-things grid */
+.syn-num {
+  font-weight: 300;
+  font-size: 2.6em;
+  line-height: 1;
+  color: var(--hover-color);
+  font-variant-numeric: tabular-nums;
+}
+
+@media print {
+  .syn-details { open: true; }
+}
