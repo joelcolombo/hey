@@ -120,7 +120,7 @@ export function Chips({ items, tone = 'default' }: { items: ReadonlyArray<string
       {items.map((w) => (
         <li
           key={w}
-          className={`rounded-full border px-3.5 py-1.5 text-[0.95em] leading-none ${
+          className={`border px-3.5 py-1.5 text-[0.95em] leading-none ${
             tone === 'strike'
               ? 'border-[var(--hairline)] text-[var(--hover-color)] line-through decoration-[var(--hover-color)]'
               : tone === 'muted'
@@ -154,7 +154,7 @@ export function WordScale({ rows, max }: { rows: ReadonlyArray<{ word: string; c
 }
 
 export function Card({ children, className = '' }: { children: ReactNode; className?: string }) {
-  return <div className={`border border-[var(--hairline)] rounded-2xl p-6 ${className}`}>{children}</div>
+  return <div className={`border border-[var(--hairline)] p-6 ${className}`}>{children}</div>
 }
 
 export function Rule() {

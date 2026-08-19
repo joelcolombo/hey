@@ -36,7 +36,6 @@
   height: 8px;
   width: var(--w);
   background: var(--foreground);
-  border-radius: 2px;
   transform-origin: left;
   animation: syn-grow 0.7s cubic-bezier(0.2, 0.7, 0.2, 1) both;
 }
@@ -68,7 +67,6 @@
   top: calc(50% - 3px);
   height: 6px;
   background: var(--hairline);
-  border-radius: 3px;
 }
 .syn-shift {
   position: absolute;
@@ -120,7 +118,7 @@
   vertical-align: -1px;
 }
 .syn-legend i.on { background: var(--foreground); }
-.syn-legend i.range { background: var(--hairline); border-color: var(--hairline); border-radius: 3px; width: 16px; height: 6px; }
+.syn-legend i.range { background: var(--hairline); border-color: var(--hairline); width: 16px; height: 6px; }
 
 .syn-swatches {
   display: flex;
@@ -129,7 +127,6 @@
 .syn-swatches i {
   flex: 1;
   height: 2.75rem;
-  border-radius: 6px;
   border: 1px solid color-mix(in srgb, var(--foreground) 12%, transparent);
 }
 
