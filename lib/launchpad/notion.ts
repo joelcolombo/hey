@@ -8,7 +8,7 @@ import { timingSafeEqual } from 'node:crypto'
  * "Launchpad Accounts": Name (title) · Slug · Access code · Allowed emails ·
  *   Project page (url) · Status (Active/Archived)
  * "Launchpad Items": Name (title, the label) · Account (slug) · Kind
- *   (Proposal/Questionnaire/Link) · Item slug · Target · Enabled (checkbox) ·
+ *   (Proposal/Questionnaire/Link/Document/Page) · Item slug · Target · Enabled (checkbox) ·
  *   Order (number)
  */
 
@@ -22,7 +22,9 @@ export type LaunchpadAccount = {
 export type LaunchpadItem = {
   label: string
   slug: string
-  kind: 'proposal' | 'questionnaire' | 'link'
+  /** Document = a read-only Notion page (Target = page URL or id).
+   *  Page = a bespoke React page from app/launchpad/_pages (Target = registry key). */
+  kind: 'proposal' | 'questionnaire' | 'link' | 'document' | 'page'
   target: string
   enabled: boolean
   order: number
@@ -113,7 +115,7 @@ export async function getItems(accountSlug: string): Promise<LaunchpadItem[]> {
     if (page.object !== 'page') continue
     const p = page.properties as RawProps
     const kind = (p['Kind']?.select?.name ?? '').toLowerCase()
-    if (kind !== 'proposal' && kind !== 'questionnaire' && kind !== 'link') continue
+    if (kind !== 'proposal' && kind !== 'questionnaire' && kind !== 'link' && kind !== 'document' && kind !== 'page') continue
     items.push({
       label: text(p, 'Name'),
       slug: text(p, 'Item slug').trim(),
