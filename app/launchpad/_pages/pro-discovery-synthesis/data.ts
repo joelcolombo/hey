@@ -216,17 +216,19 @@ export const cliches = [
   'The current PRO visual',
 ] as const
 
-export const references = [
-  { name: 'GiveDirectly', mentions: '3 mentions', why: 'Straightforward, simple to understand; branding aligned with the underlying work.' },
-  { name: 'Patagonia', mentions: '2 mentions', why: 'Values-driven identity present throughout the whole story.' },
-  { name: 'The DIV Fund rebrand', mentions: '', why: 'Fresh, exciting; innovation central to the tone.' },
-  { name: 'Everlane', mentions: '', why: 'Radical transparency on costs; "quietly confident and minimalist".' },
-  { name: 'Renaissance Philanthropy', mentions: '', why: '"Text-driven in a way that resonates with PRO."', url: 'https://www.renaissancephilanthropy.org/' },
-  { name: 'Ford Foundation, PopHive', mentions: '', why: 'Lukewarm ("don’t love, don’t hate"). Named for "less text, more data".', url: 'https://www.pophive.org/' },
-  { name: 'Pratham', mentions: '', why: 'Clear mission, human-centered images and tone.' },
-  { name: 'Wikipedia', mentions: '', why: 'Neutral, trusted, utilitarian public good.' },
-  { name: 'Mulago, Institute for Progress, Saloni Dattani', mentions: '', why: 'Writing tone only: clear, candid, data-rich yet compelling.' },
-] as const
+export type RefLink = { label: string; url?: string }
+
+export const references: ReadonlyArray<{ names: RefLink[]; mentions: string; why: string }> = [
+  { names: [{ label: 'GiveDirectly', url: 'https://www.givedirectly.org/' }], mentions: '3 mentions', why: 'Straightforward, simple to understand; branding aligned with the underlying work.' },
+  { names: [{ label: 'Patagonia', url: 'https://www.patagonia.com/' }], mentions: '2 mentions', why: 'Values-driven identity present throughout the whole story.' },
+  { names: [{ label: 'The DIV Fund rebrand', url: 'https://div.fund/' }], mentions: '', why: 'Fresh, exciting; innovation central to the tone.' },
+  { names: [{ label: 'Everlane', url: 'https://www.everlane.com/' }], mentions: '', why: 'Radical transparency on costs; "quietly confident and minimalist".' },
+  { names: [{ label: 'Renaissance Philanthropy', url: 'https://www.renaissancephilanthropy.org/' }], mentions: '', why: '"Text-driven in a way that resonates with PRO."' },
+  { names: [{ label: 'Ford Foundation', url: 'https://www.fordfoundation.org/' }, { label: 'PopHive', url: 'https://www.pophive.org/' }], mentions: '', why: 'Lukewarm ("don’t love, don’t hate"). Named for "less text, more data".' },
+  { names: [{ label: 'Pratham', url: 'https://www.pratham.org/' }], mentions: '', why: 'Clear mission, human-centered images and tone.' },
+  { names: [{ label: 'Wikipedia', url: 'https://www.wikipedia.org/' }], mentions: '', why: 'Neutral, trusted, utilitarian public good.' },
+  { names: [{ label: 'Mulago Foundation', url: 'https://www.mulagofoundation.org/' }, { label: 'Institute for Progress', url: 'https://ifp.org/' }, { label: 'Saloni Dattani', url: 'https://www.scientificdiscovery.dev/' }], mentions: '', why: 'Writing tone only: clear, candid, data-rich yet compelling.' },
+]
 
 export const vocabulary = [
   { word: 'Vetted', count: 7 },
@@ -314,109 +316,3 @@ export const briefNotes = {
   ],
   tone: 'The board should feel like a trusted expert’s desk, not a campaign: ordered, evidence-rich, human in the photos, confident in the headlines, with a single warm, hopeful note running through it.',
 } as const
-
-export type Verbatim = { q: string; answers: Array<{ who: string; text: string }> }
-
-/** Answers are numbered, not named: the same number is the same respondent
- * across every question, but the reading stays group-oriented. */
-export const appendix: Verbatim[] = [
-  { q: 'Purpose and role of PRO', answers: [
-    { who: '01', text: 'PRO identifies the most cost-effectively life-saving health and humanitarian projects which might formerly have been funded by governments, and identified private or philanthropic funding to keep these projects going.' },
-    { who: '02', text: 'To fill critical funding gaps for lifesaving development and humanitarian programs.' },
-    { who: '03', text: 'PRO was designed to make it as easy and clear as humanly possible for donors to find and fund critical development and humanitarian projects that will measurably and meaningfully improve the lives of the most vulnerable. PRO is a totally neutral broker, driven solely by this goal: it provides clear, timely analysis and in an accessible format, to increase the speed and maximize the impact of donor funding.' },
-    { who: '04', text: 'Project Resource Optimization connects implementing partners with donors to fund life-saving and highly effective projects in need of urgent funding. As governments cut ODA spending across the globe, PRO identifies programs that can still provide critical services and facilitates continued service delivery.' },
-    { who: '05', text: 'Our main purpose is to direct funding to what we know works in order to cost-effectively save lives. We work with implementers to pare down their programs to the core drivers of impact and then connect them with philanthropists to plug critical gaps.' },
-    { who: '06', text: 'To connect philanthropic donors with highly leveraged and vetted humanitarian opportunities.' },
-    { who: '07', text: 'PRO’s purpose is to identify some of the most cost-effective global health and humanitarian programs, delivering life-saving programming at scale, and to crowd-in private philanthropy to (quickly) fund that work. We serve as an intermediary in this market (of implementers and funders) to reduce information asymmetries and enable transactions (in the form of donations) to happen with strong confidence and little friction.' },
-  ] },
-  { q: 'Key message', answers: [
-    { who: '01', text: 'Donors have the opportunity to save lives and preserve the capacity of frontline humanitarian organizations, if they use cost-effectiveness as a guide for their giving.' },
-    { who: '02', text: 'That our list of awards are pre-vetted and scoped for urgency and cost-effectiveness.' },
-    { who: '03', text: 'We are driven by a team that is deeply driven by evidence. We are trying to maximize the impact of available budgets, but see the imperative as far more than economic; this work is also about truth, justice, and love of others.' },
-    { who: '04', text: 'How PRO identifies projects. PRO has a trusted network of implementing partners, but needs to continue building an authoritative voice that donors can trust. The value add here is the niche of projects that PRO identifies: urgently needing funding, already proven at scale, trimmed of additional services that don’t make as much impact in a funding-scarce environment.' },
-    { who: '05', text: 'We can’t possibly address all of the problems or outcomes within the development space. But, in order to have impact, we have to optimize available resources to achieve a chosen outcome in the best way we know how. That’s why PRO prioritizes projects that implement proven interventions at saving lives. Our goal is to direct more private philanthropy into this space.' },
-    { who: '06', text: 'PRO identifies cost-effective life saving giving opportunities which have lost funding due to foreign assistance budget cuts.' },
-    { who: '07', text: 'That we are knowledgeable and trustworthy stewards of this market. We make unbiased, evidence-based appraisals of projects using rigorous methods but are not unreasonably hard-lined in the face of a deeply complex world and implementing environment. In other words we combine rigor with common-sense and see the forest in our approach rather than just the "trees" of a single model or indicator to use to recommend funding.' },
-  ] },
-  { q: 'Audiences and priority', answers: [
-    { who: '01', text: 'EA-adjacent philanthropic donors; philanthropic advisors; peer organizations and policy groups. Priority: individual donors and philanthropic advisors.' },
-    { who: '02', text: 'Philanthropic donors, press, HNWI, AI IPO funds and foundations. "We primarily partner with IPs but our comms should be tailored to donors and potential donors; our IP partnerships are well established." Priority: donors (foundations, HNWIs, funds).' },
-    { who: '03', text: 'Philanthropic donors, press, foundations. Priority: individual and institutional donors.' },
-    { who: '04', text: 'HNWI; donor advisement organizations; evidence-based policy advisory groups; former USAID networks. Priority: HNWI and their donor-advisors, particularly EA-adjacent people and people with new AI-IPO money.' },
-    { who: '05', text: 'Philanthropic donors (EA or adjacent), smaller family foundations, HNWI first. Secondary: implementing partners, peer organizations. Press has been key historically. "I predict our continued success will come from the already known networks we have in the EA and EA-adjacent space." Priority: foundations and HNWI in the EA-adjacent space who see additional value in PRO over typical advisors such as GiveWell.' },
-    { who: '06', text: 'Philanthropic donors, implementing partners, press. Priority: philanthropic donors.' },
-    { who: '07', text: 'Six groups. (1) HNWI and advisors, new to the field, low-information but impact-hungry, "by far the largest source of money we’ve moved"; (2) EA HNWI, donors and foundations, who require a high bar of rigor; (3) global health and development foundations, co-funders and sources; (4) implementing partners; (5) media and press: "a pretty clear through line from media coverage to reaching new donors"; (6) policy circles. Priority: "pretty much all the donor groups. Torn between mainstream rich people new to the space and the EA crowd."' },
-  ] },
-  { q: 'Misreadings and constraints', answers: [
-    { who: '01', text: 'Many think cost-effectiveness is about innovating (DIV) whereas many cost-effective projects are routinely delivering well-evidenced, "almost boring" programs. No constraints.' },
-    { who: '02', text: 'Most common misconception: PRO has its own pool of funding and makes funding decisions, rather than connecting IPs to donors. No constraints.' },
-    { who: '03', text: 'Confusion is more around DIV than PRO, or thinking they overlap more than they do; PRO is narrower (only life-saving, only proven). Constraint: politically neutral outwardly. Born out of the Trump/DOGE moment but must be taken seriously by policymakers on both sides.' },
-    { who: '04', text: 'Students applying for internships; some peer orgs. Constraint: the team is 2 FTE. Don’t give the false impression of a big team.' },
-    { who: '05', text: 'Definite confusion about how PRO is distinct from DIV and what being housed together means. Constraint: the live Airtable database embed on the website is essential but has been technically painful.' },
-    { who: '06', text: 'Not sure anyone thinks there’s a relationship between PRO and DIV yet. Political and legal constraints around the USAID history.' },
-    { who: '07', text: 'Lots of confusion about PRO and DIV, especially among those who know both. "We still haven’t nailed the elevator pitch of both together." People see PRO as the USAID-saver; building a future-looking identity less tethered to that. Constraint: don’t be overtly political; there are people inside the administration to engage.' },
-  ] },
-  { q: 'Character, voice and traits to avoid', answers: [
-    { who: '01', text: 'Honest, pragmatic, humane, connected. Avoid: too technocratic; detracting from other humanitarian and development actors; smug.' },
-    { who: '02', text: 'Rigorous but deeply pragmatic, not letting perfect be the enemy of the good, nimble. Voice: practical, knowledgeable, commanding, urgent, authoritative, accessible.' },
-    { who: '03', text: 'Rigorous, honorable, methodical, operates with integrity, but agile: urgency and pragmatism as opposed to absolutism. Voice: precise, could be more inspiring. Avoid: Silicon Valley startup; bureaucratic or stodgy; loose methods; sloppy work.' },
-    { who: '04', text: '"Nerds in a basement", keep that; pragmatic, authoritative, detail-oriented. Voice: direct, pragmatic, informative, educational, detail-oriented, caveated. Avoid: flashy, too high-concept.' },
-    { who: '05', text: 'Analytic, pragmatic, rigorous, timely, inspiring, resilient, persistent. Voice: precise, inspiring. Avoid: rigid, formulaic, isolated third-party evaluator, sentimental or guilt-driven.' },
-    { who: '06', text: 'Pragmatic, rigorous, inspiring. Voice: precise, inspiring. Avoid: overly technical or wonky; overly simplified and pitchy. "Squarely in the middle."' },
-    { who: '07', text: 'Rigorous, practical, engaged, inspiring, thoughtful, approachable. Voice: knowledgeable, informed and rigorous, but humble and open to learning. Avoid: too much jargon, smarter than thou, guilt-trippy, poverty porn.' },
-  ] },
-  { q: 'First impression and stakeholder feeling', answers: [
-    { who: '01', text: 'Empowered, clear. Stakeholders: clear, limited evolution matching how the world changed since March 2025.' },
-    { who: '02', text: 'Excited that this platform will make their lives easier: commit funding with trust in PRO’s structure and evaluation. Stakeholders: fresh start, evolution.' },
-    { who: '03', text: 'Like they’ve found the experts they’ve been looking for. Stakeholders: evolution.' },
-    { who: '04', text: 'A trusted source of information they can act on. Stakeholders: pride, security in PRO’s professional authority, positioned to keep providing impactful insights.' },
-    { who: '05', text: 'Confident, able to act, a sense of resolution at filling an identified gap, not confused about how to help. Stakeholders: continuity and evolution; people may remember the website and the list more than the logo.' },
-    { who: '06', text: 'Did not engage with the question. Stakeholders: continuity, evolution.' },
-    { who: '07', text: 'Impressed and inspired to do something: "This is what I’ve been looking for." Stakeholders: evolution with continuity; a clear through line, but not chasing the single USAID moment.' },
-  ] },
-  { q: 'Visual feel, palette mood and imagery', answers: [
-    { who: '01', text: 'Clear, contemporary, somewhat expressive. Imagery: some field photography emphasizing dignity and agency; some data visualizations.' },
-    { who: '02', text: 'Accessible, intriguing and attention grabbing, clear, simple. Imagery: NOT a ton of starving children; photos provided by IPs; clear maps.' },
-    { who: '03', text: 'Minimalist, reserved, contemporary; unsure whether neutral or vibrant. Mood: serious, bold, grounded. Imagery: reasonably important; project photos plus data viz.' },
-    { who: '04', text: 'Reserved, contemporary, grounded, clean. Mood: grounded, scientific. Imagery: photos only from IPs, not decoupled from sources; data viz great but maybe not relevant to much of the site.' },
-    { who: '05', text: 'Minimalist, bold, contemporary, clear-cut, accurate and not exaggerated but optimistic. Mood: grounded, optimistic, hopeful, bold. Imagery: field photography positioning beneficiaries as the purpose; the presentation of the list is central to the brand.' },
-    { who: '06', text: 'Contemporary, minimalist, expressive. Mood: hopeful, optimistic, analytical. Imagery: field photography, people, data visualizations.' },
-    { who: '07', text: 'Minimalist has worked; bold, not overly formal, more vibrancy than the current neutral without swaying too far. Mood: grounded, optimistic, urgent, hopeful. Imagery: not super important; data viz especially, some photos.' },
-  ] },
-  { q: 'Legacy, equity and transition narrative', answers: [
-    { who: '01', text: 'Clear evolution. Likes the palette but not deeply meaningful. "I don’t think any of us truly loves the PRO logo." Story: same mission, new operating environment.' },
-    { who: '02', text: 'Keep and refine its energy. Palette: no. Dislikes the current "weird PRO visual". Story: evolution, a new chapter.' },
-    { who: '03', text: 'Keep and refine. Green might be worth keeping, otherwise no attachment. Story: evolution as the situation changed; the emergency is not over, the universe of supportable work is much broader; a refined approach, a consistent mission.' },
-    { who: '04', text: 'Keep and refine. Dark green feels calm and grounded, differentiates from DIV’s bright innovation bend; already used in donor comms as a low-effort cue. Story: same mission, sharper tools.' },
-    { who: '05', text: 'Keep and refine. No ties to the current logo: blank slate. Story: same mission with a shifting landscape; same tools applied to a different challenge. "We’re still here to respond to these shifts."' },
-    { who: '06', text: 'Clear evolution. Colors or logo could be changed. Story: evolution, same mission, sharper tools.' },
-    { who: '07', text: 'Clear evolution. Doesn’t love the colors but they’re one of the few visual identifiers people have. Story: crisis response produced a methodology that extends far beyond that moment; now deployed forward-looking against gaps in the global health paradigm.' },
-  ] },
-  { q: 'References, admired organizations, dislikes, clichés', answers: [
-    { who: '01', text: 'Admires Wikipedia. Dislikes GiveWell (self-focused on analysis and process). Cliché: centering (usually white) evaluation experts instead of frontline implementers.' },
-    { who: '02', text: 'Dislikes the current PRO visual. No references given.' },
-    { who: '03', text: 'References: Ford Foundation, PopHive ("less text, more data"). Admires Mulago (writing), Institute for Progress, Saloni Dattani. Dislikes Mulago’s look. "We’re not shiny and we’re not selling you anything." Clichés: loopy circles; don’t look like GiveWell or Coefficient Giving.' },
-    { who: '04', text: 'Reference: Renaissance Philanthropy (text-driven). Cliché: poverty porn, random smiling children.' },
-    { who: '05', text: 'Admires the DIV rebrand, GiveDirectly, Patagonia, Everlane. Dislikes the IRC-style donation pop-up; wants to lead with purpose and HOW. Cliché: savior-complex depictions. Avoid looking exactly like GiveWell.' },
-    { who: '06', text: 'Admires GiveDirectly, Pratham. Cliché: globes. Avoid the palettes of GiveWell, Charity Navigator.' },
-    { who: '07', text: 'Admires GiveDirectly, Patagonia. Dislikes Save the Children (leads with asking for money, pity-inducing, no navigation). Cliché: poverty porn.' },
-  ] },
-  { q: 'Metaphors, key phrases, system, typography, kinship', answers: [
-    { who: '01', text: 'Phrases: vetted, cost-effective, life-saving, opportunity. System: flexible and modular. Kinship: related, own personality.' },
-    { who: '02', text: 'Metaphors: bridges, momentum, evidence. Phrases: urgent, vetted, cost-effective, evidence-informed. System: unified and controlled. Kinship: related, own personality.' },
-    { who: '03', text: 'Metaphors: progress, evidence, impact, solidarity. Phrases: evidence-driven, cost-effective, urgent, vetted, life-saving. Typography: share DIV’s. Kinship: related, own personality.' },
-    { who: '04', text: 'Metaphors: evidence, systems, scale, urgency. Phrases: urgent, vetted, cost-effective, evidence-informed, life-saving, most-vulnerable populations, critical timing. Typography: share DIV’s. System: unified. Kinship: related, own personality.' },
-    { who: '05', text: 'Metaphors: a bridge to sustain lifesaving programming; at-scale programs; grounded in evidence. Phrases: "Urgent & Vetted" (shift from list to database), "Best Bets", cost-effective, lifesaving, proven evidence base; cost-effectiveness vs cost-efficiency used precisely. Typography: same family used differently. System: in between. Kinship: related, own personality.' },
-    { who: '06', text: 'Metaphors: lifeboat, scale. Phrases: urgent, vetted, cost-effective, save lives today. Typography: same family used differently. System: in between. Kinship: related, own personality.' },
-    { who: '07', text: 'Metaphors: evidence, scale. Phrases: cost-effective, save lives today, vetted, urgent. Typography: share DIV’s. System: in between. Kinship: independent with a subtle connection.' },
-  ] },
-  { q: 'Success, and a year from now', answers: [
-    { who: '01', text: 'Strong brand recognition and trust from donors; clarity on PRO’s approach in the evidence and philanthropic-advising sector. A year later: fundraising success.' },
-    { who: '02', text: 'Increased donor interest and media recognition. A year later: a clearer brand identity, more traction with donors.' },
-    { who: '03', text: 'Media recognition, increased fundraising attention. A year later: word of mouth, donor input, media uptake.' },
-    { who: '04', text: 'Easier partnerships, ease in co-communicating and fundraising with DIV. A year later: people inside and outside have a clear idea of what PRO is and does.' },
-    { who: '05', text: 'More engagement from philanthropists and foundations; a clearer starting point for new-donor conversations; outside clarity on how PRO relates to DIV. A year later: more and deeper relationships; fewer inbox questions about DIV; more credibility among peers.' },
-    { who: '06', text: 'Media recognition, web traffic, inbound interest, positive feedback from partners and donors.' },
-    { who: '07', text: 'Team and peers feel real pride; donors navigate easily; track donor traffic and duration. A year later: zero daylight between what we say, how we think of ourselves, where we’re going, and how we present it publicly.' },
-  ] },
-]

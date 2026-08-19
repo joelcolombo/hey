@@ -18,7 +18,6 @@ const nav = [
   ['map', 'Convergence map'],
   ['tensions', 'Tensions'],
   ['brief', 'Moodboard brief'],
-  ['appendix', 'Appendix'],
 ] as const
 
 export default function ProDiscoverySynthesisPage({ launchpadHref }: { launchpadHref?: string }) {
@@ -270,16 +269,21 @@ export default function ProDiscoverySynthesisPage({ launchpadHref }: { launchpad
         <Sub>References and admired organizations</Sub>
         <ul className="grid md:grid-cols-3 gap-5">
           {d.references.map((r) => (
-            <li key={r.name}>
+            <li key={r.names[0].label}>
               <Card className="h-full">
-                <p className="text-[1.1em] font-medium leading-[1.3] mb-3">
-                  {'url' in r && r.url ? (
-                    <a href={r.url} target="_blank" rel="noopener noreferrer" className="hover:text-[var(--hover-color)] transition-colors">
-                      {r.name} <span className="label text-[var(--hover-color)]" aria-hidden>↗</span>
-                      <span className="sr-only">(external link)</span>
-                    </a>
-                  ) : r.name}
-                  {r.mentions && <span className="label text-[var(--hover-color)] ml-2 align-middle">{r.mentions}</span>}
+                <p className="text-[1.1em] font-medium leading-[1.4] mb-3">
+                  {r.names.map((n, i) => (
+                    <span key={n.label}>
+                      {i > 0 && <span className="syn-muted">, </span>}
+                      {n.url ? (
+                        <a href={n.url} target="_blank" rel="noopener noreferrer" className="hover:text-[var(--hover-color)] transition-colors whitespace-nowrap">
+                          {n.label} <span className="label text-[var(--hover-color)]" aria-hidden>↗</span>
+                          <span className="sr-only">(external link)</span>
+                        </a>
+                      ) : n.label}
+                    </span>
+                  ))}
+                  {r.mentions && <span className="label text-[var(--hover-color)] ml-2 align-middle whitespace-nowrap">{r.mentions}</span>}
                 </p>
                 <p className="text-[0.95em] leading-[1.5] syn-muted">{r.why}</p>
               </Card>
@@ -392,27 +396,6 @@ export default function ProDiscoverySynthesisPage({ launchpadHref }: { launchpad
         <p className="text-[1.25em] leading-[1.5] text-pretty">{d.briefNotes.tone}</p>
       </Section>
 
-      {/* 11 Appendix */}
-      <Section id="appendix" n="11" title="Appendix: responses by question" intro="Lightly edited for length. The full raw data lives in the responses database.">
-        <div className="flex flex-col">
-          {d.appendix.map((a) => (
-            <details key={a.q} className="syn-details border-t border-[var(--hairline)] last:border-b">
-              <summary className="flex items-baseline gap-3 py-4 text-[1.1em] hover:text-[var(--hover-color)] transition-colors">
-                <span className="arrow text-[var(--hover-color)]">→</span>
-                <span>{a.q}</span>
-              </summary>
-              <ul className="pl-7 pb-6 flex flex-col gap-3">
-                {a.answers.map((ans) => (
-                  <li key={ans.who} className="text-[1em] leading-[1.55] text-pretty">
-                    <span className="font-medium">{ans.who}: </span>
-                    <span className="syn-muted">{ans.text}</span>
-                  </li>
-                ))}
-              </ul>
-            </details>
-          ))}
-        </div>
-      </Section>
     </main>
   )
 }
