@@ -1,5 +1,6 @@
 import type { CSSProperties, ReactNode } from 'react'
 import InView from './InView'
+import InfoTip from './InfoTip'
 
 /* Shared building blocks for the synthesis page. Monochrome, editorial,
    data-ink only: the visual interest comes from structure, not decoration. */
@@ -104,11 +105,14 @@ export function Slider({ left, right, n, today, future, range, read }: { left: s
   const a = pct(today), b = pct(future)
   const lo = Math.min(a, b), hi = Math.max(a, b)
   return (
-    <InView as="li" className="syn-slider grid md:grid-cols-12 gap-x-10 gap-y-4 border-t border-[var(--hairline)] last:border-b py-8">
-      <div className="md:col-span-7">
+    <InView as="li" className="syn-slider border-t border-[var(--hairline)] last:border-b py-8">
+      <div>
         <div className="flex items-baseline justify-between gap-4 text-[1.05em]">
           <span>{left}</span>
-          <span className="label text-[var(--hover-color)]">n={n}</span>
+          <span className="inline-flex items-center gap-2.5">
+            <span className="label text-[var(--hover-color)]">n={n}</span>
+            <InfoTip text={read} />
+          </span>
           <span className="text-right">{right}</span>
         </div>
         <div
@@ -122,7 +126,6 @@ export function Slider({ left, right, n, today, future, range, read }: { left: s
           <span className="syn-future"><b>{future.toFixed(1)}</b></span>
         </div>
       </div>
-      <p className="md:col-span-5 text-[0.95em] leading-[1.5] syn-muted md:self-center text-pretty">{read}</p>
     </InView>
   )
 }
