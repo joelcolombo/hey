@@ -9,7 +9,7 @@ import { timingSafeEqual } from 'node:crypto'
  *   Project page (url) · Status (Active/Archived)
  * "Launchpad Items": Name (title, the label) · Account (slug) · Kind
  *   (Proposal/Questionnaire/Link/Document/Page) · Item slug · Target · Enabled (checkbox) ·
- *   Order (number)
+ *   Order (number) · State (optional label shown on the hub, e.g. "Completed")
  */
 
 export type LaunchpadAccount = {
@@ -30,6 +30,8 @@ export type LaunchpadItem = {
   order: number
   /** Per-item permission list. Empty = every account member. */
   allowedEmails: string[]
+  /** Optional hub label set in Notion (e.g. "Completed"); overrides the default. */
+  state: string | null
 }
 
 /** Empty item allowlist means the whole account may access it. */
@@ -124,6 +126,7 @@ export async function getItems(accountSlug: string): Promise<LaunchpadItem[]> {
       enabled: p['Enabled']?.checkbox ?? false,
       order: p['Order']?.number ?? 99,
       allowedEmails: parseEmails(text(p, 'Allowed emails')),
+      state: text(p, 'State').trim() || null,
     })
   }
   return items.sort((a, b) => a.order - b.order)
