@@ -96,7 +96,7 @@ export default function ProDiscoverySynthesisPage({ launchpadHref }: { launchpad
           ))}
         </ul>
 
-        <Sub>Constraints to respect</Sub>
+        <Sub>Working constraints</Sub>
         <ul className="grid md:grid-cols-2 gap-x-10 gap-y-8">
           {d.constraints.map((c) => (
             <li key={c.lede} className="border-t border-[var(--hairline)] pt-5">
