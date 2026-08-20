@@ -123,8 +123,6 @@ export const divNuances = [
   'Ease in co-communicating and fundraising with the DIV Fund. Shared building blocks make joint decks and docs easier.',
 ] as const
 
-export const divHypothesis = 'Shared typographic family and grid logic with DIV. A distinct color world and tone: grounded and steady where DIV is bright and innovative. A clear, repeatable way to say "an initiative of The DIV Fund".'
-
 export const legacyVotes = [
   { option: 'Keep and refine its energy', count: 4, who: '' },
   { option: 'A clear evolution', count: 3, who: '' },

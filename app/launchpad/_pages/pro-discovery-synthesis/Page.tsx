@@ -150,12 +150,6 @@ export default function ProDiscoverySynthesisPage({ launchpadHref }: { launchpad
             <li key={n} className="text-[1.05em] leading-[1.55] pl-6 relative before:content-['–'] before:absolute before:left-0 before:syn-muted text-pretty">{n}</li>
           ))}
         </ul>
-        <div className="mt-10">
-          <Card>
-            <p className="label text-[var(--hover-color)] mb-3">Working hypothesis</p>
-            <p className="text-[1.15em] leading-[1.5] text-pretty">{d.divHypothesis}</p>
-          </Card>
-        </div>
       </Section>
 
       {/* 05 Legacy */}
