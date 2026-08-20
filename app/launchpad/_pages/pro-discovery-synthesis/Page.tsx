@@ -33,7 +33,7 @@ export default function ProDiscoverySynthesisPage({ launchpadHref }: { launchpad
       </header>
 
       {/* 01 Ten things */}
-      <Section id="ten" title="Ten things that matter" intro="The whole questionnaire in one screen. Everything below is detail on these.">
+      <Section id="ten" title="Ten things that matter" intro="Start here: the whole discovery in ten points.">
         <ol className="flex flex-col gap-12 max-w-2xl">
           {d.tenThings.map((t, i) => (
             <li key={i} className="flex gap-5">
