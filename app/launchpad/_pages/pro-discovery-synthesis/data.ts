@@ -147,7 +147,7 @@ export const stakeholderFeel = 'Continuity plus evolution is the dominant note, 
 
 export const visualFeel = [
   { word: 'Contemporary', count: 5 },
-  { word: 'Minimalist', count: 4, detail: '"has worked to date, our general vibe"' },
+  { word: 'Minimalist', count: 4 },
   { word: 'Clear / clean / simple', count: 4 },
   { word: 'Bold', count: 2 },
   { word: 'Expressive', count: 2 },
