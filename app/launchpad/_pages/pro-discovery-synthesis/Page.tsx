@@ -1,3 +1,4 @@
+import ThemeToggle from '@/components/ThemeToggle'
 import './synthesis.css'
 import * as d from './data'
 import { Bars, Body, Card, Chips, Lede, Muted, Note, Quote, Rule, Section, Slider, Sliders, Sub, Tally, WordScale } from './primitives'
@@ -18,6 +19,10 @@ export default function ProDiscoverySynthesisPage({ launchpadHref }: { launchpad
           Launchpad
         </a>
       )}
+
+      <div className="fixed bottom-4 left-5 z-50 print:hidden">
+        <ThemeToggle />
+      </div>
 
       {/* Hero */}
       <header className="max-w-5xl mx-auto px-6 pt-28 pb-20">
