@@ -102,7 +102,7 @@ export default function ProDiscoverySynthesisPage({ launchpadHref }: { launchpad
       <Section id="personality" title="Personality and voice" intro="Who PRO is as a person, how it speaks, and where the team wants it to move.">
         <Sub>Character words, by how many people used them</Sub>
         <Bars rows={d.characterWords} total={d.TOTAL} />
-        <Note>Read: the center of gravity is the rigorous pragmatist, a competent, honest expert who moves fast and doesn’t moralize. "Inspiring" is an aspiration more than a current trait.</Note>
+        <Note>Read: the center of gravity is the rigorous pragmatist, a competent, honest expert who moves fast and doesn’t lean on sentiment. "Inspiring" is an aspiration more than a current trait.</Note>
 
         <Sub>Voice</Sub>
         <ul className="flex flex-col">
