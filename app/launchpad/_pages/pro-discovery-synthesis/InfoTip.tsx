@@ -28,14 +28,14 @@ export default function InfoTip({ text }: { text: string }) {
       <button
         type="button"
         aria-expanded={open}
-        aria-label="Reading note"
+        aria-label="How to read this"
         onClick={() => setOpen((v) => !v)}
         className={`label w-[1.15rem] h-[1.15rem] inline-flex items-center justify-center border transition-colors ${
           open ? 'border-[var(--foreground)] text-[var(--foreground)]' : 'border-[var(--hover-color)] text-[var(--hover-color)]'
         }`}
         style={{ borderRadius: '50%', fontSize: '0.62rem', lineHeight: 1 }}
       >
-        i
+        ?
       </button>
       {open && (
         <span
