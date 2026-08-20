@@ -120,7 +120,7 @@ export const typographyVotes = [
 export const divNuances = [
   'The lone "independent with a subtle connection" vote comes paired with a wish for shared typography. Read together: clearly related at the system level (type), distinct personality at the expression level.',
   'The dark green is read as what differentiates PRO from "the bright innovation bend of the DIV visual identity": a calm, grounded counterpart.',
-  'A practical driver: ease in co-communicating and fundraising with the DIV Fund. Shared building blocks make joint decks and docs easier.',
+  'Ease in co-communicating and fundraising with the DIV Fund. Shared building blocks make joint decks and docs easier.',
 ] as const
 
 export const divHypothesis = 'Shared typographic family and grid logic with DIV. A distinct color world and tone: grounded and steady where DIV is bright and innovative. A clear, repeatable way to say "an initiative of The DIV Fund".'
