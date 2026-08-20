@@ -276,14 +276,14 @@ export default function ProDiscoverySynthesisPage({ launchpadHref }: { launchpad
 
       {/* 09 Tensions */}
       <Section id="tensions" title="Open tensions" intro="Seven calls to address during the moodboarding session.">
-        <ol className="grid md:grid-cols-2 gap-6">
+        <ol className="flex flex-col gap-12 max-w-2xl">
           {d.tensions.map((t, i) => (
-            <li key={t.title}>
-              <Card className="h-full">
-                <span className="syn-num block mb-4">{String(i + 1).padStart(2, '0')}</span>
-                <p className="text-[1.15em] font-medium leading-[1.3] mb-3">{t.title}</p>
-                <p className="text-[0.95em] leading-[1.55] syn-muted text-pretty">{t.body}</p>
-              </Card>
+            <li key={t.title} className="flex gap-5">
+              <span className="syn-num w-12 flex-none">{String(i + 1).padStart(2, '0')}</span>
+              <div>
+                <p className="text-[1.15em] leading-[1.35] font-medium mb-3 text-pretty">{t.title}</p>
+                <p className="text-[1em] leading-[1.55] syn-muted text-pretty">{t.body}</p>
+              </div>
             </li>
           ))}
         </ol>
