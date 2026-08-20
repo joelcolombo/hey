@@ -263,9 +263,12 @@ export default function ProDiscoverySynthesisPage({ launchpadHref }: { launchpad
       <Section id="success" title="What success looks like">
         <ul className="grid md:grid-cols-2 gap-x-10 gap-y-8">
           {d.success.map((s) => (
-            <li key={s.lede} className="border-t border-[var(--hairline)] pt-5">
-              <p className="font-medium text-[1.05em] mb-3 flex items-center gap-2.5"><Check />{s.lede}</p>
-              <p className="text-[0.95em] leading-[1.5] syn-muted">{s.body}</p>
+            <li key={s.lede} className="flex gap-2.5 items-start">
+              <span className="flex-none mt-[0.34rem]"><Check /></span>
+              <div>
+                <p className="font-medium text-[1.05em] mb-2">{s.lede}</p>
+                <p className="text-[0.95em] leading-[1.5] syn-muted">{s.body}</p>
+              </div>
             </li>
           ))}
         </ul>
