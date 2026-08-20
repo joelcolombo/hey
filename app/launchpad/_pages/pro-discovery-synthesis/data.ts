@@ -118,7 +118,7 @@ export const typographyVotes = [
 ] as const
 
 export const divNuances = [
-  'The lone "independent with a subtle connection" vote comes paired with a wish for shared typography. Read together: clear kinship at the system level (type), distinct personality at the expression level.',
+  'The lone "independent with a subtle connection" vote comes paired with a wish for shared typography. Read together: clearly related at the system level (type), distinct personality at the expression level.',
   'The dark green is read as what differentiates PRO from "the bright innovation bend of the DIV visual identity": a calm, grounded counterpart.',
   'The DIV rebrand is admired inside the team ("fresh, exciting, something I’d want to be part of"); sitting next to it is welcome.',
   'A practical driver: ease in co-communicating and fundraising with the DIV Fund. Shared building blocks make joint decks and docs easier.',
