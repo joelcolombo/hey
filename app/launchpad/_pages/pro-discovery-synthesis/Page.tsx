@@ -38,17 +38,6 @@ export default function ProDiscoverySynthesisPage({ launchpadHref }: { launchpad
         <h1 className="font-light text-[4.2em] leading-[1.02] max-md:text-[2.4em] max-w-4xl text-balance">
           What the team told us, and what it means for the identity.
         </h1>
-        <div className="mt-14 max-w-3xl">
-          <p className="label text-[var(--hover-color)] mb-4">Respondents</p>
-          <ul className="grid md:grid-cols-2 gap-x-10">
-            {d.respondents.map((r) => (
-              <li key={r.name} className="flex items-baseline justify-between gap-4 border-t border-[var(--foreground)] py-2.5 text-[0.95em]">
-                <span>{r.name}</span>
-                <span className="label text-[var(--hover-color)]">{r.date}</span>
-              </li>
-            ))}
-          </ul>
-        </div>
         <nav aria-label="Sections" className="mt-14 flex flex-wrap gap-x-5 gap-y-2">
           {nav.map(([id, label]) => (
             <a key={id} href={`#${id}`} className="label text-[var(--hover-color)] hover:text-[var(--foreground)] transition-colors">
