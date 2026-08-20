@@ -185,8 +185,8 @@ export const metaphors = [
   { word: 'Scale', count: 4 },
   { word: 'Bridge', count: 2 },
   { word: 'Progress / momentum', count: 2 },
-  { word: 'Lifeboat', count: 1, detail: '"I’d love to bring it back"' },
-  { word: 'Systems, urgency, impact, solidarity', count: 1, detail: 'one mention each' },
+  { word: 'Lifeboat', count: 1 },
+  { word: 'Systems, urgency, impact, solidarity', count: 1 },
 ] as const
 
 export const systemVotes = [
