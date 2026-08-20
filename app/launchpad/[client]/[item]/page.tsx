@@ -6,6 +6,8 @@ import { getItem, itemPermits } from '@/lib/launchpad/notion'
 import { getProjectConfig, resolveConfig } from '@/lib/questionnaire/projects'
 import QuestionnaireApp from '../../../questionnaire/_components/QuestionnaireApp'
 import { ProposalPageBody, proposalMetadata } from '../../../proposal/proposal-page'
+import { DocumentPageBody, documentMetadata } from '../../../document/document-page'
+import { launchpadPages } from '../../_pages'
 
 export const dynamic = 'force-dynamic'
 
@@ -17,6 +19,11 @@ export async function generateMetadata({ params }: { params: Params }): Promise<
     const entry = await getItem(client, item)
     if (!entry || !entry.enabled) return { robots: { index: false, follow: false } }
     if (entry.kind === 'proposal') return proposalMetadata(entry.target)
+    if (entry.kind === 'document') return documentMetadata(entry.target, entry.label)
+    if (entry.kind === 'page') {
+      const reg = launchpadPages[entry.target]
+      return { title: reg?.title ?? entry.label, robots: { index: false, follow: false } }
+    }
     if (entry.kind === 'questionnaire') {
       const [qClient, qProject] = entry.target.split('/')
       const cfg = getProjectConfig(qClient, qProject)
@@ -40,6 +47,17 @@ export default async function LaunchpadItemPage({ params }: { params: Params }) 
 
   if (entry.kind === 'proposal') {
     return <ProposalPageBody slug={entry.target} launchpadEmail={session.email} launchpadHref={`/launchpad/${client}`} />
+  }
+
+  if (entry.kind === 'page') {
+    const reg = launchpadPages[entry.target]
+    if (!reg) notFound()
+    const { default: PageComponent } = await reg.load()
+    return <PageComponent launchpadHref={`/launchpad/${client}`} />
+  }
+
+  if (entry.kind === 'document') {
+    return <DocumentPageBody pageRef={entry.target} eyebrow="Document" launchpadHref={`/launchpad/${client}`} />
   }
 
   if (entry.kind === 'link') {

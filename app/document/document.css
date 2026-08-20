@@ -1,0 +1,53 @@
+/* Screen styles for Launchpad documents (Notion pages rendered as read-only docs). */
+
+/* Numbered lists: hanging numbers in the muted color, matching the dash bullets. */
+.doc-ol {
+  counter-reset: doc-item;
+  list-style: none;
+}
+.doc-ol > li {
+  counter-increment: doc-item;
+}
+.doc-ol > li::before {
+  content: counter(doc-item) '.';
+  position: absolute;
+  left: -1.75rem;
+  width: 1.5rem;
+  text-align: right;
+  color: var(--hover-color);
+  font-variant-numeric: tabular-nums;
+}
+
+/* Headings inside callouts, toggles and columns stay compact. */
+.doc-callout h3,
+.doc-toggle h3,
+.doc-column h3 {
+  margin-top: 0;
+}
+.doc-callout p:last-child,
+.doc-callout ol:last-child,
+.doc-callout ul:last-child,
+.doc-column p:last-child,
+.doc-column ul:last-child {
+  margin-bottom: 0;
+}
+.doc-toggle summary h1,
+.doc-toggle summary h2,
+.doc-toggle summary h3 {
+  margin: 0;
+}
+
+/* Columns collapse on small screens. */
+@media (max-width: 640px) {
+  .doc-columns-grid {
+    grid-template-columns: 1fr !important;
+  }
+}
+
+/* Print: plain document, toggles expanded. */
+@media print {
+  .doc-toggle[open] summary span:first-child,
+  .doc-toggle summary span:first-child {
+    display: none;
+  }
+}

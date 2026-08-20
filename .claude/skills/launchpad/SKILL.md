@@ -18,7 +18,7 @@ Everything sits under the **"Launchpad Hey!"** Notion page, shared with the
 |---|---|---|
 | Proposals | `NOTION_PROPOSALS_DB_ID` | a proposal (properties = metadata, page body = the document) |
 | Launchpad Accounts | `NOTION_LAUNCHPAD_ACCOUNTS_DB_ID` | a client account (slug, access code, allowed emails, project page URL) |
-| Launchpad Items | `NOTION_LAUNCHPAD_ITEMS_DB_ID` | one hub entry (kind Proposal/Questionnaire/Link, target, Enabled switch, optional per-item allowlist) |
+| Launchpad Items | `NOTION_LAUNCHPAD_ITEMS_DB_ID` | one hub entry (kind Proposal/Questionnaire/Link/Document/Page, target, Enabled switch, optional per-item allowlist) |
 
 Questionnaire responses get one database per project, created by
 `npm run questionnaire:setup -- <client>/<project>` from the repo config in
@@ -92,6 +92,22 @@ Notion; both are fine.
    Enabled checkbox is his manual switch).
 4. Via launchpad the welcome asks only the name (email comes from the session); the
    direct link asks both and has no gate, useful for stakeholders outside the portal.
+
+## Workflow: documents and bespoke pages
+
+Two more item kinds exist for deliverables that are neither proposal nor questionnaire:
+
+- **Document**: a read-only rendering of any Notion page the integration can see.
+  Target = the page URL or id. Generic renderer in `app/document/` (headings, lists,
+  quotes, callouts, toggles, tables, columns, TOC, images; inline bold/italic/links).
+  Cached 2 minutes via Next's data cache (a page is dozens of Notion calls).
+- **Page**: a bespoke React page in `app/launchpad/_pages/<key>/` registered in
+  `app/launchpad/_pages/index.ts`. Target = the registry key (e.g.
+  `pro/discovery-synthesis`). Content lives in the repo (a `data.ts` per page), so it
+  is designed, not fetched. Use this when a document needs visual treatment beyond
+  prose (tallies, sliders, bars, cards). Shared primitives live next to the page.
+
+Both are gated by the launchpad session plus the item allowlist only.
 
 ## Status and permissions model
 
