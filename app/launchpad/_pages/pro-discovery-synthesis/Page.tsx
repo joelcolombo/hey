@@ -2,7 +2,7 @@ import ThemeToggle from '@/components/ThemeToggle'
 import FocusRing from './FocusRing'
 import './synthesis.css'
 import * as d from './data'
-import { Bars, Body, Card, Check, Chips, Lede, Muted, Note, Quote, Rule, Section, Slider, Sliders, Sub, Tally, WordScale } from './primitives'
+import { Bars, Body, Card, Check, Chips, Lede, Muted, Note, Quote, Section, Slider, Sliders, Sub, Tally, WordScale } from './primitives'
 
 export const meta = {
   title: 'Brand Discovery: Synthesis',
@@ -287,52 +287,6 @@ export default function ProDiscoverySynthesisPage({ launchpadHref }: { launchpad
             </li>
           ))}
         </ol>
-      </Section>
-
-      {/* 10 Brief */}
-      <Section id="brief" title="Moodboard brief" intro="Directional inputs for the boards. Color swatches are illustrative, not proposals.">
-        <Sub>Brand in a sentence</Sub>
-        <p className="font-light text-[1.9em] leading-[1.25] max-md:text-[1.4em] text-balance mb-4">{d.brandSentence}</p>
-
-        <Sub>Keywords to design to</Sub>
-        <div className="flex flex-col gap-5">
-          <div><p className="label text-[var(--hover-color)] mb-2">Core</p><Chips items={d.keywords.core} /></div>
-          <div><p className="label text-[var(--hover-color)] mb-2">Aspirational accent</p><Chips items={d.keywords.accent} tone="muted" /></div>
-          <div><p className="label text-[var(--hover-color)] mb-2">Avoid</p><Chips items={d.keywords.avoid} tone="strike" /></div>
-        </div>
-
-        <Sub>Two boards to test</Sub>
-        <div className="grid md:grid-cols-2 gap-6">
-          {d.boards.map((b) => (
-            <Card key={b.name}>
-              <p className="label text-[var(--hover-color)] mb-1">{b.name}</p>
-              <p className="text-[1.4em] font-light mb-4">{b.title}</p>
-              <div className="syn-swatches mb-4" aria-hidden>
-                {b.swatches.map((c) => <i key={c} style={{ background: c }} />)}
-              </div>
-              <p className="text-[0.95em] leading-[1.55] syn-muted text-pretty">{b.body}</p>
-            </Card>
-          ))}
-        </div>
-        <Note>In both: a data-viz-ready palette with 5 or 6 distinguishable categorical colors; nothing that reads as alarm or charity pink.</Note>
-
-        <div className="grid md:grid-cols-2 gap-x-10 gap-y-10 mt-6">
-          <div>
-            <Sub>Typography</Sub>
-            <ul className="flex flex-col gap-3">
-              {d.briefNotes.typography.map((t) => <li key={t} className="text-[1.05em] leading-[1.55] pl-6 relative before:content-['–'] before:absolute before:left-0 before:syn-muted text-pretty">{t}</li>)}
-            </ul>
-          </div>
-          <div>
-            <Sub>Imagery and graphic devices</Sub>
-            <ul className="flex flex-col gap-3">
-              {d.briefNotes.imagery.map((t) => <li key={t} className="text-[1.05em] leading-[1.55] pl-6 relative before:content-['–'] before:absolute before:left-0 before:syn-muted text-pretty">{t}</li>)}
-            </ul>
-          </div>
-        </div>
-        <Rule />
-        <Sub>Tone of the whole board</Sub>
-        <p className="text-[1.25em] leading-[1.5] text-pretty">{d.briefNotes.tone}</p>
       </Section>
 
     </main>
