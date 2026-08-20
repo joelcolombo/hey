@@ -26,15 +26,15 @@ export default function ProDiscoverySynthesisPage({ launchpadHref }: { launchpad
 
       {/* Hero */}
       <header className="max-w-5xl mx-auto px-6 pt-28 pb-20">
-        <p className="label text-[var(--hover-color)] mb-5">PRO ✦ Brand Discovery</p>
+        <p className="label text-[var(--hover-color)] mb-5">PRO</p>
         <h1 className="font-light text-[4.2em] leading-[1.02] max-md:text-[2.4em] max-w-4xl text-balance">
-          What the team told us, and what it means for the identity.
+          Brand Discovery
         </h1>
       </header>
 
       {/* 01 Ten things */}
       <Section id="ten" n="01" title="Ten things that matter" intro="The whole questionnaire in one screen. Everything below is detail on these.">
-        <ol className="grid md:grid-cols-2 gap-x-10 gap-y-12">
+        <ol className="flex flex-col gap-12 max-w-2xl">
           {d.tenThings.map((t, i) => (
             <li key={i} className="flex gap-5">
               <span className="syn-num w-12 flex-none">{String(i + 1).padStart(2, '0')}</span>
