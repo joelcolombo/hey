@@ -60,13 +60,6 @@ export const misreadings = [
   { myth: 'PRO is the USAID-saver, full stop', reality: 'The team wants a forward-looking identity not tethered to the genesis story.' },
 ] as const
 
-export const constraints = [
-  { lede: 'Political neutrality', body: 'Born from the USAID/DOGE moment and donors were motivated by it, so don’t erase it. But never read as the antithesis of State Dept; policymakers on both sides must take PRO seriously.' },
-  { lede: 'Tiny team', body: '2 FTE. Don’t imply a big institution; don’t make the size obvious either.' },
-  { lede: 'The live database', body: 'An Airtable embed on the site is the core product and has been technically painful. Treat the list as a first-class design component.' },
-  { lede: 'Materials are made in Word', body: 'Give the team something low-effort (a color, a rule, a header) they can apply themselves.' },
-] as const
-
 export const characterWords = [
   { word: 'Pragmatic', count: 7, detail: 'pragmatic, practical, "not letting perfect be the enemy of the good"' },
   { word: 'Rigorous', count: 5, detail: 'rigorous, methodical, analytic, detail-oriented' },

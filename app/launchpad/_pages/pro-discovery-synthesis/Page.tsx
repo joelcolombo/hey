@@ -48,7 +48,7 @@ export default function ProDiscoverySynthesisPage({ launchpadHref }: { launchpad
       </Section>
 
       {/* 02 Foundation */}
-      <Section id="foundation" title="Strategic foundation" intro="Purpose, message, audiences, misreadings and constraints.">
+      <Section id="foundation" title="Strategic foundation" intro="Purpose, message, audiences and misreadings.">
         <Sub>Purpose: full convergence</Sub>
         <Lede>
           All descriptions share one skeleton: <strong className="font-medium">cost-effective, proven, life-saving, urgent funding gap, connect implementers with philanthropy</strong>. PRO is a market intermediary, a broker, a bridge. Not a funder, not a pure evaluator.
@@ -96,15 +96,6 @@ export default function ProDiscoverySynthesisPage({ launchpadHref }: { launchpad
           ))}
         </ul>
 
-        <Sub>Working constraints</Sub>
-        <ul className="grid md:grid-cols-2 gap-x-10 gap-y-8">
-          {d.constraints.map((c) => (
-            <li key={c.lede} className="border-t border-[var(--hairline)] pt-5">
-              <p className="font-medium text-[1.05em] mb-3">{c.lede}</p>
-              <p className="text-[0.95em] leading-[1.5] syn-muted">{c.body}</p>
-            </li>
-          ))}
-        </ul>
       </Section>
 
       {/* 03 Personality */}
