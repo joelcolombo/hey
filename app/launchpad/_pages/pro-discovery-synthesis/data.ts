@@ -291,8 +291,8 @@ export const boards = [
   {
     name: 'Board A',
     title: 'Continuity',
-    body: 'Deep green as anchor (calm, grounded, already recognized), warm neutrals, one optimistic accent for calls to action and data highlights.',
-    swatches: ['#1d3b2f', '#2f5d47', '#e9e3d6', '#c9bfae', '#e8a33d'],
+    body: 'Starts from the palette PRO uses today: the deep teal-green anchor, its brighter green accent, pale sage and warm ink. Re-specify these, then test one new optimistic accent for calls to action and data highlights.',
+    swatches: ['#005955', '#3bb598', '#f4f6ea', '#332c21', '#e8a33d'],
   },
   {
     name: 'Board B',
