@@ -10,7 +10,7 @@ type Entry = { title: string; load: () => Promise<{ default: ComponentType<Launc
 
 export const launchpadPages: Record<string, Entry> = {
   'pro/discovery-synthesis': {
-    title: 'Brand Discovery Synthesis ✦ PRO',
+    title: 'Brand Discovery Analysis ✦ PRO',
     load: () => import('./pro-discovery-synthesis/Page'),
   },
 }
