@@ -1,4 +1,5 @@
 import ThemeToggle from '@/components/ThemeToggle'
+import FocusRing from './FocusRing'
 import './synthesis.css'
 import * as d from './data'
 import { Bars, Body, Card, Chips, Lede, Muted, Note, Quote, Rule, Section, Slider, Sliders, Sub, Tally, WordScale } from './primitives'
@@ -10,7 +11,8 @@ export const meta = {
 
 export default function ProDiscoverySynthesisPage({ launchpadHref }: { launchpadHref?: string }) {
   return (
-    <main className="pb-32">
+    <main className="syn-page pb-32">
+      <FocusRing />
       {launchpadHref && (
         <a
           href={launchpadHref}

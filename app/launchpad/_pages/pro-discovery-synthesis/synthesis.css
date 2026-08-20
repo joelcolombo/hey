@@ -206,3 +206,54 @@
   .syn-shift { left: var(--lo); width: var(--w); }
   .syn-future { left: var(--b); }
 }
+
+/* Focus ring (keyboard navigation), ported from formform.co: an animated
+   conic-gradient mesh masked down to a thin ring around the focused element.
+   The gradient rotates so each corner drifts through a different color. */
+@property --focus-angle {
+  syntax: '<angle>';
+  inherits: false;
+  initial-value: 0deg;
+}
+
+@keyframes focus-ring-spin {
+  to {
+    --focus-angle: 360deg;
+  }
+}
+
+.syn-page :focus-visible {
+  outline: none;
+  position: relative;
+}
+
+.syn-page :focus-visible::after {
+  content: '';
+  position: absolute;
+  inset: -3px;
+  border-radius: 2px;
+  padding: 1px; /* ring thickness */
+  background: conic-gradient(
+    from calc(var(--focus-angle) + var(--focus-seed, 0deg)),
+    #057d66,
+    #76ffec,
+    #bfdcfc,
+    #fa7352,
+    #f652fa,
+    #6473fc,
+    #057d66
+  );
+  /* Punch out the centre so only the padding (the ring) remains visible. */
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  animation: focus-ring-spin 4s linear infinite;
+  pointer-events: none;
+}
+
+/* Respect reduced-motion: keep the multi-color ring, drop the rotation. */
+@media (prefers-reduced-motion: reduce) {
+  .syn-page :focus-visible::after {
+    animation: none;
+  }
+}
