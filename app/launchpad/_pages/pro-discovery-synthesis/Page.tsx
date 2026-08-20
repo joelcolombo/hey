@@ -274,30 +274,6 @@ export default function ProDiscoverySynthesisPage({ launchpadHref }: { launchpad
         </ul>
       </Section>
 
-      {/* 08 Map */}
-      <Section id="map" title="Convergence map" intro="Left: safe to build on. Right: needs a call.">
-        <div className="overflow-x-auto -mx-6 px-6">
-          <table className="w-full text-left text-[0.95em] leading-[1.5] min-w-[40rem]">
-            <thead>
-              <tr className="border-b border-[var(--foreground)]">
-                <th className="label text-[var(--hover-color)] font-normal py-3 pr-5 w-[18%]">Topic</th>
-                <th className="label text-[var(--hover-color)] font-normal py-3 pr-5 w-[41%]">Convergence</th>
-                <th className="label text-[var(--hover-color)] font-normal py-3 w-[41%]">Divergence</th>
-              </tr>
-            </thead>
-            <tbody>
-              {d.convergence.map((c) => (
-                <tr key={c.topic} className="border-b border-[var(--hairline)] align-top">
-                  <td className="py-3 pr-5 font-medium">{c.topic}</td>
-                  <td className="py-3 pr-5">{c.agree}</td>
-                  <td className="py-3 text-[var(--hover-color)]">{c.split}</td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-      </Section>
-
       {/* 09 Tensions */}
       <Section id="tensions" title="Open tensions" intro="Seven calls to make before or while moodboarding.">
         <ol className="grid md:grid-cols-2 gap-6">

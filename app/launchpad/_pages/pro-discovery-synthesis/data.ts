@@ -246,19 +246,6 @@ export const success = [
   { lede: 'Practical', body: 'Easier co-communication with DIV; a clearer starting point for first donor conversations; donors find what they need.' },
 ] as const
 
-export const convergence = [
-  { topic: 'Purpose and message', agree: 'Broker of cost-effective, proven, life-saving programs; lead with how (evidence, rigor).', split: 'How much moral register to allow: one voice says truth, justice, love; the rest say no sentiment.' },
-  { topic: 'Personality', agree: 'Pragmatic and rigorous; honest; agile; not jargon-heavy, not salesy.', split: 'Serious vs. approachable (future answers span 3 to 7); how much "inspiring".' },
-  { topic: 'Audience', agree: 'Donors first; press as channel.', split: 'Optimize for mainstream newcomers or for EA rigor.' },
-  { topic: 'Legacy', agree: 'Evolution, never a fresh start; no attachment to the logo.', split: 'Keep the green (3) vs. blank slate (3).' },
-  { topic: 'DIV relationship', agree: 'Related, own personality; move closer than today; shared type family likely.', split: 'Share DIV type exactly (3) vs. same family used differently (2); one vote for independent.' },
-  { topic: 'Visual feel', agree: 'Contemporary, minimalist, clear, grounded.', split: 'Neutral and reserved vs. bold and vibrant.' },
-  { topic: 'Palette mood', agree: 'Grounded plus optimistic and hopeful.', split: 'Serious vs. hopeful.' },
-  { topic: 'Imagery', agree: 'No poverty porn; dignity and agency; data viz welcome; photos from partners.', split: 'Text-driven vs. "less text, more data"; how central photography is.' },
-  { topic: 'System', agree: 'Tight core, limited variation.', split: 'Unified (2) vs. in between (3) vs. modular (1).' },
-  { topic: 'Metaphor', agree: 'Evidence, scale, bridge and connection.', split: 'Lifeboat: emotionally strong but crisis-tethered.' },
-] as const
-
 export const tensions = [
   { title: 'Green: thread or blank slate?', body: 'A middle path exists: keep a deep green as the grounding anchor (continuity, differentiation from DIV, already in use in docs) but re-specify it and surround it with a new, more vibrant secondary. Test both boards.' },
   { title: 'Reserved vs. vibrant', body: 'The consensus floor is minimalist and grounded; the question is the accent. Explore a board where vibrancy comes from one bold accent plus data-viz color, not from the whole palette.' },
