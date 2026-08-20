@@ -2,7 +2,7 @@ import ThemeToggle from '@/components/ThemeToggle'
 import FocusRing from './FocusRing'
 import './synthesis.css'
 import * as d from './data'
-import { Bars, Body, Card, Chips, Lede, Muted, Note, Quote, Rule, Section, Slider, Sliders, Sub, Tally, WordScale } from './primitives'
+import { Bars, Body, Card, Check, Chips, Lede, Muted, Note, Quote, Rule, Section, Slider, Sliders, Sub, Tally, WordScale } from './primitives'
 
 export const meta = {
   title: 'Brand Discovery: Synthesis',
@@ -264,7 +264,7 @@ export default function ProDiscoverySynthesisPage({ launchpadHref }: { launchpad
         <ul className="grid md:grid-cols-2 gap-x-10 gap-y-8">
           {d.success.map((s) => (
             <li key={s.lede} className="border-t border-[var(--hairline)] pt-5">
-              <p className="font-medium text-[1.05em] mb-3">{s.lede}</p>
+              <p className="font-medium text-[1.05em] mb-3 flex items-center gap-2.5"><Check />{s.lede}</p>
               <p className="text-[0.95em] leading-[1.5] syn-muted">{s.body}</p>
             </li>
           ))}

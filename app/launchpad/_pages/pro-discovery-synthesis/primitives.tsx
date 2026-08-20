@@ -171,6 +171,15 @@ export function Card({ children, className = '' }: { children: ReactNode; classN
   return <div className={`border border-[var(--hairline)] p-6 ${className}`}>{children}</div>
 }
 
+/** Thin geometric check: hairline stroke, square caps and miter joins. */
+export function Check() {
+  return (
+    <svg viewBox="0 0 14 14" aria-hidden className="w-[0.85em] h-[0.85em] flex-none">
+      <path d="M1.5 7.5 5.5 11.5 12.5 2.5" fill="none" stroke="currentColor" strokeWidth="1" strokeLinecap="butt" strokeLinejoin="miter" />
+    </svg>
+  )
+}
+
 export function Rule() {
   return <hr className="border-[var(--hairline)] my-10" />
 }
