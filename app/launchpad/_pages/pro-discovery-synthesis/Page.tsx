@@ -153,7 +153,7 @@ export default function ProDiscoverySynthesisPage({ launchpadHref }: { launchpad
       </Section>
 
       {/* 05 Legacy */}
-      <Section id="legacy" title="Legacy and transition" intro="Evolution, never a fresh start. The only equity worth debating is the green.">
+      <Section id="legacy" title="Legacy and transition" intro="Evolution instead of a fresh start.">
         <Sub>What to do with the current identity</Sub>
         <Tally rows={d.legacyVotes} total={d.TOTAL} />
         <Sub>The green question</Sub>
