@@ -7,19 +7,6 @@ export const meta = {
   client: 'PRO',
 }
 
-const nav = [
-  ['ten', 'Ten things'],
-  ['foundation', 'Foundation'],
-  ['personality', 'Personality'],
-  ['div', 'DIV'],
-  ['legacy', 'Legacy'],
-  ['visual', 'Visual direction'],
-  ['success', 'Success'],
-  ['map', 'Convergence map'],
-  ['tensions', 'Tensions'],
-  ['brief', 'Moodboard brief'],
-] as const
-
 export default function ProDiscoverySynthesisPage({ launchpadHref }: { launchpadHref?: string }) {
   return (
     <main className="pb-32">
@@ -38,13 +25,6 @@ export default function ProDiscoverySynthesisPage({ launchpadHref }: { launchpad
         <h1 className="font-light text-[4.2em] leading-[1.02] max-md:text-[2.4em] max-w-4xl text-balance">
           What the team told us, and what it means for the identity.
         </h1>
-        <nav aria-label="Sections" className="mt-14 flex flex-wrap gap-x-5 gap-y-2">
-          {nav.map(([id, label]) => (
-            <a key={id} href={`#${id}`} className="label text-[var(--hover-color)] hover:text-[var(--foreground)] transition-colors">
-              {label}
-            </a>
-          ))}
-        </nav>
       </header>
 
       {/* 01 Ten things */}
