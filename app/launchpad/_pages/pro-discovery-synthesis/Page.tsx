@@ -212,7 +212,6 @@ export default function ProDiscoverySynthesisPage({ launchpadHref }: { launchpad
           <div>
             <Sub>System: unified or modular</Sub>
             <Tally rows={d.systemVotes} total={d.TOTAL} />
-            <Note>Read: a tight core (type, color, list component) with a small set of controlled variations. Not a sprawling modular toolkit.</Note>
           </div>
         </div>
 
