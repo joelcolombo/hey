@@ -88,7 +88,7 @@ export default function ProDiscoverySynthesisPage({ launchpadHref }: { launchpad
             <li key={m.myth}>
               <Card className="h-full">
                 <p className="label text-[var(--hover-color)] mb-3">They think</p>
-                <p className="text-[1.05em] leading-[1.4] mb-4 line-through decoration-[var(--hover-color)] decoration-1">{m.myth}</p>
+                <p className="text-[1.05em] leading-[1.4] mb-4 syn-muted line-through decoration-1">{m.myth}</p>
                 <p className="label text-[var(--hover-color)] mb-3">Actually</p>
                 <p className="text-[1.05em] leading-[1.4]">{m.reality}</p>
               </Card>
