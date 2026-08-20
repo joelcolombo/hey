@@ -275,7 +275,7 @@ export default function ProDiscoverySynthesisPage({ launchpadHref }: { launchpad
       </Section>
 
       {/* 09 Tensions */}
-      <Section id="tensions" title="Open tensions" intro="Seven calls to make before or while moodboarding.">
+      <Section id="tensions" title="Open tensions" intro="Seven calls to address during the moodboarding session.">
         <ol className="grid md:grid-cols-2 gap-6">
           {d.tensions.map((t, i) => (
             <li key={t.title}>
