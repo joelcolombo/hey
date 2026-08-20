@@ -289,6 +289,14 @@ export default function ProDiscoverySynthesisPage({ launchpadHref }: { launchpad
         </ol>
       </Section>
 
+      {/* Closing */}
+      <section className="max-w-4xl mx-auto px-6 py-24 border-t border-[var(--hairline)]">
+        <p className="font-light text-[2em] leading-[1.25] max-md:text-[1.5em] text-balance max-w-3xl">
+          Thank you for reading this far. None of it is a verdict: the open tensions above are yours to weigh in on, and that is exactly what the moodboard session is for.
+        </p>
+        <p className="mt-8 text-[1.05em] leading-[1.6] syn-muted">See you there ✦</p>
+      </section>
+
     </main>
   )
 }
