@@ -19,16 +19,16 @@ export const respondents = [
 export const TOTAL = respondents.length
 
 export const tenThings = [
-  { lede: 'Purpose is crystal clear and shared.', body: 'All 7 describe PRO the same way: identify cost-effective, proven, life-saving programs that lost funding, and connect them quickly with private philanthropy. Nobody disagrees on what PRO is.' },
-  { lede: 'The personality is unanimous: pragmatic and rigorous.', body: '"Pragmatic" or "practical" appears in all 7 character descriptions; "rigorous" in 5. Secondary notes: honest, agile, inspiring, humane. "Nerds in a basement" is the affectionate in-house shorthand.' },
-  { lede: 'Donors are the audience. Everything else is secondary.', body: 'HNWI and their advisors, EA-adjacent donors, small family foundations, new AI money. Press matters as a channel to donors. Implementing partners and policy circles are real but not the identity’s primary target.' },
-  { lede: 'The needle to thread: approachable to newcomers, rigorous enough for the EA crowd.', body: 'Named explicitly in the responses: PRO should sit "squarely in the middle" between wonky and pitchy, "not too technocratic, not smug".' },
-  { lede: 'Nobody wants a fresh start.', body: '4 vote "keep and refine its energy", 3 vote "a clear evolution", 0 vote "fresh start". The story is "same mission, sharper tools" in a new operating environment.' },
-  { lede: 'But nobody loves the current logo either.', body: 'The only candidate visual equity is the dark green, and even that is a split: 3 see value in it, 3 see a blank slate, 1 is neutral.' },
-  { lede: 'Relationship with DIV: related, with its own personality.', body: '6 of 7 pick that option; 1 votes independent with a subtle connection. Sliders show the team wants PRO closer to DIV than it is today (6.0 to 4.6 on a 1 close / 7 distinct scale). Typography: 3 say share DIV’s, 2 say same family used differently.' },
-  { lede: 'Visual language: contemporary, minimalist, clear. Live debate on neutral vs. vibrant.', body: 'Contemporary (5), minimalist (4), clear (4). One respondent is unsure between neutral and vibrant; another asks for "more vibrancy than the current neutral"; bold and reserved appear twice each.' },
-  { lede: 'Palette mood converges on grounded plus optimistic.', body: 'Grounded (4), optimistic (3), hopeful (3), bold (2), scientific (2). Not somber, not cheerful: steady and forward-looking.' },
-  { lede: 'The hard no’s are consistent.', body: 'Poverty porn, guilt-based appeals, donation pop-ups, looking like GiveWell, startup shininess, globes and loopy circles. And a shared instinct to lead with how PRO works (evidence, rigor, the list) rather than with need.' },
+  { lede: 'Purpose is crystal clear and shared', body: 'All 7 describe PRO the same way: identify cost-effective, proven, life-saving programs that lost funding, and connect them quickly with private philanthropy. Nobody disagrees on what PRO is.' },
+  { lede: 'The personality is unanimous: pragmatic and rigorous', body: '"Pragmatic" or "practical" appears in all 7 character descriptions; "rigorous" in 5. Secondary notes: honest, agile, inspiring, humane. "Nerds in a basement" is the affectionate in-house shorthand.' },
+  { lede: 'Donors are the audience. Everything else is secondary', body: 'HNWI and their advisors, EA-adjacent donors, small family foundations, new AI money. Press matters as a channel to donors. Implementing partners and policy circles are real but not the identity’s primary target.' },
+  { lede: 'The needle to thread: approachable to newcomers, rigorous enough for the EA crowd', body: 'Named explicitly in the responses: PRO should sit "squarely in the middle" between wonky and pitchy, "not too technocratic, not smug".' },
+  { lede: 'Nobody wants a fresh start', body: '4 vote "keep and refine its energy", 3 vote "a clear evolution", 0 vote "fresh start". The story is "same mission, sharper tools" in a new operating environment.' },
+  { lede: 'But nobody loves the current logo either', body: 'The only candidate visual equity is the dark green, and even that is a split: 3 see value in it, 3 see a blank slate, 1 is neutral.' },
+  { lede: 'Relationship with DIV: related, with its own personality', body: '6 of 7 pick that option; 1 votes independent with a subtle connection. Sliders show the team wants PRO closer to DIV than it is today (6.0 to 4.6 on a 1 close / 7 distinct scale). Typography: 3 say share DIV’s, 2 say same family used differently.' },
+  { lede: 'Visual language: contemporary, minimalist, clear. Live debate on neutral vs. vibrant', body: 'Contemporary (5), minimalist (4), clear (4). One respondent is unsure between neutral and vibrant; another asks for "more vibrancy than the current neutral"; bold and reserved appear twice each.' },
+  { lede: 'Palette mood converges on grounded plus optimistic', body: 'Grounded (4), optimistic (3), hopeful (3), bold (2), scientific (2). Not somber, not cheerful: steady and forward-looking.' },
+  { lede: 'The hard no’s are consistent', body: 'Poverty porn, guilt-based appeals, donation pop-ups, looking like GiveWell, startup shininess, globes and loopy circles. And a shared instinct to lead with how PRO works (evidence, rigor, the list) rather than with need.' },
 ] as const
 
 export const purposeQuotes = [
