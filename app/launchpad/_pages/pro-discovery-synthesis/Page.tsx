@@ -25,7 +25,7 @@ export default function ProDiscoverySynthesisPage({ launchpadHref }: { launchpad
       </div>
 
       {/* Hero */}
-      <header className="max-w-5xl mx-auto px-6 pt-28 pb-20">
+      <header className="max-w-4xl mx-auto px-6 pt-28 pb-20">
         <p className="label text-[var(--hover-color)] mb-5">PRO</p>
         <h1 className="font-light text-[4.2em] leading-[1.02] max-md:text-[2.4em] max-w-4xl text-balance">
           Brand Discovery
@@ -33,7 +33,7 @@ export default function ProDiscoverySynthesisPage({ launchpadHref }: { launchpad
       </header>
 
       {/* 01 Ten things */}
-      <Section id="ten" n="01" title="Ten things that matter" intro="The whole questionnaire in one screen. Everything below is detail on these.">
+      <Section id="ten" title="Ten things that matter" intro="The whole questionnaire in one screen. Everything below is detail on these.">
         <ol className="flex flex-col gap-12 max-w-2xl">
           {d.tenThings.map((t, i) => (
             <li key={i} className="flex gap-5">
@@ -48,7 +48,7 @@ export default function ProDiscoverySynthesisPage({ launchpadHref }: { launchpad
       </Section>
 
       {/* 02 Foundation */}
-      <Section id="foundation" n="02" title="Strategic foundation" intro="Purpose, message, audiences, misreadings and constraints. The brief’s hard ground.">
+      <Section id="foundation" title="Strategic foundation" intro="Purpose, message, audiences, misreadings and constraints. The brief’s hard ground.">
         <Sub>Purpose: full convergence</Sub>
         <Lede>
           All seven descriptions share one skeleton: <strong className="font-medium">cost-effective, proven, life-saving, urgent funding gap, connect implementers with philanthropy</strong>. PRO is a market intermediary, a broker, a bridge. Not a funder, not a pure evaluator.
@@ -108,7 +108,7 @@ export default function ProDiscoverySynthesisPage({ launchpadHref }: { launchpad
       </Section>
 
       {/* 03 Personality */}
-      <Section id="personality" n="03" title="Personality and voice" intro="Who PRO is as a person, how it speaks, and where the team wants it to move.">
+      <Section id="personality" title="Personality and voice" intro="Who PRO is as a person, how it speaks, and where the team wants it to move.">
         <Sub>Character words, by how many people used them</Sub>
         <Bars rows={d.characterWords} total={d.TOTAL} />
         <Note>Read: the center of gravity is the rigorous pragmatist, a competent, honest expert who moves fast and doesn’t moralize. "Inspiring" is an aspiration more than a current trait.</Note>
@@ -142,7 +142,7 @@ export default function ProDiscoverySynthesisPage({ launchpadHref }: { launchpad
       </Section>
 
       {/* 04 DIV */}
-      <Section id="div" n="04" title="Relationship with The DIV Fund" intro="Related, with a personality of its own. Closer than today, but never merged.">
+      <Section id="div" title="Relationship with The DIV Fund" intro="Related, with a personality of its own. Closer than today, but never merged.">
         <div className="grid md:grid-cols-2 gap-x-10 gap-y-10">
           <div>
             <Sub>When someone sees both brands</Sub>
@@ -168,7 +168,7 @@ export default function ProDiscoverySynthesisPage({ launchpadHref }: { launchpad
       </Section>
 
       {/* 05 Legacy */}
-      <Section id="legacy" n="05" title="Legacy and transition" intro="Evolution, never a fresh start. The only equity worth debating is the green.">
+      <Section id="legacy" title="Legacy and transition" intro="Evolution, never a fresh start. The only equity worth debating is the green.">
         <Sub>What to do with the current identity</Sub>
         <Tally rows={d.legacyVotes} total={d.TOTAL} />
         <Sub>The green question</Sub>
@@ -198,7 +198,7 @@ export default function ProDiscoverySynthesisPage({ launchpadHref }: { launchpad
       </Section>
 
       {/* 06 Visual */}
-      <Section id="visual" n="06" title="Visual direction" intro="Feel, palette, imagery, metaphors, clichés to avoid, references, vocabulary.">
+      <Section id="visual" title="Visual direction" intro="Feel, palette, imagery, metaphors, clichés to avoid, references, vocabulary.">
         <Sub>How the visual language should feel</Sub>
         <Bars rows={d.visualFeel} total={d.TOTAL} />
         <div className="grid md:grid-cols-2 gap-8 mt-10">
@@ -274,7 +274,7 @@ export default function ProDiscoverySynthesisPage({ launchpadHref }: { launchpad
       </Section>
 
       {/* 07 Success */}
-      <Section id="success" n="07" title="What success looks like">
+      <Section id="success" title="What success looks like">
         <ul className="grid md:grid-cols-2 gap-x-10 gap-y-8">
           {d.success.map((s) => (
             <li key={s.lede} className="border-t border-[var(--hairline)] pt-5">
@@ -286,7 +286,7 @@ export default function ProDiscoverySynthesisPage({ launchpadHref }: { launchpad
       </Section>
 
       {/* 08 Map */}
-      <Section id="map" n="08" title="Convergence map" intro="Left: safe to build on. Right: needs a call.">
+      <Section id="map" title="Convergence map" intro="Left: safe to build on. Right: needs a call.">
         <div className="overflow-x-auto -mx-6 px-6">
           <table className="w-full text-left text-[0.95em] leading-[1.5] min-w-[40rem]">
             <thead>
@@ -310,7 +310,7 @@ export default function ProDiscoverySynthesisPage({ launchpadHref }: { launchpad
       </Section>
 
       {/* 09 Tensions */}
-      <Section id="tensions" n="09" title="Open tensions" intro="Seven calls to make before or while moodboarding.">
+      <Section id="tensions" title="Open tensions" intro="Seven calls to make before or while moodboarding.">
         <ol className="grid md:grid-cols-2 gap-6">
           {d.tensions.map((t, i) => (
             <li key={t.title}>
@@ -325,7 +325,7 @@ export default function ProDiscoverySynthesisPage({ launchpadHref }: { launchpad
       </Section>
 
       {/* 10 Brief */}
-      <Section id="brief" n="10" title="Moodboard brief" intro="Directional inputs for the boards. Color swatches are illustrative, not proposals.">
+      <Section id="brief" title="Moodboard brief" intro="Directional inputs for the boards. Color swatches are illustrative, not proposals.">
         <Sub>Brand in a sentence</Sub>
         <p className="font-light text-[1.9em] leading-[1.25] max-md:text-[1.4em] text-balance mb-4">{d.brandSentence}</p>
 

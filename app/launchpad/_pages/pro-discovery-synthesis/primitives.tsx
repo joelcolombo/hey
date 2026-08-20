@@ -5,21 +5,14 @@ import InfoTip from './InfoTip'
 /* Shared building blocks for the synthesis page. Monochrome, editorial,
    data-ink only: the visual interest comes from structure, not decoration. */
 
-export function Section({ n, title, intro, children, id }: { n: string; title: string; intro?: string; children: ReactNode; id: string }) {
+export function Section({ title, intro, children, id }: { title: string; intro?: string; children: ReactNode; id: string }) {
   return (
-    <section id={id} className="syn-section max-w-5xl mx-auto px-6 py-24 scroll-mt-20 border-t border-[var(--hairline)]">
-      <div className="grid md:grid-cols-12 gap-x-10 gap-y-6 mb-16">
-        <div className="md:col-span-3">
-          <p className="label syn-muted text-[0.9em]">{n}</p>
-        </div>
-        <div className="md:col-span-9">
-          <h2 className="font-light text-[2.4em] leading-[1.1] max-md:text-[1.8em] text-balance">{title}</h2>
-          {intro && <p className="mt-5 text-[1.15em] leading-[1.55] syn-muted max-w-2xl text-pretty">{intro}</p>}
-        </div>
+    <section id={id} className="syn-section max-w-4xl mx-auto px-6 py-24 scroll-mt-20 border-t border-[var(--hairline)]">
+      <div className="mb-16">
+        <h2 className="font-light text-[2.4em] leading-[1.1] max-md:text-[1.8em] text-balance">{title}</h2>
+        {intro && <p className="mt-5 text-[1.15em] leading-[1.55] text-[var(--hover-color)] max-w-2xl text-pretty">{intro}</p>}
       </div>
-      <div className="grid md:grid-cols-12 gap-x-10">
-        <div className="md:col-start-4 md:col-span-9">{children}</div>
-      </div>
+      {children}
     </section>
   )
 }
