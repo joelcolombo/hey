@@ -48,10 +48,10 @@ export default function ProDiscoverySynthesisPage({ launchpadHref }: { launchpad
       </Section>
 
       {/* 02 Foundation */}
-      <Section id="foundation" title="Strategic foundation" intro="Purpose, message, audiences, misreadings and constraints. The brief’s hard ground.">
+      <Section id="foundation" title="Strategic foundation" intro="Purpose, message, audiences, misreadings and constraints.">
         <Sub>Purpose: full convergence</Sub>
         <Lede>
-          All seven descriptions share one skeleton: <strong className="font-medium">cost-effective, proven, life-saving, urgent funding gap, connect implementers with philanthropy</strong>. PRO is a market intermediary, a broker, a bridge. Not a funder, not a pure evaluator.
+          All descriptions share one skeleton: <strong className="font-medium">cost-effective, proven, life-saving, urgent funding gap, connect implementers with philanthropy</strong>. PRO is a market intermediary, a broker, a bridge. Not a funder, not a pure evaluator.
         </Lede>
         <div className="grid md:grid-cols-3 gap-8">
           {d.purposeQuotes.map((q) => <Quote key={q.text} text={q.text} compact />)}
